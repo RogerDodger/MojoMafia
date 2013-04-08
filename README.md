@@ -1,5 +1,8 @@
+MojoMafia (alpha)
+=================
+
 Synopsis
-========
+--------
 
 Forum-based Mafia with the boring stuff done for you.
 
@@ -15,12 +18,12 @@ Forum-based Mafia with the boring stuff done for you.
 * Player aliases so that high-reputation players can avoid metagaming
 
 Requirements
-============
+------------
 
-* Perl v5.14 or higher
+* Perl v5.14.2 or higher
 
 Installation
-============
+------------
 
 Install Mojolicious from [http://mojolicio.us](http://mojolicio.us), then:
 
