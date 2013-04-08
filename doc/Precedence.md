@@ -2,7 +2,7 @@ Execution rules for actions
 ===========================
 
 1. Actions of dead or silenced players do not execute.
-2. Actions of equal predence execute "simlutaneously", e.g., serial killers targetting each other will both die.
+2. Actions of equal predence execute "simultaneously", e.g., serial killers targetting each other will both die.
 
 Action precedence
 -----------------
