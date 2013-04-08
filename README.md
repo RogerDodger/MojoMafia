@@ -1,7 +1,7 @@
 Synopsis
 ========
 
-Forum-based Mafia, except all the hard work is done for you.
+Forum-based Mafia with the boring stuff done for you.
 
 * Automatic processing of all game logic
 * Consistent rules for power roles
@@ -22,7 +22,7 @@ Requirements
 Installation
 ============
 
-Install Mojolicious from [](http://mojolicio.us), then:
+Install Mojolicious from [http://mojolicio.us](http://mojolicio.us), then:
 
     MojoMafia$ ./script/mafia.pl install
     MojoMafia$ ./script/mafia.pl deploy
