@@ -590,36 +590,59 @@ article.main {
 
 footer {
 
-	div.container {
+	div.content {
 		width: @site-width;
 		margin: 0 auto;
 		padding: 2em 1em;
 		border-top: 1px solid #e5e5e5;
-	}
+		
+		article {
+			float: left;
+			max-width: @aside-width;
+			padding-right: 2em;
 
-	article {
-		float: left;
-		width: @aside-width;
+			h1 {
+				font-size: 1.2em;
+				font-weight: normal;
+			}
 
-		h1 {
-			font-size: 1.2em;
-			font-weight: normal;
+			ul {
+
+				list-style-type: none;
+				padding: 0;
+
+				a {
+					text-decoration: none;
+					.transition(0.1s all ease-in 0);
+
+					color: #a5a5a5;
+					font-weight: bold;
+
+					&:hover {
+						color: #48b;
+					}
+				}
+			}
 		}
 
-		ul {
+		article + article {
+			padding-left: 2em;
+		}
 
-			list-style-type: none;
-			padding: 0;
+		.sosumi {
+			width: (@site-width / 2);
+			margin: 1em auto;
+			text-align: center;
+			font-size: 0.7em;
+			color: #bbb;
 
 			a {
-				text-decoration: none;
-				.transition(0.1s all ease-in 0);
-
 				color: #a5a5a5;
 				font-weight: bold;
+				text-decoration: none;
 
 				&:hover {
-					color: #48b;
+					text-decoration: underline;
 				}
 			}
 		}

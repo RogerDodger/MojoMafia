@@ -4,6 +4,7 @@ use Mojo::Base 'Mojolicious';
 require Mafia::DateTime;
 require Mafia::HTML;
 require Mafia::Log;
+require YAML;
 
 # This method will run once at server start
 sub startup {
@@ -11,6 +12,13 @@ sub startup {
 
 	# Documentation browser under "/perldoc"
 	$self->plugin('PODRenderer');
+
+	# Helpers
+	$self->helper(meta => sub {
+		my ($c, $key) = @_;
+		state $meta = YAML::LoadFile($self->home->rel_file('meta.yml'));
+		return defined $key ? $meta->{$key} : $meta;
+	});
 
 	# Routes
 	my $r = $self->routes;

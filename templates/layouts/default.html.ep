@@ -27,8 +27,8 @@
 
 	<body>
 		<nav class="top">
-			<div class="container">
-				<header><a href="<%= url_for '/' %>">Mafia</a></header>
+			<div class="container clearfix">
+				<header><a href="<%= url_for '/' %>">MojoMafia</a></header>
 
 				<div class="divider"></div>
 
@@ -58,8 +58,6 @@
 							class="icon" title="Login">&#59200;</a></li>
 					% }
 				</ul>
-
-				<div class="clearfix"></div>
 			</div>
 		</nav>
 
@@ -125,14 +123,35 @@
 		</article>
 
 		<footer>
-			<div class="container clearfix">
+			<div class="content clearfix">
 				<article class="about">
-					<h1>Mafia.pm &ndash; <%= '0.01' %></h1>
+					<h1>MojoMafia <%= meta 'version' %></h1>
 					<ul>
-						<li><a href="https://github.com/RogerDodger/Mafia">Github</a></li>
+						<li><a href="https://github.com/RogerDodger/MojoMafia">Github</a></li>
 						<li><a href="<%= url_for '/humans.txt' %>">Contributors</a></li>
 					</ul>
 				</article>
+
+				<article class="legal">
+					<h1>Legal</h1>
+					<ul>
+						<li><a href="<%= url_for '/privacy' %>">Privacy policy</a></li>
+						<li><a href="<%= url_for '/tos' %>">Terms of service</a></li>
+					</ul>
+				</article>
+
+				<article class="help">
+					<h1>Help</h1>
+					<ul>
+						<li><a href="<%= url_for '/contact' %>">Contact a human</a></li>
+					</ul>
+				</article>
+
+				<div class="clearfix"></div>
+
+				<p class="sosumi">
+					Except where otherwise noted, all site content is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_GB">Creative Commons Attribution 3.0 Unported License</a>.
+				</p>
 			</div>
 		</footer>
 
