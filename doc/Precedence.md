@@ -1,4 +1,4 @@
-Exeuction rules for actions
+Execution rules for actions
 ===========================
 
 1. Actions of dead or silenced players do not execute.
@@ -7,9 +7,9 @@ Exeuction rules for actions
 Action precedence
 -----------------
 
- : Hooker, Drunkard
- : Doctor, Bodyguard
- : Serial Killer
- : Goon
- : Vigilante
- : Cop, Tracker, Watcher, ...
+  * Hooker, Drunkard
+  * Doctor, Bodyguard
+  * Serial Killer
+  * Goon
+  * Vigilante
+  * Cop, Tracker, Watcher, ...
