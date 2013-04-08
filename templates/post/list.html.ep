@@ -1,0 +1,9 @@
+<section class="posts">
+	<h1>
+		<span class="icon">&#59160;</span>
+		Posts
+	</h1>
+	% for my $post (@{ stash('posts')->{all} }) {
+		%= include 'post/single', post => $post;
+	% }
+</section>

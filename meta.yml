@@ -1,0 +1,6 @@
+---
+version: v0.0.1
+release: alpha
+dependencies:
+    - Mojolicious~3.89
+    - DateTime~0.78

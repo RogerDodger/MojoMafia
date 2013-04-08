@@ -1,0 +1,15 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Cameron Thornton <cthor@cpan.org> -- Developer
+
+# THANKS
+
+    Daniel Bruce (http://www.entypo.com/) -- Entypo web icon font
+    Jos Buivenga (http://www.exljbris.com/) -- Museo Slab web font
+
+# TECHNOLOGY COLOPHON
+
+    Perl, Catalyst

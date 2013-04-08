@@ -1,0 +1,36 @@
+<section id="NewPost">
+	<form method="post" action="#">
+		<div class="editor">
+			<ul class="clearfix controls">
+				<li title="Bold" class="b">B</li>
+				<li title="Italics" class="i">I</li>
+				<li title="Quote" class="q"><span class="icon">&#59168;</span></li>
+				<li title="Link" class="url"><span class="icon">&#128279;</span></li>
+			</ul>
+		</div>
+		<div>
+			<textarea rows="1" cols="1" name="body"></textarea>
+		</div>
+		<div class="buttons">
+			<button type="submit" class="submit">
+				<span class="icon">&#59160;</span>
+				Add post
+			</button>
+			<span class="preview">
+				<span class="icon">&#59146;</span>
+				Preview post
+			</span>
+		</div>
+	</form>
+</section>
+<section class="posts preview hidden">
+	<h1>
+		Post preview
+		<a class="close">
+			<span class="icon">&#10060;</span>
+		</a>
+	</h1>
+	<article class="post">
+		<div class="body"></div>
+	</article>
+</section>

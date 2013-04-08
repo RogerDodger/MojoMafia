@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title><%= title %></title>
+
+		<meta name="description" content="Mafia party game web application message board forum">
+		<meta name="viewport" content="width=device-width">
+
+		<link rel="icon" href="<%= url_for '/favicon.ico' %>">
+
+		<link rel="stylesheet" href="<%= url_for '/style/normalize.css' %>">
+
+		% if (app->mode eq 'development') {
+			<link rel="stylesheet/less" href="<%= url_for '/style/mafia.less' %>">
+			<script src="<%= url_for '/js/vendor/less-1.3.3.min.js' %>"></script>
+		% } else {
+			<link rel="stylesheet" href="<%= url_for '/style/mafia-*.css' %>">
+		% }
+
+		<script src="<%= url_for '/js/vendor/modernizr-2.6.2.min.js' %>"></script>
+	</head>
+
+	<body>
+		<nav class="top">
+			<div class="container">
+				<header><a href="<%= url_for '/' %>">Mafia</a></header>
+
+				<div class="divider"></div>
+
+				<ul class="public">
+					<li><a href="#">Games</a></li>
+					<li><a href="#">Setups</a></li>
+					<li><a href="#">About</a></li>
+					<li><a href="#">Forum</a></li>
+				</ul>
+
+				<div class="divider"></div>
+
+				<ul class="user">
+					% if (0) {
+						<li class="name">
+							<a href="#" title="User profile">
+								<span class="icon">&#128100;</span>
+								<%= 'Username' %>
+							</a>
+						</li>
+						<li><a href="#" class="icon" title="Change settings">&#9874;</a></li>
+						<li><a href="<%= url_for '/user/logout' %>" 
+							class="icon" title="Logout">&#59201;</a></li>
+					% } else {
+						<li><a href="#" class="icon" title="Sign up">&#10002;</a></li>
+						<li><a href="<%= url_for '/user/login' %>"
+							class="icon" title="Login">&#59200;</a></li>
+					% }
+				</ul>
+
+				<div class="clearfix"></div>
+			</div>
+		</nav>
+
+		<article class="main clearfix">
+			<section class="content <%= 'no-sidebar' if stash 'no_sidebar' %>">
+				<%= content %>
+			</section>
+
+			% unless (stash 'no_sidebar') {
+				<section class="sidebar">
+
+					<aside class="news">
+						<h1>News</h1>
+						<ul>
+							<li>Some news item</li>
+							<li>Another news item</li>
+						</ul>
+					</aside>
+
+					% if (stash 'player') {
+						<aside class="player">
+							<h1>Player</h1>
+							<p>
+								You are a 
+								<span class="role"><%= player->role %></span>
+								<span class="team <%= lc player->team %>">
+									(<%= player->team %>)
+								</span>
+							</p>
+						</aside>
+					% }
+
+					% if (defined stash('votes') && stash('votes')->count) {
+						<aside class="votes">
+							<h1>Votes</h1>
+							<table>
+								% for my $voter (stash('votes')->all) {
+									<tr>
+										<td class="voter"><%= $voter->name %></td>
+										<td class="voted"><%= $voter->vote->name %></td>
+									</tr>
+								% }
+							</table>
+						</aside>
+					% }
+
+					% if (defined stash('games') && stash('games')->count) {
+						<aside class="games">
+							<h1>Active games</h1>
+							<ul>
+								% for my $game (stash('games')->all) {
+									<li>
+										<span class="id">#<%= $game->id %></span>
+										<span class="setup"><%= $game->setup->title %></span>
+									</li>
+								% }
+							</ul>
+						</aside>
+					% }
+
+				</section>
+			% }
+		</article>
+
+		<footer>
+			<div class="container clearfix">
+				<article class="about">
+					<h1>Mafia.pm &ndash; <%= '0.01' %></h1>
+					<ul>
+						<li><a href="https://github.com/RogerDodger/Mafia">Github</a></li>
+						<li><a href="<%= url_for '/humans.txt' %>">Contributors</a></li>
+					</ul>
+				</article>
+			</div>
+		</footer>
+
+		<script src="<%= url_for '/js/vendor/jquery-1.8.3.min.js' %>"></script>
+		<script src="<%= url_for '/js/vendor/jquery-fieldselection-0.1.1.min.js' %>"></script>
+		<script src="<%= url_for '/js/mafia-0.01.js' %>"></script>
+
+		% if (defined config 'ga') {
+			<script>
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', '<%= config "ga" %>']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+			</script>
+		% }
+	</body>
+</html>

@@ -1,0 +1,748 @@
+/*
+ * HTML5 Boilerplate
+ *
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+html,
+button,
+input,
+select,
+textarea {
+  color: #222;
+}
+body {
+  font-size: 1em;
+  line-height: 1.4;
+  font-family: Helvetica, Arial, sans-serif;
+}
+/*
+ * Remove text-shadow in selection highlight: h5bp.com/i
+ * These selection declarations have to be separate.
+ * Customize the background color to match your design.
+ */
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+/*
+ * A better looking default horizontal rule
+ */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+/*
+ * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
+ */
+img {
+  vertical-align: middle;
+}
+/*
+ * Remove default fieldset styles.
+ */
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+/*
+ * Allow only vertical resizing of textareas.
+ */
+textarea {
+  resize: vertical;
+}
+/* ==========================================================================
+   Chrome Frame prompt
+   ========================================================================== */
+.chromeframe {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+/* ==========================================================================
+   Mafia.pm's custom styles
+   ========================================================================== */
+@font-face {
+  font-family: Entypo;
+  src: url('fonts/entypo.woff'), url('fonts/entypo.ttf'), url('fonts/entypo.svg'), url('fonts/entypo.eot');
+}
+@font-face {
+  font-family: "Museo Slab";
+  src: url('fonts/museo_slab_500.woff'), url('fonts/museo_slab_500.ttf'), url('fonts/museo_slab_500.svg'), url('fonts/museo_slab_500.eot');
+}
+.icon {
+  font-family: Entypo;
+  line-height: 0;
+  font-size: 2.5em;
+}
+.maxwidth {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.reset {
+  outline: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+.button {
+  outline: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  padding: 0.6em 0.8em;
+  cursor: pointer;
+  font-family: "Museo Slab", Georgia, serif;
+  background-color: #fff;
+  box-shadow: 0 1px rgba(255, 255, 255, 0.6) inset;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.button:hover {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
+  background-image: -moz-linear-gradient(#e5e5e5, #ffffff);
+  background-image: -webkit-linear-gradient(#e5e5e5, #ffffff);
+  background-image: linear-gradient(#e5e5e5, #ffffff);
+  background-repeat: repeat-x;
+  position: relative;
+  z-index: 1;
+}
+.button:active {
+  background-color: #e5e5e5;
+  background-image: -moz-linear-gradient(#ffffff, #e5e5e5);
+  background-image: -webkit-linear-gradient(#ffffff, #e5e5e5);
+  background-image: linear-gradient(#ffffff, #e5e5e5);
+  background-repeat: repeat-x;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+h1 {
+  font-family: "Museo Slab", Georgia, serif;
+}
+body {
+  min-width: 1080px;
+}
+nav.top {
+  background-color: #f3f3f3;
+  background-image: -moz-linear-gradient(#f9f9f9, #f3f3f3);
+  background-image: -webkit-linear-gradient(#f9f9f9, #f3f3f3);
+  background-image: linear-gradient(#f9f9f9, #f3f3f3);
+  background-repeat: repeat-x;
+  text-shadow: 0 1px 0 #fff;
+  border-bottom: 1px solid #e5e5e5;
+}
+nav.top div.container {
+  margin: 0 auto;
+  width: 1000px;
+}
+nav.top div.divider {
+  float: left;
+  width: 1px;
+  height: 2.5em;
+  background-color: #e5e5e5;
+  border-right: 1px solid #fff;
+}
+nav.top a {
+  text-decoration: none;
+  -webkit-transition: all 0.1s ease-in 0;
+  -moz-transition: all 0.1s ease-in 0;
+  -o-transition: all 0.1s ease-in 0;
+  transition: all 0.1s ease-in 0;
+}
+nav.top a:hover {
+  color: #48b;
+}
+nav.top header {
+  float: left;
+  margin: 0.3em 1.25em 0 0;
+}
+nav.top header a {
+  color: #bbb;
+  font-weight: bold;
+  font-size: 1.4em;
+  text-shadow: 0 0 1px #d8d8d8;
+}
+nav.top ul {
+  margin: 0.65em 0.2em 0 0.2em;
+  padding: 0;
+}
+nav.top ul a {
+  color: #a5a5a5;
+}
+nav.top ul li {
+  float: left;
+  padding: 0 0.5em;
+}
+nav.top ul.public {
+  float: left;
+  font-weight: bold;
+}
+nav.top ul.user {
+  float: right;
+}
+nav.top ul.user li.name {
+  padding-right: 0.5em;
+}
+nav.top ul.user .icon {
+  position: relative;
+  top: 0.1em;
+}
+article.main {
+  width: 1000px;
+  margin: 1em auto;
+}
+article.main section.content {
+  float: left;
+  width: 728px;
+  margin-bottom: 1em;
+}
+article.main section.content.no-sidebar {
+  width: 1000px;
+}
+article.main section.content h1 {
+  font-weight: normal;
+}
+article.main section.content .posts {
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+}
+article.main section.content .posts h1 {
+  margin: 0;
+  padding: 0.5em 0.5em 0.5em 1.5em;
+  font-size: 1.4em;
+  background-color: #f7f7f7;
+}
+article.main section.content .posts h1 .icon {
+  position: relative;
+  top: 0.12em;
+}
+article.main section.content .posts.preview .close {
+  outline: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  padding: 0.6em 0.8em;
+  cursor: pointer;
+  font-family: "Museo Slab", Georgia, serif;
+  background-color: #fff;
+  box-shadow: 0 1px rgba(255, 255, 255, 0.6) inset;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  float: right;
+  font-size: 0.5em;
+}
+article.main section.content .posts.preview .close:hover {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
+  background-image: -moz-linear-gradient(#e5e5e5, #ffffff);
+  background-image: -webkit-linear-gradient(#e5e5e5, #ffffff);
+  background-image: linear-gradient(#e5e5e5, #ffffff);
+  background-repeat: repeat-x;
+  position: relative;
+  z-index: 1;
+}
+article.main section.content .posts.preview .close:active {
+  background-color: #e5e5e5;
+  background-image: -moz-linear-gradient(#ffffff, #e5e5e5);
+  background-image: -webkit-linear-gradient(#ffffff, #e5e5e5);
+  background-image: linear-gradient(#ffffff, #e5e5e5);
+  background-repeat: repeat-x;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+article.main section.content .posts.preview .close .icon {
+  position: relative;
+  top: 0.12em;
+}
+article.main section.content .posts article.post {
+  padding: 0.01em 1em;
+  position: relative;
+  font-size: 0.9em;
+}
+article.main section.content .posts article.post + article.post {
+  border-top: 1px solid #ddd;
+}
+article.main section.content .posts article.post.system {
+  background-color: #f7f7f7;
+}
+article.main section.content .posts article.post.day .gamedate:before {
+  content: "\1F506";
+}
+article.main section.content .posts article.post.night .gamedate:before {
+  content: "\263D";
+}
+article.main section.content .posts article.post .meta,
+article.main section.content .posts article.post .body,
+article.main section.content .posts article.post .footer {
+  margin: 1em 0;
+}
+article.main section.content .posts article.post .meta,
+article.main section.content .posts article.post .footer {
+  font-size: 0.8em;
+  color: #888;
+}
+article.main section.content .posts article.post .meta a,
+article.main section.content .posts article.post .footer a {
+  text-decoration: none;
+  color: inherit;
+}
+article.main section.content .posts article.post .meta a {
+  font-weight: bold;
+}
+article.main section.content .posts article.post .meta .poster,
+article.main section.content .posts article.post .meta .gamedate,
+article.main section.content .posts article.post .meta .posttime {
+  float: left;
+  margin-right: 0.8em;
+}
+article.main section.content .posts article.post .meta .gamedate:before {
+  font-family: Entypo;
+  line-height: 0;
+  font-size: 2.5em;
+  position: relative;
+  top: 0.12em;
+}
+article.main section.content .posts article.post .meta .poster .name + .alias:before {
+  content: "(";
+}
+article.main section.content .posts article.post .meta .poster .name + .alias:after {
+  content: ")";
+}
+article.main section.content .posts article.post .meta .permalink {
+  float: right;
+}
+article.main section.content .posts article.post .body blockquote {
+  margin: 1em 0;
+  padding-left: 0.2em;
+  border-left: 3px solid #ddd;
+  color: #666;
+}
+article.main section.content .posts article.post .footer ul.controls {
+  float: right;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+article.main section.content .posts article.post .footer ul.controls li {
+  float: left;
+}
+article.main section.content .posts article.post .footer ul.controls li .icon {
+  position: relative;
+  top: 0.1em;
+}
+article.main section.content .posts article.post .footer ul.controls li + li {
+  margin-left: 0.6em;
+}
+article.main section.content .posts article.post:hover .meta a {
+  color: #48b;
+}
+article.main section.content .posts article.post:hover .meta a:hover {
+  text-decoration: underline;
+}
+article.main section.content .posts article.post:hover .footer .controls a {
+  color: #666;
+}
+article.main section.content .posts article.post:hover .footer .controls a:hover {
+  color: #222;
+}
+article.main section.content #NewPost {
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+  margin: 1em 0;
+}
+article.main section.content #NewPost .editor {
+  padding: 0.01em 1em;
+  border-bottom: 1px solid #ddd;
+  background-color: #f7f7f7;
+}
+article.main section.content #NewPost .editor ul {
+  list-style-type: none;
+  padding: 0;
+  font-size: 0.8em;
+  line-height: 1.2em;
+}
+article.main section.content #NewPost .editor ul li {
+  outline: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  padding: 0.6em 0.8em;
+  cursor: pointer;
+  font-family: "Museo Slab", Georgia, serif;
+  background-color: #fff;
+  box-shadow: 0 1px rgba(255, 255, 255, 0.6) inset;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  float: left;
+  margin-left: -1px;
+  width: 1em;
+  text-align: center;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+article.main section.content #NewPost .editor ul li:hover {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
+  background-image: -moz-linear-gradient(#e5e5e5, #ffffff);
+  background-image: -webkit-linear-gradient(#e5e5e5, #ffffff);
+  background-image: linear-gradient(#e5e5e5, #ffffff);
+  background-repeat: repeat-x;
+  position: relative;
+  z-index: 1;
+}
+article.main section.content #NewPost .editor ul li:active {
+  background-color: #e5e5e5;
+  background-image: -moz-linear-gradient(#ffffff, #e5e5e5);
+  background-image: -webkit-linear-gradient(#ffffff, #e5e5e5);
+  background-image: linear-gradient(#ffffff, #e5e5e5);
+  background-repeat: repeat-x;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+article.main section.content #NewPost .editor ul li:first-of-type {
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+article.main section.content #NewPost .editor ul li:last-of-type {
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+article.main section.content #NewPost .editor ul li.b {
+  font-weight: bold;
+}
+article.main section.content #NewPost .editor ul li.i {
+  font-style: italic;
+}
+article.main section.content #NewPost .editor ul li .icon {
+  position: relative;
+  top: 0.12em;
+  left: -0.04em;
+}
+article.main section.content #NewPost .editor ul li.q .icon {
+  left: -0.12em;
+}
+article.main section.content #NewPost textarea {
+  outline: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 12em;
+  padding: 0.5em;
+  color: #444;
+}
+article.main section.content #NewPost .buttons {
+  padding: 1em;
+  background-color: #f7f7f7;
+  border-top: 1px solid #e5e5e5;
+}
+article.main section.content #NewPost .buttons button,
+article.main section.content #NewPost .buttons span.preview {
+  outline: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  padding: 0.6em 0.8em;
+  cursor: pointer;
+  font-family: "Museo Slab", Georgia, serif;
+  background-color: #fff;
+  box-shadow: 0 1px rgba(255, 255, 255, 0.6) inset;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+article.main section.content #NewPost .buttons button:hover,
+article.main section.content #NewPost .buttons span.preview:hover {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
+  background-image: -moz-linear-gradient(#e5e5e5, #ffffff);
+  background-image: -webkit-linear-gradient(#e5e5e5, #ffffff);
+  background-image: linear-gradient(#e5e5e5, #ffffff);
+  background-repeat: repeat-x;
+  position: relative;
+  z-index: 1;
+}
+article.main section.content #NewPost .buttons button:active,
+article.main section.content #NewPost .buttons span.preview:active {
+  background-color: #e5e5e5;
+  background-image: -moz-linear-gradient(#ffffff, #e5e5e5);
+  background-image: -webkit-linear-gradient(#ffffff, #e5e5e5);
+  background-image: linear-gradient(#ffffff, #e5e5e5);
+  background-repeat: repeat-x;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+article.main section.content #NewPost .buttons button .icon,
+article.main section.content #NewPost .buttons span.preview .icon {
+  position: relative;
+  top: 0.12em;
+}
+article.main section.sidebar {
+  float: right;
+  width: 240px;
+}
+article.main section.sidebar aside {
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+  margin: 1em 0;
+}
+article.main section.sidebar aside h1 {
+  margin: 0;
+  font-size: 1em;
+  padding: 0.5em 1em;
+  background-color: #f7f7f7;
+}
+article.main section.sidebar aside p {
+  font-size: 0.8em;
+  padding: 0.625em 1.25em;
+}
+article.main section.sidebar aside.player p {
+  color: #aaa;
+}
+article.main section.sidebar aside.player p .role {
+  color: #222;
+}
+article.main section.sidebar aside.player p .team.town {
+  color: green;
+}
+article.main section.sidebar aside.player p .team.mafia,
+article.main section.sidebar aside.player p .team.yakuza,
+article.main section.sidebar aside.player p .team.brakva {
+  color: red;
+}
+article.main section.sidebar aside.player p .team.nomad {
+  color: orange;
+}
+footer {
+  border-bottom: 30em solid #e6e6e6;
+}
+footer div.container {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 2em;
+  border-top: 1px solid #e5e5e5;
+}
+footer article {
+  float: left;
+  width: 240px;
+}
+footer article h1 {
+  font-size: 1.2em;
+  font-weight: normal;
+}
+footer article ul {
+  list-style-type: none;
+  padding: 0;
+}
+footer article ul a {
+  text-decoration: none;
+  -webkit-transition: 0.1s all ease-in 0;
+  -moz-transition: 0.1s all ease-in 0;
+  -o-transition: 0.1s all ease-in 0;
+  transition: 0.1s all ease-in 0;
+  color: #a5a5a5;
+  font-weight: bold;
+}
+footer article ul a:hover {
+  color: #48b;
+}
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+/*
+ * Image replacement
+ */
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  /* IE 6/7 fallback */
+
+  *text-indent: -9999px;
+}
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 150%;
+}
+/*
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ */
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+/*
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+/*
+ * Extends the .visuallyhidden class to allow the element to be focusable
+ * when navigated to via the keyboard: h5bp.com/p
+ */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+/*
+ * Hide visually and from screenreaders, but maintain layout
+ */
+.invisible {
+  visibility: hidden;
+}
+/*
+ * Clearfix: contain floats
+ *
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *	`contenteditable` attribute is included anywhere else in the document.
+ *	Otherwise it causes space to appear at the top and bottom of elements
+ *	that receive the `clearfix` class.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *	`:before` to contain the top-margins of child elements.
+ */
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.clearfix:after {
+  clear: both;
+}
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.clearfix {
+  *zoom: 1;
+}
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   Theses examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+@media only screen and (min-width: 35em) {
+  /* Style adjustments for viewports that meet the condition */
+}
+@media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+  /* Style adjustments for high resolution devices */
+}
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+@media print {
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    /* Black prints faster: h5bp.com/s */
+  
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+  /*
+  	 * Don't show links for images, or javascript/internal links
+  	 */
+  .ir a:after,
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: "";
+  }
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+  thead {
+    display: table-header-group;
+    /* h5bp.com/t */
+  
+  }
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+  img {
+    max-width: 100% !important;
+  }
+  @page  {
+    margin: 0.5cm;
+  }
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}
