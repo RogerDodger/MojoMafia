@@ -9,16 +9,20 @@ require App::cpanminus;
 
 sub run {
 	my $self = shift;
-	unshift @_, '--skip-satisfied';
 
-	my $app = App::cpanminus::script->new;
-	$app->parse_options(@_, 'YAML');
-	$app->doit or exit(1);
+	say "Installing dependencies for MojoMafia...";
+
+	my $cpanm = App::cpanminus::script->new;
+	$cpanm->parse_options('--skip-satisfied', @_);
+
+	$cpanm->{argv} = ['YAML'];
+	$cpanm->doit or exit(1);
 
 	require YAML;
 	my $meta = YAML::LoadFile($self->rel_file('meta.yml'));
-	$app->{argv} = $meta->{dependencies};
-	$app->doit or exit(1);
+
+	$cpanm->{argv} = $meta->{dependencies};
+	$cpanm->doit or exit(1);
 }
 
 1;
