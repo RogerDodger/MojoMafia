@@ -1,10 +1,10 @@
 MojoMafia (alpha)
 =================
 
+Forum-based Mafia with the boring stuff done for you.
+
 Synopsis
 --------
-
-Forum-based Mafia with the boring stuff done for you.
 
 * Automatic processing of all game logic
 * Consistent rules for power roles
