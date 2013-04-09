@@ -1,6 +1,10 @@
 ---
-version: v0.0.8
+version: v0.1.0
 release: alpha
-dependencies:
+
+# Dependencies
+required:
     - Mojolicious~3.89
     - DateTime~0.78
+recommended:
+    - "JavaScript::Minifier~1.05"

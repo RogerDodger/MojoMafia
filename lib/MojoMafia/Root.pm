@@ -1,5 +1,6 @@
 package MojoMafia::Root;
 use Mojo::Base 'Mojolicious::Controller';
+use Cwd;
 
 sub index {
 	my $self = shift;

@@ -9,6 +9,8 @@ require YAML;
 # This method will run once at server start
 sub startup {
 	my $self = shift;
+	
+	$self->moniker('mafia');
 
 	# Documentation browser under "/perldoc"
 	$self->plugin('PODRenderer');

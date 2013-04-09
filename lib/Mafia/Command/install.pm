@@ -9,8 +9,9 @@ require App::cpanminus;
 
 sub run {
 	my $self = shift;
+	my $opt = ($_[0] || '') eq 'recommended' ? shift : 0;
 
-	say "Installing dependencies for MojoMafia...";
+	say "Installing required modules...";
 
 	my $cpanm = App::cpanminus::script->new;
 	$cpanm->parse_options('--skip-satisfied', @_);
@@ -21,8 +22,14 @@ sub run {
 	require YAML;
 	my $meta = YAML::LoadFile($self->rel_file('meta.yml'));
 
-	$cpanm->{argv} = $meta->{dependencies};
+	$cpanm->{argv} = $meta->{required};
 	$cpanm->doit or exit(1);
+
+	if($opt eq 'recommended') {
+		say "Installing recommended modules...";
+		$cpanm->{argv} = $meta->{recommended};
+		$cpanm->doit or exit(1);
+	}
 }
 
 1;
