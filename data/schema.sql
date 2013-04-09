@@ -35,12 +35,13 @@ CREATE TABLE emails (
 -- Player roles, e.g., "Townie", "Goon", "Cop"
 CREATE TABLE roles (
 	id    INTEGER PRIMARY KEY,
-	name  TEXT
+	name  TEXT,
+	type  TEXT
 );
 
 CREATE TABLE groups (
-	id  INTEGER PRIMARY KEY
-	setup_id   INTEGER REFERENCES setups(id) ON DELETE CASCADE,
+	id        INTEGER PRIMARY KEY
+	setup_id  INTEGER REFERENCES setups(id) ON DELETE CASCADE,
 );
 
 CREATE TABLE teams (
