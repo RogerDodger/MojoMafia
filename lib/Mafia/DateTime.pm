@@ -57,15 +57,15 @@ sub from_rfc3339 {
 	}
 }
 
-sub _days_in_month {
-	my ($year, $month) = @_;
+sub days_in_month {
+	my $self = shift;
 	my @days_in_month = (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
 	
-	if ($year % 4 == 0 && $year % 100 != 0 || $year % 400 == 0) {
+	if ($self->year % 4 == 0 && $self->year % 100 != 0 || $self->year % 400 == 0) {
 		$days_in_month[1]++;
 	}
 
-	return $days_in_month[$month - 1];
+	return $days_in_month[$self->month - 1];
 }
 
 sub day_abbr {
@@ -134,7 +134,7 @@ sub delta {
 
 	if ($delta{day} < 0) {
 		$delta{month}--;
-		$delta{day} += _days_in_month($small->year, $small->month);
+		$delta{day} += $small->days_in_month;
 	}
 
 	if ($delta{month} < 0) {
