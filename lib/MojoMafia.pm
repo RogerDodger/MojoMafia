@@ -1,7 +1,7 @@
 package MojoMafia;
 use Mojo::Base 'Mojolicious';
 
-require Mafia::DateTime;
+require Mafia::DT;
 require Mafia::HTML;
 require Mafia::Log;
 require YAML;
