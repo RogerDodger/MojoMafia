@@ -8,12 +8,12 @@ can_ok 'Mafia::Timestamp', qw/
 	year month day hour minute second
 /;
 
-my @date = Mafia::Timestamp->new(year => 2013, month => 4, day => 12, hour => 2, minute => 20, second => 45),
-$date[1] = Mafia::Timestamp->parse("2013-04-16 06:32:04"),
-$date[2] = Mafia::Timestamp->parse("2013-12-31 18:59:30"),
-$date[3] = Mafia::Timestamp->parse("2013-09-07 04:06:00"),
-$date[4] = Mafia::Timestamp->parse("2020-02-29 23:00:55"),
-$date[5] = Mafia::Timestamp->now(),
+my @date = Mafia::Timestamp->new(year => 2013, month => 4, day => 12, hour => 2, minute => 20, second => 45);
+$date[1] = Mafia::Timestamp->parse("2013-04-16 06:32:04");
+$date[2] = Mafia::Timestamp->parse("2013-12-31 18:59:30");
+$date[3] = Mafia::Timestamp->parse("2013-09-07 04:06:00");
+$date[4] = Mafia::Timestamp->parse("2020-02-29 23:00:55");
+$date[5] = Mafia::Timestamp->now();
 
 isa_ok $date[$_], 'Mafia::Timestamp', "date $_" for 0..$#date;
 
@@ -172,3 +172,5 @@ delta_ok 10, 13, "11 months and 13 days", "month significant across non-leap yea
 delta_ok 10, 14, "11 months and 13 days", "month significant across non-leap year";
 
 #tests which take minutes, hours, seconds into account
+
+done_testing;
