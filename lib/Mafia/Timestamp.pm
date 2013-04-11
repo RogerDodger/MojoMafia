@@ -1,7 +1,6 @@
 package Mafia::Timestamp;
 
 use Mojo::Base -base;
-use Carp ();
 
 use overload 
 	q{""} => 'rfc3339',
@@ -64,14 +63,14 @@ sub days_in_month {
 	my $month = $self->month;
 
 	if ($month == 4 || $month == 6 || $month == 9 || $month == 11) {
-        return 30;
-    }
-    elsif ($month == 2) {
-        return $self->leap_year ? 29 : 28;
-    }
-    else {
-        return 31;
-    }
+		return 30;
+	}
+	elsif ($month == 2) {
+		return $self->leap_year ? 29 : 28;
+	}
+	else {
+		return 31;
+	}
 }
 
 sub day_of_week {
