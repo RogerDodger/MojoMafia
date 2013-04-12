@@ -273,6 +273,10 @@ Constructs a new timestamp with explicit attributes. Takes a hash or hash ref.
 
 Returns a timestamp at the current time.
 
+=head3 from_epoch
+
+Returns a timestamp from a given UNIX epoch.
+
 =head3 parse
 
 Constructs a new timestamp from an ISO-8601 datetime string.
@@ -325,7 +329,7 @@ Returns the timestamp in the format of a MySQL timestamp, e.g. "2013-04-11
 Yes, none of the functionality here could not otherwise be performed by
 L<DateTime> and its various submodules. The sell here is performance:
 
-	$ time perl -MMafia::Timestamp -e ''
+    $ time perl -MMafia::Timestamp -e ''
 
     real  0m0.074s
     user  0m0.064s
