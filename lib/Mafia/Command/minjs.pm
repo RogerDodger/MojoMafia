@@ -31,6 +31,6 @@ __DATA__
 /*
  * Copyright (c) 2013 Cameron Thornton.
  *
- * This library is free software; you can redistribute it and/or modify it
+ * This library is free software; you can redistribute and/or modify it
  * under the same terms as Perl version 5.14.2.
  */

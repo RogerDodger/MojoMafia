@@ -12,6 +12,9 @@ sub startup {
 	
 	$self->moniker('mafia');
 
+	# Allow use of commands in the Mafia::Command namespace
+	unshift $self->commands->namespaces, 'Mafia::Command';
+
 	# Documentation browser under "/perldoc"
 	$self->plugin('PODRenderer');
 

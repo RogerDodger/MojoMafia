@@ -1,5 +1,5 @@
 --
--- Schema for Mafia.pm
+-- Schema for Mafia::Schema v1
 -- Author: Cameron Thornton <cthor@cpan.org>
 --
 
@@ -7,17 +7,15 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE users (
 	id        INTEGER PRIMARY KEY,
-	-- User info
-	-- * No password; using Persona instead
-	name      TEXT(24) NOT NULL,
-	is_admin  BIT(1) DEFAULT 0,
-	is_mod    BIT(1) DEFAULT 0,
-	active    BIT(1) DEFAULT 1,
-	token     TEXT(32),
+	-- no password; using Persona
+	name      VARCHAR(24) NOT NULL,
+	is_admin  BOOLEAN DEFAULT 0,
+	is_mod    BOOLEAN DEFAULT 0,
+	active    BOOLEAN DEFAULT 1,
+	token     VARCHAR(32),
 	-- Game stats
 	wins      INTEGER DEFAULT 0,
 	losses    INTEGER DEFAULT 0,
-	ties      INTEGER DEFAULT 0,
 	games     INTEGER DEFAULT 0,
 	-- Timestamps
 	created   TIMESTAMP,
@@ -25,10 +23,10 @@ CREATE TABLE users (
 );
 
 CREATE TABLE emails (
-	address   TEXT(256) PRIMARY KEY,
+	address   VARCHAR(256) PRIMARY KEY,
 	user_id   INTEGER REFERENCES users(id),
-	primary   BIT(1) DEFAULT 0,
-	verified  BIT(1) DEFAULT 0,
+	main      BOOLEAN DEFAULT 0,
+	verified  BOOLEAN DEFAULT 0,
 	created   TIMESTAMP
 );
 
@@ -36,37 +34,33 @@ CREATE TABLE emails (
 CREATE TABLE roles (
 	id    INTEGER PRIMARY KEY,
 	name  TEXT,
-	type  TEXT
-);
-
-CREATE TABLE groups (
-	id        INTEGER PRIMARY KEY
-	setup_id  INTEGER REFERENCES setups(id) ON DELETE CASCADE,
+	type  TEXT NOT NULL CHECK(type IN ("Town", "Scum", "Other"))
 );
 
 CREATE TABLE teams (
 	id    INTEGER PRIMARY KEY,
-	name  TEXT
+	name  TEXT,
+	type  TEXT NOT NULL CHECK(type IN ("Town", "Scum", "Other"))
 );
 
-CREATE TABLE group_role (
-	group_id  INTEGER REFERENCES groups(id) ON DELETE CASCADE,
+CREATE TABLE setup_role (
 	role_id   INTEGER REFERENCES roles(id) ON DELETE CASCADE,
 	team_id   INTEGER REFERENCES teams(id) ON DELETE CASCADE,
+	pool      INTEGER,
 	count     INTEGER NOT NULL,
-	PRIMARY KEY (group_id, role_id, team_id)
+	PRIMARY KEY (role_id, team_id, pool)
 );
 
 CREATE TABLE setups (
 	id         INTEGER PRIMARY KEY,
 	user_id    INTEGER REFERENCES users(id) ON DELETE SET NULL,
-	title      TEXT(64),
-	descr      TEXT(2048),
-	allow_nk   BIT(1) DEFAULT 1,
-	allow_nv   BIT(1) DEFAULT 1,
-	day_start  BIT(1) DEFAULT 0,
-	final      BIT(1) DEFAULT 0,
-	private    BIT(1) DEFAULT 1,
+	title      VARCHAR(64),
+	descr      VARCHAR(2048),
+	allow_nk   BOOLEAN DEFAULT 1,
+	allow_nv   BOOLEAN DEFAULT 1,
+	day_start  BOOLEAN DEFAULT 0,
+	final      BOOLEAN DEFAULT 0,
+	private    BOOLEAN DEFAULT 1,
 	-- Stats
 	plays      INTEGER DEFAULT 0,
 	-- Timestamps
@@ -78,7 +72,7 @@ CREATE TABLE games (
 	id        INTEGER PRIMARY KEY,
 	host_id   INTEGER REFERENCES users(id) ON DELETE SET NULL,
 	setup_id  INTEGER REFERENCES setups(id),
-	is_day    BIT(1),
+	is_day    BOOLEAN,
 	gamedate  INTEGER,
 	end       TIMESTAMP,
 	created   TIMESTAMP
@@ -86,7 +80,7 @@ CREATE TABLE games (
 
 CREATE TABLE players (
 	id       INTEGER PRIMARY KEY,
-	name     TEXT(16),
+	name     VARCHAR(16),
 	user_id  INTEGER REFERENCES users(id) ON DELETE SET NULL,
 	game_id  INTEGER REFERENCES games(id) ON DELETE CASCADE,
 	role_id  INTEGER REFERENCES roles(id) ON DELETE RESTRICT,
@@ -107,14 +101,14 @@ CREATE TABLE threads (
 	id       INTEGER PRIMARY KEY,
 	board_id INTEGER REFERENCES boards(id) ON DELETE SET NULL,
 	game_id  INTEGER REFERENCES games(id) ON DELETE CASCADE,
-	title    TEXT(64)
+	title    VARCHAR(64)
 );
 
 CREATE TABLE posts (
 	id        INTEGER PRIMARY KEY,
 	thread_id INTEGER REFERENCES threads(id) ON DELETE CASCADE,
 	user_id   INTEGER REFERENCES users(id) ON DELETE SET NULL,
-	is_op     BIT(1) DEFAULT 0,
+	is_op     BOOLEAN DEFAULT 0,
 	class     TEXT,
 	plain     TEXT,
 	render    TEXT,

@@ -1,10 +1,10 @@
 ---
-version: v0.1.4
+version: v0.1.5
 release: alpha
 
 # Dependencies
 required:
-    - Mojolicious~3.89
-    - DateTime~0.78
+    - "Mojolicious~3.89"
+    - "DBIx::Class~0.08210"
 recommended:
     - "JavaScript::Minifier~1.05"
