@@ -359,13 +359,7 @@ noticeable run-time cost. Using a lighter module instead helps with
 performance.
 
 If you do however need more complex date/time operations, you should
-definitely use the fantastic L<DateTime> module. (I think it actually goes so
-far as to take I<leap nanoseconds> into account...)
-
-=head1 SEE ALSO
-
-L<DateTime>,
-L<DateTime::Format::Human::Duration>
+definitely use the fantastic L<DateTime> module.
 
 =head1 AUTHOR
 

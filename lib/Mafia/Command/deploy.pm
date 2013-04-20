@@ -16,7 +16,7 @@ sub run {
 		}	
 		else {
 			say "Aborting deploy.";
-			exit(0);
+			exit(1);
 		}
 	}
 
@@ -27,14 +27,72 @@ sub run {
 	);
 	$schema->deploy;
 
+	say '+ Creating teams';
 	$schema->resultset('Team')->populate([
 		[  qw/name type/   ],
-		[ 'Town',   'Town' ],
-		[ 'Mafia',  'Scum' ],
-		[ 'Bratva', 'Scum' ],
-		[ 'Yakuza', 'Scum' ],
-		[ 'Other',  'Other' ],
+		[ 'town',   'inno' ],
+		[ 'mafia',  'scum' ],
+		[ 'bratva', 'scum' ],
+		[ 'yakuza', 'scum' ],
+		[ 'other',  'other' ],
 	]);
+
+	say '+ Creating roles';
+	$schema->resultset('Role')->populate([
+		[   qw/name   type/ ],
+		[ 'townie',      'town' ],
+		[ 'cop',         'town' ],
+		[ 'doctor',      'town' ],
+		[ 'goon',        'scum' ],
+		[ 'godfather',   'scum' ],
+		[ 'roleblocker', 'scum' ],
+	]);
+
+	say '+ Creating user `Nobody`';
+	my $nobody = $schema->resultset('User')->create({
+		id   => -1,
+		name => 'Nobody',
+	});
+
+	say '+ Creating F11 setup...';
+	my $setup = $schema->resultset('Setup')->create({
+		user_id   => $nobody->id,
+		title     => 'F11',
+		descr     => 'Standard newbie setup',
+		allow_nk  => 1,
+		allow_nv  => 1,
+		day_start => 1,
+		final     => 1,
+		private   => 0,
+	});
+
+	my %roles = map { $_->name, $_->id } $schema->resultset('Role')->all;
+	my %teams = map { $_->name, $_->id } $schema->resultset('Team')->all;
+
+	$setup->create_related('setup_roles', {
+		role_id  => $roles{$_->[0]},
+		team_id  => $teams{$_->[1]},
+		pool     => $_->[2],
+		count    => $_->[3],
+	}) for (
+		[ 'townie',      'town', 1, 5 ],
+		[ 'cop',         'town', 1, 1 ],
+		[ 'doctor',      'town', 1, 1 ],
+		[ 'roleblocker', 'mafia', 1, 1 ],
+		[ 'goon',        'mafia', 1, 1 ],
+
+		[ 'townie', 'town', 2, 6 ],
+		[ 'cop',    'town', 2, 1 ],
+		[ 'goon',   'mafia', 2, 2 ],
+
+		[ 'townie', 'town', 3, 6 ],
+		[ 'doctor', 'town', 3, 1 ],
+		[ 'goon',   'mafia', 3, 2 ],
+
+		[ 'townie',      'town', 4, 7 ],
+		[ 'roleblocker', 'mafia', 4, 1 ],
+		[ 'goon' ,       'mafia', 4, 1 ],
+	);
 }
 
 'Construction complete.';

@@ -4,7 +4,7 @@ package Mafia::Schema::Result::Action;
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use base 'Mafia::Schema::Result';
 
 __PACKAGE__->table("actions");
 

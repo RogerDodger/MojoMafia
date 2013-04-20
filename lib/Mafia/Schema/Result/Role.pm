@@ -4,7 +4,7 @@ package Mafia::Schema::Result::Role;
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use base 'Mafia::Schema::Result';
 
 __PACKAGE__->table("roles");
 
@@ -12,7 +12,7 @@ __PACKAGE__->add_columns(
 	"id",
 	{ data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
 	"name",
-	{ data_type => "text", is_nullable => 1 },
+	{ data_type => "text", is_nullable => 0 },
 	"type",
 	{ data_type => "text", is_nullable => 0 },
 );

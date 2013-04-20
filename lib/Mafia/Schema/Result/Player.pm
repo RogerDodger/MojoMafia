@@ -4,14 +4,16 @@ package Mafia::Schema::Result::Player;
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use base 'Mafia::Schema::Result';
 
 __PACKAGE__->table("players");
+
+__PACKAGE__->load_components('InflateColumn::Serializer');
 
 __PACKAGE__->add_columns(
 	"id",
 	{ data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
-	"name",
+	"alias",
 	{ data_type => "varchar", is_nullable => 1, size => 16 },
 	"user_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
@@ -23,8 +25,12 @@ __PACKAGE__->add_columns(
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"team_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-	"life",
-	{ data_type => "integer", default_value => 1, is_nullable => 1 },
+	"is_alive",
+	{ data_type => "boolean", default_value => 1, is_nullable => 0 },
+	"roledata",
+	{ data_type => "text", serializer_class => 'JSON', is_nullable => 1 },
+	"created",
+	{ data_type => "timestamp", is_nullable => 1 },
 );
 
 __PACKAGE__->set_primary_key("id");

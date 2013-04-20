@@ -4,7 +4,7 @@ package Mafia::Schema::Result::Setup;
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use base 'Mafia::Schema::Result';
 
 __PACKAGE__->table("setups");
 
@@ -44,6 +44,13 @@ __PACKAGE__->has_many(
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
 
+__PACKAGE__->has_many(
+	"setup_roles",
+	"Mafia::Schema::Result::SetupRole",
+	{ "foreign.setup_id" => "self.id" },
+	{ cascade_copy => 0, cascade_delete => 0 },
+);
+
 __PACKAGE__->belongs_to(
 	"user",
 	"Mafia::Schema::Result::User",
@@ -56,10 +63,25 @@ __PACKAGE__->belongs_to(
 	},
 );
 
+sub size {
+	my $self = shift;
 
+	return 
+		$self->setup_roles->get_column('count')->sum /
+		$self->setup_roles->search({}, { group_by => [ 'pool' ] })->count;
+}
 
+sub random_pool {
+	my $self = shift;
 
+	my @pools = $self->setup_roles
+	                 ->search({}, { group_by => [ 'pool' ] })
+	                 ->get_column('pool')
+	                 ->all;
 
+	my $pool = $pools[int rand @pools];
 
+	return $self->setup_roles->search({ pool => $pool });
+}
 
 1;

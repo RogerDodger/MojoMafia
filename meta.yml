@@ -1,10 +1,14 @@
 ---
-version: v0.1.5
+version: v0.2.0
 release: alpha
 
 # Dependencies
 required:
     - "Mojolicious~3.89"
     - "DBIx::Class~0.08210"
+    - "SQL::Translator~0.11016"
+    - "DBIx::Class::DynamicDefault~0.04"
+    - "DBIx::Class::InflateColumn::Serializer"
 recommended:
     - "JavaScript::Minifier~1.05"
+    - "Text::Lorem::More~0.13"

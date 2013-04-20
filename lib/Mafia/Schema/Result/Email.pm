@@ -4,7 +4,7 @@ package Mafia::Schema::Result::Email;
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use base 'Mafia::Schema::Result';
 
 __PACKAGE__->table("emails");
 

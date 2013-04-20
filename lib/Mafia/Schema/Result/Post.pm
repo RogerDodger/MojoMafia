@@ -4,7 +4,7 @@ package Mafia::Schema::Result::Post;
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use base 'Mafia::Schema::Result';
 
 __PACKAGE__->table("posts");
 
@@ -15,8 +15,8 @@ __PACKAGE__->add_columns(
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"user_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-	"is_op",
-	{ data_type => "boolean", default_value => 0, is_nullable => 1 },
+	"player_id",
+	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"class",
 	{ data_type => "text", is_nullable => 1 },
 	"plain",
@@ -57,10 +57,36 @@ __PACKAGE__->belongs_to(
 	},
 );
 
+__PACKAGE__->belongs_to(
+	"player",
+	"Mafia::Schema::Result::Player",
+	{ id => "player_id" },
+	{
+		is_deferrable => 1,
+		join_type     => "LEFT",
+		on_delete     => "CASCADE",
+		on_update     => "CASCADE",
+	},
+);
 
+sub apply_markup {
+	############# WARNING! #############
+	## Temporary. This has XSS holes. ##
+	####################################
+	my $self = shift;
 
+	my $text = $self->plain;
 
+	require Text::Markdown;
+	$text =~ s/</&lt;/g;
+	$text = Text::Markdown->new->markdown($text);
 
+	$self->update({ render => $text });
+}
 
+sub has_class {
+	my ($self, $class) = @_;
+	return $self->class =~ /\b\Q$class\E\b/;
+}
 
 1;

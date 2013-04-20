@@ -1,12 +1,10 @@
 Requirements
 ============
 
-Last updated 09 Apr 2013
+Last updated 16 Apr 2013
 
 ## High priority ##
 
-- Database schema
-- `deploy` command
 - Persona sign-in and user creation
 - Editable user settings
 - Preset setups
@@ -60,3 +58,5 @@ Last updated 09 Apr 2013
 
 - `install` command
 - Javascript and CSS pre-processor commands
+- Database schema
+- `deploy` command

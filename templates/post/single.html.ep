@@ -1,33 +1,33 @@
-<article class="post <%= $post->{class} %>" id="<%= $post->{id} %>">
+<article class="post <%= $post->class %>" id="<%= $post->id %>">
 	<div class="meta">
 		<div class="poster">
-			% if ($post->{show_username}) {
+			% if ($post->show_username) {
 				<span class="name">
-					<a href="<%= url_for "/u/$post->{user}->{name}" %>">
-						<%= $post->{user}->{name} %>
+					<a href="<%= url_for '/u/' . $post->user->name %>">
+						<%= $post->user->name %>
 					</a>
 				</span>
 			% }
 
-			% if ($post->{player}->{alias}) {
-				<span class="alias"><%= $post->{player}->{alias} %></span>
+			% if (defined $post->player && defined $post->player->alias) {
+				<span class="alias"><%= $post->player->alias %></span>
 			% }
 		</div>
 
-		% if ($post->{gamedate}) {
-			<div class="gamedate"><%= $post->{gamedate} %></div>
+		% if (defined $post->gamedate) {
+			<div class="gamedate"><%= $post->gamedate %></div>
 		% }
 
-		<div class="posttime"><%== $post->{created}->duration_since_now %></div>
+		<div class="posttime"><%== $post->created->delta_html %></div>
 
 		<div class="permalink">
-			<a href="<%= url_for "/post/$post->{id}" %>">#<%= $post->{id} %></a>
+			<a href="<%= url_for '/p/' . $post->id %>">#<%= $post->id %></a>
 		</div>
 
 		<div class="clearfix"></div>
 	</div>
 
-	<div class="body"><%== Text::Markdown->new->markdown($post->{plain}) %></div>
+	<div class="body"><%== $post->render %></div>
 
 	<div class="footer">
 		<ul class="controls">

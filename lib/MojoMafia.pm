@@ -1,12 +1,11 @@
 package MojoMafia;
 use Mojo::Base 'Mojolicious';
 
-require Mafia::DateTime;
 require Mafia::HTML;
 require Mafia::Log;
+require Mafia::Schema;
 require YAML;
 
-# This method will run once at server start
 sub startup {
 	my $self = shift;
 	
@@ -18,11 +17,26 @@ sub startup {
 	# Documentation browser under "/perldoc"
 	$self->plugin('PODRenderer');
 
-	# Helpers
+	# Get app metadata, e.g. version number
 	$self->helper(meta => sub {
 		my ($c, $key) = @_;
 		state $meta = YAML::LoadFile($self->home->rel_file('meta.yml'));
 		return defined $key ? $meta->{$key} : $meta;
+	});
+
+	# Access database
+	$self->helper(db => sub {
+		my ($c, $table) = @_;
+		state $schema = Mafia::Schema->connect(
+			'dbi:SQLite:' . $c->app->home->rel_file('data/mafia.db'),'','',
+			{ sqlite_unicode => 1 },
+		);
+		if (defined $table) {
+			return $schema->resultset($table);
+		}
+		else {
+			return $schema;
+		}
 	});
 
 	# Routes
@@ -38,9 +52,7 @@ sub startup {
 
 		$self->app->log->debug("Tidying rendered HTML");
 
-		$$output = Mafia::HTML::tidy($$output);
-
-		"We good";
+		${$output} = Mafia::HTML::tidy(${$output}) and 1;
 	});
 }
 
