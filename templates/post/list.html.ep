@@ -3,7 +3,7 @@
 		<span class="icon">&#59160;</span>
 		Posts
 	</h1>
-	% for my $post (@{ stash('posts')->{all} }) {
+	% while (my $post = stash('posts')->next) {
 		%= include 'post/single', post => $post;
 	% }
 </section>

@@ -118,10 +118,16 @@ __PACKAGE__->belongs_to(
 	},
 );
 
+sub name {
+	my $self = shift;
+	return $self->alias // $self->user->name;
+}
 
-
-
-
-
+sub can_talk {
+	my $self = shift;
+	return 0 if  $self->game->is_active && !$self->is_alive
+	         || !$self->game->is_day    &&  $self->team->type eq 'inno';
+	return 1;
+}
 
 1;

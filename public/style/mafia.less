@@ -285,6 +285,8 @@ article.main {
 
 		.posts {
 
+			margin: 1em 0;
+
 			h1 {
 				margin: 0;
 				padding: 0.5em 0.5em 0.5em 1.5em;
@@ -548,41 +550,76 @@ article.main {
 				padding: 0.625em 1.25em;
 			}
 
-			&.player {
-
-				p {
-					color: #aaa;
-
-					.role {
-						color: #222;
-					}
-
-					.team {
-
-						&.town {
-							color: green;
-						}
-
-						&.mafia,
-						&.yakuza,
-						&.brakva {
-							color: red;
-						}
-
-						&.nomad {
-							color: orange;
-						}
-
-					}
-
-				}
-
-			}
-
 			border: 1px solid #ddd;
 			.border-radius(4px 4px 0 0);
 
 			margin: 1em 0;
+
+			&.game ,
+			&.player {
+				p {
+					color: #999;
+
+					.role,
+					.datetime,
+					.alias {
+						color: #222;
+					}
+				}
+			}
+
+			&.players {
+				ul {
+					font-size: 0.85em;
+					padding-left: 2em;
+					list-style-type: none;
+					font-weight: bold;
+					color: #444;
+				}
+			}
+
+			&.game,
+			&.player,
+			&.players {
+				.team {
+					&.town {
+						color: green;
+					}
+
+					&.mafia,
+					&.yakuza,
+					&.brakva {
+						color: red;
+					}
+
+					&.other {
+						color: orange;
+					}
+				}
+			}
+
+			&.votes {
+				table {
+					font-size: 0.85em;
+					margin: 1em 0;
+					width: 100%;
+
+					td {
+						padding: 0.1em 0.3em;
+						font-weight: bold;
+
+						&.player {
+							text-align: right;
+							color: #444;
+						}
+
+						&.vote {
+							text-align: left;
+							color: #888;
+						}
+					}
+				}
+			}
 		}
 	}
 

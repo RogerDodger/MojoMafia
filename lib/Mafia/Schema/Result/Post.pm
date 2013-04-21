@@ -70,16 +70,21 @@ __PACKAGE__->belongs_to(
 );
 
 sub apply_markup {
-	############# WARNING! #############
-	## Temporary. This has XSS holes. ##
-	####################################
+	############# TEMPORARY! ##############
 	my $self = shift;
-
 	my $text = $self->plain;
 
-	require Text::Markdown;
+	$text =~ s/^\s+|\s+$//g;
+
+	$text =~ s/&/&amp;/g;
 	$text =~ s/</&lt;/g;
-	$text = Text::Markdown->new->markdown($text);
+	$text =~ s/>/&gt;/g;
+	$text =~ s/"/&quot;/g;
+	$text =~ s/'/&#39;/g;
+
+	$text = join "\n\n", 
+	          map { s/\n/<br>\n/g; "<p>$_</p>" }
+	            split /\n\n/, $text;
 
 	$self->update({ render => $text });
 }
@@ -87,6 +92,15 @@ sub apply_markup {
 sub has_class {
 	my ($self, $class) = @_;
 	return $self->class =~ /\b\Q$class\E\b/;
+}
+
+sub show_username {
+	my $self = shift;
+	return 0 if !$self->user;
+	return 0 if defined $self->player 
+	         && defined $self->player->alias 
+	         && $self->player->game->is_active;
+	1;
 }
 
 1;

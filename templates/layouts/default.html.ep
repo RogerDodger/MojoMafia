@@ -43,11 +43,11 @@
 				<div class="divider"></div>
 
 				<ul class="user">
-					% if (0) {
+					% if (defined user) {
 						<li class="name">
 							<a href="#" title="User profile">
 								<span class="icon">&#128100;</span>
-								<%= 'Username' %>
+								<%= user->name %>
 							</a>
 						</li>
 						<li><a href="#" class="icon" title="Change settings">&#9874;</a></li>
@@ -70,24 +70,57 @@
 			% unless (stash 'no_sidebar') {
 				<section class="sidebar">
 
-					<aside class="news">
-						<h1>News</h1>
-						<ul>
-							<li>Some news item</li>
-							<li>Another news item</li>
-						</ul>
-					</aside>
+					% if (defined stash 'game') {
+						<aside class="game">
+							<h1>Game #<%= stash('game')->id %></h1>
+							<p>
+								It is currently 
+								<span class="datetime">
+									<%= ucfirst stash('game')->datetime %>
+								</span>
+							</p>
+						</aside>
+					% }
 
-					% if (stash 'player') {
+					% if (defined stash 'player') {
 						<aside class="player">
 							<h1>Player</h1>
 							<p>
+								% if (defined stash('player')->alias) {
+									Your alias is
+									<span class="alias">
+										<%= stash('player')->alias %>
+									</span>
+									<br>
+								% }
 								You are a 
-								<span class="role"><%= stash('player')->role %></span>
-								<span class="team <%= lc stash('player')->team %>">
-									(<%= stash('player')->team %>)
+								<span class="role">
+									<%= ucfirst stash('player')->role->name %>
+								</span>
+								<span class="team <%= stash('player')->team->name %>">
+									(<%= ucfirst stash('player')->team->name %>)
 								</span>
 							</p>
+						</aside>
+					% }
+
+					% if (defined stash('game')) {
+						<aside class="players">
+							<h1>Players</h1>
+							<ul>
+								% for my $player (stash('game')->players->all) {
+									<li>
+										% if ($player->is_alive) {
+											<%= $player->name %>
+										% } else {
+											<del><%= $player->name %></del>
+											<span class="team <%= $player->team->name %>">
+												(<%= ucfirst $player->team->name %>)
+											</span>
+										% }
+									</li>
+								% }
+							</ul>
 						</aside>
 					% }
 
@@ -97,8 +130,8 @@
 							<table>
 								% for my $voter (stash('votes')->all) {
 									<tr>
-										<td class="voter"><%= $voter->name %></td>
-										<td class="voted"><%= $voter->vote->name %></td>
+										<td class="player"><%= $voter->name %></td>
+										<td class="vote"><%= eval { $voter->vote->name } %></td>
 									</tr>
 								% }
 							</table>

@@ -1,5 +1,9 @@
 <article class="post <%= $post->class %>" id="<%= $post->id %>">
 	<div class="meta">
+		% if (defined $post->gamedate) {
+			<div class="gamedate"><%= $post->gamedate %></div>
+		% }
+
 		<div class="poster">
 			% if ($post->show_username) {
 				<span class="name">
@@ -13,10 +17,6 @@
 				<span class="alias"><%= $post->player->alias %></span>
 			% }
 		</div>
-
-		% if (defined $post->gamedate) {
-			<div class="gamedate"><%= $post->gamedate %></div>
-		% }
 
 		<div class="posttime"><%== $post->created->delta_html %></div>
 

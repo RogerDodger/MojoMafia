@@ -1,0 +1,15 @@
+% layout 'default';
+
+<section class="gamenav">
+	
+</section>
+
+<section class="posts">
+	% while (my $post = stash('posts')->next) {
+		%= include 'post/single', post => $post;
+	% }
+</section>
+
+% if (defined stash('player') && stash('player')->can_talk) {
+	%= include 'post/submit';
+% }

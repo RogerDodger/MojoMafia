@@ -39,10 +39,23 @@ sub startup {
 		}
 	});
 
+	# User
+	$self->helper(user => sub {
+		my $c = shift;
+		return $c->stash->{user} if defined $c->stash->{user};
+
+		return $c->db('User')->find(8);
+		return undef;
+	});
+
 	# Routes
 	my $r = $self->routes;
 
 	$r->get('/')->to('root#index');
+
+	my $g = $r->bridge('/game/:id')->to('game#fetch');
+	$g->get('/:time')->to('game#thread');
+	$g->get('/:time/:date')->to('game#thread');
 
 	# Tidy HTML output after rendering
 	$self->hook(after_render => sub {

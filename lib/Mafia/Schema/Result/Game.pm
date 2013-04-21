@@ -105,7 +105,7 @@ sub log {
 	my $msg = sprintf $fmt, @list;
 
 	my $post = $self->thread->create_related('posts', {
-		class    => join(' ', 'system', $self->timeofday),
+		class    => join(' ', 'system', 'game', $self->timeofday),
 		plain    => $msg,
 		gamedate => $self->date,
 	});
@@ -155,6 +155,11 @@ sub cycle {
 		date   => $self->date + ($self->is_day != $self->setup->day_start),
 		is_day => !$self->is_day,
 	});
+}
+
+sub is_active {
+	return 1 if shift->date;
+	0;
 }
 
 1;

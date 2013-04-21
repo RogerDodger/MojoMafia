@@ -1,13 +1,14 @@
 % layout 'default';
+% use Text::Lorem::More 'lorem';
 
-<h1>Game</h1>
-<p>
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mauris diam, tempus aliquam adipiscing vel, vulputate quis urna. Donec eleifend tempus nisl, eget euismod nisl posuere vel. Vivamus sodales hendrerit dignissim. Curabitur commodo faucibus ligula ac auctor. Sed dictum ante ut turpis dignissim vitae bibendum nisi euismod. In hac habitasse platea dictumst. Quisque accumsan tristique ligula, id dictum magna semper non. Aliquam vel mauris eros, suscipit adipiscing augue.
-</p>
-<p>
-	Maecenas vel nisi libero. Nam at sagittis est. Suspendisse nec sapien eros, id pretium enim. Donec quis nibh sapien. Curabitur leo eros, elementum eu pharetra vitae, sollicitudin vitae augue. Nunc a gravida mi. Sed vitae sapien leo, faucibus tincidunt nulla. Curabitur blandit dui vitae urna egestas pellentesque. Proin vehicula ullamcorper placerat. 
-</p>
+<h1>Active games</h1>
 
-%= include 'post/list'
+<p><%= lorem->paragraph %></p>
 
-%= include 'post/submit'
+<h1>Upcoming games</h1>
+
+<p><%= lorem->paragraph %></p>
+
+<h1>Finished games</h1>
+
+<p><%= lorem->paragraph %></p>
