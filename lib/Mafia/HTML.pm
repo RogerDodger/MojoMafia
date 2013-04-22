@@ -3,7 +3,7 @@ package Mafia::HTML;
 sub tidy {
 	my $html = shift;
 
-	return $html unless eval { require HTML::Tidy };
+	return unless eval { require HTML::Tidy };
 
 	my $tidy = HTML::Tidy->new({
 		new_blocklevel_tags => join(", ", qw/article aside details figcaption figure
@@ -17,7 +17,7 @@ sub tidy {
 		wrap                => 110,
 	});
 
-	return $tidy->clean($html);
+	${$html} = $tidy->clean(${$html}) and return 1;
 }
 
 1;

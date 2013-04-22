@@ -14,8 +14,19 @@ sub startup {
 	# Allow use of commands in the Mafia::Command namespace
 	unshift $self->commands->namespaces, 'Mafia::Command';
 
-	# Documentation browser under "/perldoc"
-	$self->plugin('PODRenderer');
+	# Routes
+	my $r = $self->routes;
+
+	$r->get('/')->to('root#index');
+
+	$r->get('/register') ->to('user#register');
+	$r->post('/register')->to('user#do_register');
+	$r->post('/login')   ->to('user#login');
+	$r->post('/logout')  ->to('user#logout');
+
+	my $g = $r->bridge('/game/:id')->to('game#fetch');
+	$g->get('/:time')      ->to('game#thread');
+	$g->get('/:time/:date')->to('game#thread');
 
 	# Get app metadata, e.g. version number
 	$self->helper(meta => sub {
@@ -39,23 +50,30 @@ sub startup {
 		}
 	});
 
-	# User
+	# Fetch and cache user
 	$self->helper(user => sub {
 		my $c = shift;
 		return $c->stash->{user} if defined $c->stash->{user};
 
-		return $c->db('User')->find(8);
+		if (defined $c->session->{email}) {
+			my $email = $c->db('Email')->find($c->session->{email});
+			if (defined $email) {
+				return $c->stash->{user} = $email->user;
+			}
+		}
 		return undef;
 	});
 
-	# Routes
-	my $r = $self->routes;
+	# Redirect a new user to /register to choose a username
+	$self->hook(before_routes => sub {
+		my $c = shift;
+		return if $c->stash('mojo.static');
+		return if $c->req->url->to_abs->path eq '/register';
 
-	$r->get('/')->to('root#index');
-
-	my $g = $r->bridge('/game/:id')->to('game#fetch');
-	$g->get('/:time')->to('game#thread');
-	$g->get('/:time/:date')->to('game#thread');
+		if (defined $c->session->{email} && !defined $c->user) {
+			$c->redirect_to('/register');
+		}
+	});
 
 	# Tidy HTML output after rendering
 	$self->hook(after_render => sub {
@@ -65,7 +83,7 @@ sub startup {
 
 		$self->app->log->debug("Tidying rendered HTML");
 
-		${$output} = Mafia::HTML::tidy(${$output}) and 1;
+		Mafia::HTML::tidy($output);
 	});
 }
 

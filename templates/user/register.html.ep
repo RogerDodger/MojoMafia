@@ -1,0 +1,14 @@
+% layout 'default';
+% stash->{no_sidebar} = 1;
+
+<div class="splash">
+	<h1>Hey there!</h1>
+
+	<p>Looks like you're new here. Please choose a username:</p>
+
+	<form method="post" action="/register">
+		<p><input type="text" name="username" 
+				size="30" maxlength="24"placeholder="Username"></p>
+		<p><input type="submit" value="Submit"></p>
+	</form>
+</div>

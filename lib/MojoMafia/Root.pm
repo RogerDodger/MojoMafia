@@ -2,11 +2,11 @@ package MojoMafia::Root;
 use Mojo::Base 'Mojolicious::Controller';
 
 sub index {
-	my $self = shift;
+	my $c = shift;
 
-	$self->app->log->info("Root::index accessed.");
+	$c->app->log->info("Root::index accessed.");
 
-	$self->render();
+	$c->render;
 }
 
 1;
