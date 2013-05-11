@@ -37,31 +37,4 @@ sub logout {
 	$c->render(json => {status => 'okay'});
 }
 
-sub register {
-	shift->render;
-}
-
-sub do_register {
-	my $c = shift;
-	return $c->redirect_to('/') if $c->user || !defined $c->session->{email};
-
-	my $u = $c->param('username');
-
-	if ($c->db('User')->find({ name => $u })) {
-		# User already exists
-		$c->redirect_to('/register');
-	}
-
-	$c->db('Email')->create({
-		address  => $c->session->{email},
-		main     => 1,
-		verified => 1,
-		user => {
-			name => $u,
-		},
-	});
-
-	$c->redirect_to('/');
-}
-
 1;

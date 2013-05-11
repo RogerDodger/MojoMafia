@@ -19,8 +19,6 @@ sub startup {
 
 	$r->get('/')->to('root#index');
 
-	$r->get('/register') ->to('user#register');
-	$r->post('/register')->to('user#do_register');
 	$r->post('/login')   ->to('user#login');
 	$r->post('/logout')  ->to('user#logout');
 
@@ -64,14 +62,34 @@ sub startup {
 		return undef;
 	});
 
-	# Redirect a new user to /register to choose a username
+	# Prompt a new user to register
 	$self->hook(before_routes => sub {
 		my $c = shift;
 		return if $c->stash('mojo.static');
-		return if $c->req->url->to_abs->path eq '/register';
 
 		if (defined $c->session->{email} && !defined $c->user) {
-			$c->redirect_to('/register');
+			if ($c->req->method eq 'GET') {
+				$c->render(template => 'user/register');
+			}
+			elsif ($c->req->method eq 'POST') {
+				my $name = $c->param('username');
+
+				if ($c->db('User')->find({ name => $name })) {
+					$c->stash->{form}{user}{error} = 'User already exists';;
+					return $c->render(template => 'user/register');
+				}
+
+				$c->db('Email')->create({
+					address  => $c->session->{email},
+					main     => 1,
+					verified => 1,
+					user => {
+						name => $name,
+					},
+				});
+
+				$c->redirect_to($c->req->url->to_abs);
+			}
 		}
 	});
 
