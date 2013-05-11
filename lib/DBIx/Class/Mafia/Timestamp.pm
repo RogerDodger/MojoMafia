@@ -11,7 +11,7 @@ sub register_column {
 
 	$self->next::method(@_);
 
-	next unless $info->{data_type} eq 'timestamp';
+	return unless $info->{data_type} eq 'timestamp';
 
 	$self->inflate_column($col, {
 		inflate => sub {
