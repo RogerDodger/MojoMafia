@@ -1,19 +1,20 @@
 package Mafia::Command::deploy;
-use Mojo::Base 'Mojolicious::Command';
+use Mojo::Base 'Mafia::Command';
 use Mafia::Schema;
+use Data::Dump;
 
 sub run {
 	my $self = shift;
 
-	my $fn = $self->rel_file('data/mafia.db');
-
+	# DBD::SQLite specific -- change to support more deployment options
+	my $fn = (split /:/, $self->config->{dsn})[-1];
 	if (-e $fn) {
-		print "! $fn already exists and will be overwritten.\n"
-		    . "! Do you want to continue? [y/n] ";
+		print "SQLite database '$fn' already exists and will be overwritten. "
+		    . "Do you want to continue? [y/n] ";
 		chomp(my $ans = <STDIN>);
-		if (lc $ans ~~ ['y', 'yes']) {
+		if ($ans =~ /^(?:y|yes)$/i) {
 			unlink $fn;
-		}	
+		}
 		else {
 			say "Aborting deploy.";
 			exit(1);
@@ -22,8 +23,8 @@ sub run {
 
 	say "Deploying database...";
 	my $schema = Mafia::Schema->connect(
-		"dbi:SQLite:$fn",'','',
-		{ ignore_version => 1 }
+		$self->config->{dsn},'','',
+		{ sqlite_unicode => 1, ignore_version => 1 }
 	);
 	$schema->deploy;
 

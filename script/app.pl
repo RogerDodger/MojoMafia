@@ -6,6 +6,6 @@ use warnings;
 use FindBin;
 BEGIN { unshift @INC, "$FindBin::Bin/../lib" }
 
-# Start command line interface for application
+chdir "$FindBin::Bin/..";
 require Mojolicious::Commands;
 Mojolicious::Commands->start_app('MojoMafia');

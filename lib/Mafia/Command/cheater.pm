@@ -1,10 +1,8 @@
 package Mafia::Command::cheater;
-
-use Mojo::Base 'Mojolicious::Command';
-use Mafia::Schema;
+use Mojo::Base 'Mafia::Command';
 use Mafia::Timestamp;
-use Text::Lorem::More 'lorem';
 use List::Util 'shuffle';
+use Text::Lorem::More 'lorem';
 
 sub _rs {
 	# Return a random string of length between $min and $max
@@ -17,12 +15,7 @@ sub _rs {
 
 sub run {
 	my $self = shift;
-
-	my $fn = $self->rel_file('data/mafia.db');
-	my $schema = Mafia::Schema->connect(
-		"dbi:SQLite:$fn",'','', 
-		{ sqlite_unicode => 1 }
-	);
+	my $schema = $self->db;
 
 	say '+ Creating dummy users';
 	my @users = map {
@@ -78,7 +71,7 @@ sub run {
 					my $player = $players[rand @players];
 
 					my $post = $thread->create_related('posts', {
-						player_id => $player->id, 
+						player_id => $player->id,
 						user_id   => $player->user->id,
 						gamedate  => $game->date,
 						class     => join(' ', 'game', $game->timeofday),

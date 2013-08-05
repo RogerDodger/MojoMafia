@@ -1,11 +1,12 @@
 package MojoMafia;
 use Mojo::Base 'Mojolicious';
 
-require Class::Null;
-require Mafia::HTML;
-require Mafia::Log;
-require Mafia::Schema;
-require YAML;
+use Class::Null;
+use Mafia::Config;
+use Mafia::HTML;
+use Mafia::Log;
+use Mafia::Schema;
+use YAML ();
 
 sub startup {
 	my $self = shift;
@@ -29,18 +30,14 @@ sub startup {
 	my $g = $r->bridge('/game/:id')->to('game#fetch');
 	$g->get('/')->to('game#thread');
 
-	# Get app metadata, e.g. version number
-	$self->helper(meta => sub {
-		my ($c, $key) = @_;
-		state $meta = YAML::LoadFile($self->home->rel_file('meta.yml'));
-		return defined $key ? $meta->{$key} : $meta;
-	});
+	$self->config(Mafia::Config::load());
+	$self->meta(YAML::LoadFile('meta.yml'));
 
 	# Access database
 	$self->helper(db => sub {
 		my ($c, $table) = @_;
 		state $schema = Mafia::Schema->connect(
-			'dbi:SQLite:' . $c->app->home->rel_file('data/mafia.db'),'','',
+			'dbi:SQLite:site/mafia.db','','',
 			{ sqlite_unicode => 1 },
 		);
 		if (defined $table) {
@@ -66,6 +63,17 @@ sub startup {
 		return Class::Null->new;
 	});
 
+	# Get static file with mtime query param to force cache revalidation
+	$self->helper(url_for_static => sub {
+		my ($c, $url) = @_;
+		if ($url !~ m{^/}) {
+			$c->app->log->warn("Relative path given to url_for_static");
+		}
+		my $filename = 'public' . $url;
+		my $mtime = (stat $filename)[9] || '';
+		return "$url?v=$mtime";
+	});
+
 	# Tidy HTML output after rendering
 	# $self->hook(after_render => sub {
 	# 	my ($self, $output, $format) = @_;
@@ -78,6 +86,10 @@ sub startup {
 	# });
 }
 
+sub meta {
+	return shift->_dict(meta => @_);
+}
+
 sub development_mode {
 	my $self = shift;
 
@@ -88,7 +100,7 @@ sub production_mode {
 	my $self = shift;
 
 	my $log = Mafia::Log->new(
-		path  => $self->home->rel_file('log/mafia.log'),
+		path  => 'site/mafia.log',
 		level => 'info',
 	);
 
