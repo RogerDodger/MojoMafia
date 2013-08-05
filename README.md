@@ -25,9 +25,7 @@ Requirements
 Installation
 ------------
 
-Install Mojolicious from [http://mojolicio.us](http://mojolicio.us), then:
-
-    MojoMafia$ ./script/mafia.pl install
+    MojoMafia$ perl Makefile.PL
     MojoMafia$ ./script/mafia.pl deploy
 
 Once deployed, you can start the application with morbo:
