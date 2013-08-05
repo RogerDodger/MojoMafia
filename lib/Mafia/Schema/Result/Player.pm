@@ -19,11 +19,7 @@ __PACKAGE__->add_columns(
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"game_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-	"role_id",
-	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"vote_id",
-	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-	"team_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"is_alive",
 	{ data_type => "boolean", default_value => 1, is_nullable => 0 },
@@ -83,18 +79,6 @@ __PACKAGE__->belongs_to(
 );
 
 __PACKAGE__->belongs_to(
-	"team",
-	"Mafia::Schema::Result::Team",
-	{ id => "team_id" },
-	{
-		is_deferrable => 1,
-		join_type     => "LEFT",
-		on_delete     => "CASCADE",
-		on_update     => "CASCADE",
-	},
-);
-
-__PACKAGE__->belongs_to(
 	"user",
 	"Mafia::Schema::Result::User",
 	{ id => "user_id" },
@@ -125,9 +109,8 @@ sub name {
 
 sub can_talk {
 	my $self = shift;
-	return 0 if  $self->game->is_active && !$self->is_alive
-	         || !$self->game->is_day    &&  $self->team->type eq 'inno';
-	return 1;
+	return $self->game->is_active and $self->is_alive
+	   and $self->game->is_day || $self->team->type eq 'scum';
 }
 
 1;

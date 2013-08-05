@@ -14,7 +14,7 @@ $(document).ready(function() {
 				url: '/login',
 				data: { "assertion" : assertion },
 				success: function(res, status, xhr) {
-					if (res.redirect !== null) {
+					if ('redirect' in res) {
 						window.location = res.redirect;
 					} else {
 						window.location.reload();

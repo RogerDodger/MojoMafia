@@ -13,7 +13,7 @@ sub login {
 	}
 
 	my $url = $c->req->url->to_abs;
-	$form->{audience} = $url->protocol . "://" . $url->host;
+	$form->{audience} = $url->protocol . "://" . $url->host . ':' . $url->port;
 
 	my $json = $c->ua->post($authority, form => $form)->res->json;
 
@@ -28,7 +28,7 @@ sub login {
 		return $c->render(json => $json);
 	} else {
 		$c->res->code(401);
-		$c->log->error('Login error: ' . $json->{reason});
+		$c->app->log->error('Login error: ' . $json->{reason});
 		return $c->render(json => {error => $json->{reason}});
 	}
 }
@@ -46,14 +46,17 @@ sub register {
 		$c->session->{register_redirect} = $c->req->headers->referrer;
 	}
 
-	$c->render;
+	$c->render(template => 'user/register');
 }
 
 sub do_register {
 	my $c = shift;
-	my $email = $c->session->{email};
-	my $name = $c->param('username');
+	if ($c->user) {
+		return $c->redirect_to($c->url_for('root/index'));
+	}
 
+	my $name = $c->param('username');
+	my $email = $c->session->{email};
 	if (defined $email && defined $name && $name ne '') {
 		$c->db('Email')->create({
 			address  => $c->session->{email},

@@ -33,7 +33,9 @@ sub fetch {
 sub thread {
 	my $c = shift;
 
-	$c->stash->{posts} = $c->stash->{game}->thread->posts;
+	$c->stash->{posts} = $c->stash->{game}->thread->posts->search({}, {
+		join => [qw/player/],
+	});
 
 	$c->render;
 }

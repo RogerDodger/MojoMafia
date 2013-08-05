@@ -12,7 +12,7 @@ __PACKAGE__->add_columns(
 	"id",
 	{ data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
 	"name",
-	{ data_type => "varchar", is_nullable => 0, size => 24 },
+	{ data_type => "varchar", is_nullable => 0 },
 	"is_admin",
 	{ data_type => "boolean", default_value => 0, is_nullable => 1 },
 	"is_mod",
@@ -70,10 +70,11 @@ __PACKAGE__->has_many(
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
 
-
-
-
-
-
+__PACKAGE__->has_many(
+	'username_historys',
+	'Mafia::Schema::Result::UsernameHistory',
+	{ 'foreign.user_id', => 'self.id' },
+	{ cascade_copy => 0, cascade_delete => 0 },
+);
 
 1;

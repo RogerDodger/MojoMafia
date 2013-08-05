@@ -55,7 +55,7 @@
 						</li>
 						<li><a href="#" class="icon" title="Change settings">&#9874;</a></li>
 						<li><a href="#" class="icon" id="logout" title="Logout">&#59201;</a></li>
-					% } elsif (defined stash('registering')) {
+					% } elsif (current_route eq 'register') {
 						<li><a href="#" class="icon" id="logout" title="Logout">&#59201;</a></li>
 					% } else {
 						<li><a href="#" class="icon" id="login" title="Login">&#59200;</a></li>

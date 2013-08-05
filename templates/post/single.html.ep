@@ -7,7 +7,7 @@
 		<div class="poster">
 			% if ($post->show_username) {
 				<span class="name">
-					<a href="<%= url_for '/u/' . $post->user->name %>">
+					<a href="/user/ <%= $post->user->id %>">
 						<%= $post->user->name %>
 					</a>
 				</span>
@@ -21,7 +21,7 @@
 		<div class="posttime"><%== $post->created->delta_html %></div>
 
 		<div class="permalink">
-			<a href="<%= url_for '/p/' . $post->id %>">#<%= $post->id %></a>
+			<a href="/post/ <%= $post->id %>">#<%= $post->id %></a>
 		</div>
 
 		<div class="clearfix"></div>
@@ -44,7 +44,7 @@
 				</a>
 			</li>
 		</ul>
-		
+
 		<div class="clearfix"></div>
 	</div>
 </article>
