@@ -20,13 +20,15 @@ sub login {
 	if (!defined $json) {
 		$c->res->code(500);
 		return $c->render(json => {error => 'unknown'});
-	}
-	elsif ($json->{status} eq 'okay') {
+	} elsif ($json->{status} eq 'okay') {
 		$c->session->{email} = $json->{email};
-		return $c->render(json => {status => 'okay'});
-	}
-	else {
+		if (!$c->user) {
+			$json->{redirect} = '/register';
+		}
+		return $c->render(json => $json);
+	} else {
 		$c->res->code(401);
+		$c->log->error('Login error: ' . $json->{reason});
 		return $c->render(json => {error => $json->{reason}});
 	}
 }
@@ -35,6 +37,38 @@ sub logout {
 	my $c = shift;
 	delete $c->session->{email};
 	$c->render(json => {status => 'okay'});
+}
+
+sub register {
+	my $c = shift;
+
+	if (defined $c->req->headers->referrer) {
+		$c->session->{register_redirect} = $c->req->headers->referrer;
+	}
+
+	$c->render;
+}
+
+sub do_register {
+	my $c = shift;
+	my $email = $c->session->{email};
+	my $name = $c->param('username');
+
+	if (defined $email && defined $name && $name ne '') {
+		$c->db('Email')->create({
+			address  => $c->session->{email},
+			main     => 1,
+			verified => 1,
+			user => {
+				name => $name,
+			},
+		});
+
+		$c->redirect_to($c->session->{register_redirect} or $c->req->url->to_abs);
+		delete $c->session->{register_redirect};
+	} else {
+		$c->render(template => 'user/register');
+	}
 }
 
 1;

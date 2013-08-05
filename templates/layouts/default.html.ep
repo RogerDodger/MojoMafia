@@ -24,6 +24,9 @@
 		% }
 
 		<script src="<%= url_for '/js/vendor/modernizr-2.6.2.min.js' %>"></script>
+		<script type="text/javascript">
+			%= include 'includes/session', format => 'js'
+		</script>
 	</head>
 
 	<body>
@@ -43,14 +46,16 @@
 				<div class="divider"></div>
 
 				<ul class="user">
-					% if (defined user) {
+					% if (user) {
 						<li class="name">
 							<a href="#" title="User profile">
 								<span class="icon">&#128100;</span>
-								<%= user->name %>
+								<%= user()->name %>
 							</a>
 						</li>
 						<li><a href="#" class="icon" title="Change settings">&#9874;</a></li>
+						<li><a href="#" class="icon" id="logout" title="Logout">&#59201;</a></li>
+					% } elsif (defined stash('registering')) {
 						<li><a href="#" class="icon" id="logout" title="Logout">&#59201;</a></li>
 					% } else {
 						<li><a href="#" class="icon" id="login" title="Login">&#59200;</a></li>
@@ -71,7 +76,7 @@
 						<aside class="game">
 							<h1>Game #<%= stash('game')->id %></h1>
 							<p>
-								It is currently 
+								It is currently
 								<span class="datetime">
 									<%= ucfirst stash('game')->datetime %>
 								</span>
@@ -90,7 +95,7 @@
 									</span>
 									<br>
 								% }
-								You are a 
+								You are a
 								<span class="role">
 									<%= ucfirst stash('player')->role->name %>
 								</span>
@@ -158,7 +163,7 @@
 				<article class="about">
 					<h1>MojoMafia <%= meta 'version' %></h1>
 					<ul>
-						<li><a href="https://github.com/RogerDodger/MojoMafia">Github</a></li>
+						<li><a href="https://github.com/RogerDodger/MojoMafia">Source code</a></li>
 						<li><a href="<%= url_for '/humans.txt' %>">Contributors</a></li>
 					</ul>
 				</article>
@@ -189,10 +194,8 @@
 		<script src="<%= url_for '/js/vendor/jquery-1.8.3.min.js' %>"></script>
 		<script src="<%= url_for '/js/vendor/jquery-fieldselection-0.1.1.min.js' %>"></script>
 		<script src="https://login.persona.org/include.js"></script>
-		<script>var currentUser = <%== session('email') ? 
-		            sprintf('"%s"', session('email')) : 'null' %>;</script>
-		
-		% if(app->mode eq 'development') {
+
+		% if (app->mode eq 'development') {
 			% for my $fn (glob 'public/js/src/*.js') {
 				<script src="<%= url_for $fn =~ s/^public//r %>"></script>
 			% }

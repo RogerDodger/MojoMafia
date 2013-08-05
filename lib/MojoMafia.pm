@@ -1,6 +1,7 @@
 package MojoMafia;
 use Mojo::Base 'Mojolicious';
 
+require Class::Null;
 require Mafia::HTML;
 require Mafia::Log;
 require Mafia::Schema;
@@ -8,8 +9,9 @@ require YAML;
 
 sub startup {
 	my $self = shift;
-	
+
 	$self->moniker('mafia');
+	$self->secret('OIAJDOIPEJOIIOXFGOIFJMIZZOFJWOIROIFJOIJDKOKFSDFKDMMNNASPDOQ');
 
 	# Allow use of commands in the Mafia::Command namespace
 	unshift $self->commands->namespaces, 'Mafia::Command';
@@ -19,12 +21,13 @@ sub startup {
 
 	$r->get('/')->to('root#index');
 
-	$r->post('/login')   ->to('user#login');
-	$r->post('/logout')  ->to('user#logout');
+	$r->get('/register')->to('user#register');
+	$r->post('/login')->to('user#login');
+	$r->post('/logout')->to('user#logout');
+	$r->post('/register')->to('user#do_register');
 
 	my $g = $r->bridge('/game/:id')->to('game#fetch');
-	$g->get('/:time')      ->to('game#thread');
-	$g->get('/:time/:date')->to('game#thread');
+	$g->get('/')->to('game#thread');
 
 	# Get app metadata, e.g. version number
 	$self->helper(meta => sub {
@@ -51,46 +54,16 @@ sub startup {
 	# Fetch and cache user
 	$self->helper(user => sub {
 		my $c = shift;
-		return $c->stash->{user} if defined $c->stash->{user};
+		state $key = '_user_object';
+		return $c->stash($key) if defined $c->stash($key);
 
 		if (defined $c->session->{email}) {
 			my $email = $c->db('Email')->find($c->session->{email});
 			if (defined $email) {
-				return $c->stash->{user} = $email->user;
+				return $c->stash->{$key} = $email->user;
 			}
 		}
-		return undef;
-	});
-
-	# Prompt a new user to register
-	$self->hook(before_routes => sub {
-		my $c = shift;
-		return if $c->stash('mojo.static');
-
-		if (defined $c->session->{email} && !defined $c->user) {
-			if ($c->req->method eq 'GET') {
-				$c->render(template => 'user/register');
-			}
-			elsif ($c->req->method eq 'POST') {
-				my $name = $c->param('username');
-
-				if ($c->db('User')->find({ name => $name })) {
-					$c->stash->{form}{user}{error} = 'User already exists';;
-					return $c->render(template => 'user/register');
-				}
-
-				$c->db('Email')->create({
-					address  => $c->session->{email},
-					main     => 1,
-					verified => 1,
-					user => {
-						name => $name,
-					},
-				});
-
-				$c->redirect_to($c->req->url->to_abs);
-			}
-		}
+		return Class::Null->new;
 	});
 
 	# Tidy HTML output after rendering

@@ -7,18 +7,22 @@
 
 $(document).ready(function() {
 	navigator.id.watch({
-		loggedInUser: currentUser,
+		loggedInUser: Mafia.user.email,
 		onlogin: function(assertion) {
 			$.ajax({
 				type: 'POST',
 				url: '/login',
-				data: {assertion: assertion},
-				success: function(res, status, xhr) { 
-					window.location.reload(); 
+				data: { "assertion" : assertion },
+				success: function(res, status, xhr) {
+					if (res.redirect !== null) {
+						window.location = res.redirect;
+					} else {
+						window.location.reload();
+					}
 				},
 				error: function(xhr, status, err) {
-					navigator.id.logout();
 					alert("Login failure: " + err);
+					navigator.id.logout();
 				}
 			});
 		},
@@ -26,8 +30,12 @@ $(document).ready(function() {
 			$.ajax({
 				type: 'POST',
 				url: '/logout',
-				success: function(res, status, xhr) { window.location.reload(); },
-				error: function(xhr, status, err) { alert("Logout failure: " + err); }
+				success: function(res, status, xhr) {
+					window.location.reload();
+				},
+				error: function(xhr, status, err) {
+					alert("Logout failure: " + err);
+				}
 			});
 		}
 	});
@@ -35,7 +43,7 @@ $(document).ready(function() {
 	$('#login')
 		.click(function(e) {
 			e.preventDefault();
-			navigator.id.request();
+			navigator.id.request({ "siteName" : "MojoMafia" });
 		});
 	$('#logout')
 		.click(function(e) {

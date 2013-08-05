@@ -8,9 +8,7 @@
 
 	<form method="post">
 		<p>
-			<input type="text" name="username" 
-				size="30" maxlength="24"placeholder="Username">
-			%= stash->{form}{user}{error}
+			<input type="text" name="username" size="30" maxlength="24" placeholder="Username" required="required">
 		</p>
 		<p><input type="submit" value="Submit"></p>
 	</form>

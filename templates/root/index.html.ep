@@ -1,14 +1,13 @@
 % layout 'default';
-% use Text::Lorem::More 'lorem';
 
 <h1>Active games</h1>
 
-<p><%= lorem->paragraph %></p>
+<p>Perferendis libero velit quia distinctio. Autem ea unde eum esse assumenda et sint. Voluptatibus dolorem ad quia voluptatibus eos nostrum repellat. Suscipit ad ut et quaerat.</p>
 
 <h1>Upcoming games</h1>
 
-<p><%= lorem->paragraph %></p>
+<p>Neque explicabo animi aut laborum nostrum ullam quis. Repellendus nobis aut enim rerum est nemo. Mollitia hic tempora nihil et aut sit tenetur maiores. Et ea inventore dolor velit mollitia. Autem reiciendis perspiciatis perspiciatis quis dignissimos et molestiae excepturi. Pariatur ducimus reiciendis perferendis.</p>
 
 <h1>Finished games</h1>
 
-<p><%= lorem->paragraph %></p>
+<p>Officiis dolorem repellendus quae numquam est. Et temporibus voluptatem fuga numquam vel ipsum. Alias illum tempore reiciendis ea corporis doloribus sunt. </p>

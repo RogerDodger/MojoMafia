@@ -4,7 +4,7 @@ use Mojo::Base 'Mojolicious::Controller';
 sub fetch {
 	my $c = shift;
 	my $id = $c->param('id');
-
+	$c->app->log->info($id);
 	my $game = $c->db('Game')->find($id);
 
 	if (defined $game) {
@@ -12,7 +12,7 @@ sub fetch {
 
 		if (defined $c->user) {
 			$c->stash->{player} = $c->db('Player')->find({
-				user_id => $c->user->id, 
+				user_id => $c->user->id,
 				game_id => $game->id,
 			});
 		}
@@ -32,12 +32,8 @@ sub fetch {
 
 sub thread {
 	my $c = shift;
-	my $date = $c->param('date');
-	my $time = $c->param('time');
 
-	$c->stash->{posts} = $c->stash->{game}->thread->posts
-			->search({ gamedate => $date })
-			->have_class($time);
+	$c->stash->{posts} = $c->stash->{game}->thread->posts;
 
 	$c->render;
 }

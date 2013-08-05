@@ -1,0 +1,9 @@
+<%
+	my $mafia = {
+		user => {
+			id    => user()->id || undef,
+			email => session('email'),
+		},
+	};
+%>
+var Mafia = <%== Mojo::JSON->new->encode($mafia) %>;
