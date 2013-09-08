@@ -11,8 +11,8 @@ my @production = qw(
 	DBIx::Class~0.08210
 	SQL::Translator~0.11016
 	DBIx::Class::DynamicDefault~0.04
-	DBIx::Class::InflateColumn::Serializer
-	Class::Null
+	DBIx::Class::InflateColumn::Serializer~0.06
+	Class::Null~2.110730
 );
 
 say "Installing production dependencies...";
@@ -24,6 +24,7 @@ exit(0) unless $opt{devel};
 
 my @development = qw(
 	JavaScript::Minifier~1.05
+	Text::Sass::XS~0.10
 	Text::Lorem::More~0.13
 );
 
