@@ -11,9 +11,10 @@ use YAML ();
 sub startup {
 	my $self = shift;
 
-
 	if ($self->app->mode eq 'development') {
 		$self->app->log(Mafia::Log->new);
+
+		$self->routes->get('/events')->to('root#events_development');
 	}
 
 	if ($self->app->mode eq 'production') {
@@ -21,6 +22,8 @@ sub startup {
 			path  => 'site/mafia.log',
 			level => 'info',
 		));
+
+		$self->routes->get('/events')->to('root#events_production');
 	}
 
 	$self->moniker('mafia');

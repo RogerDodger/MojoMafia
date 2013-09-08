@@ -1,5 +1,7 @@
 <%
 	my $mafia = {
+		base => url_for('/')->to_abs,
+		mode => app()->mode,
 		user => {
 			id    => user()->id || undef,
 			email => session('email'),

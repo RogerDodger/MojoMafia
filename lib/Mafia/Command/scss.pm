@@ -42,7 +42,7 @@ sub run {
 				close $fh;
 			}
 		}
-	} while ($self->watch && sleep 1);
+	} while ($self->watch && select(undef, undef, undef, 0.3), 1);
 }
 
 1;

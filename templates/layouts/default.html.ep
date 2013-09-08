@@ -14,7 +14,7 @@
 		<link rel="icon" href="/favicon.ico">
 
 		<link rel="stylesheet" href="/style/pure-min.css">
-		<link rel="stylesheet" href="/style/mafia-<%= app()->meta('version') %>.css">
+		<link rel="stylesheet" href="/style/mafia-<%= app()->meta('version') %>.css" id="main-stylesheet">
 
 		<script src="/js/vendor/modernizr-2.6.2.min.js"></script>
 		<script>
