@@ -63,15 +63,15 @@ sub startup {
 		return Class::Null->new;
 	});
 
-	# Get static file with mtime query param to force cache revalidation
-	$self->helper(url_for_static => sub {
-		my ($c, $url) = @_;
-		if ($url !~ m{^/}) {
-			$c->app->log->warn("Relative path given to url_for_static");
+	# For certain static files, users will request a file with the app version
+	# appended to force cache revalidation. However, we don't want to actually
+	# rename the files constantly, so we rewrite the requests instead.
+	$self->hook(before_dispatch => sub {
+		my $c = shift;
+
+		if ($c->req->url->path =~ m{^ / (style|js) / mafia .+ [.] (css|js) $}x) {
+			$c->req->url->path("/$1/mafia.$2");
 		}
-		my $filename = 'public' . $url;
-		my $mtime = (stat $filename)[9] || '';
-		return "$url?v=$mtime";
 	});
 
 	# Tidy HTML output after rendering

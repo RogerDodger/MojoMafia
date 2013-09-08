@@ -6,7 +6,7 @@ use JavaScript::Minifier;
 sub run {
 	my $self = shift;
 	my $script = '';
-	my $fn = 'public/js/mafia.min.js';
+	my $fn = 'public/js/mafia.js';
 
 	for my $js (glob 'public/js/src/*.js') {
 		say "+ $js";
