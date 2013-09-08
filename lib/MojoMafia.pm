@@ -75,15 +75,15 @@ sub startup {
 	});
 
 	# Tidy HTML output after rendering
-	# $self->hook(after_render => sub {
-	# 	my ($self, $output, $format) = @_;
+	$self->hook(after_render => sub {
+		my ($self, $output, $format) = @_;
 
-	# 	return unless $format eq 'html';
+		return unless $format eq 'html';
 
-	# 	$self->app->log->debug("Tidying rendered HTML");
+		$self->app->log->debug("Tidying rendered HTML");
 
-	# 	Mafia::HTML::tidy($output);
-	# });
+		Mafia::HTML::tidy($output);
+	});
 }
 
 sub meta {
