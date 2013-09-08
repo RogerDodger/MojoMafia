@@ -11,6 +11,18 @@ use YAML ();
 sub startup {
 	my $self = shift;
 
+
+	if ($self->app->mode eq 'development') {
+		$self->app->log(Mafia::Log->new);
+	}
+
+	if ($self->app->mode eq 'production') {
+		$self->app->log(Mafia::Log->new(
+			path  => 'site/mafia.log',
+			level => 'info',
+		));
+	}
+
 	$self->moniker('mafia');
 	$self->secret('OIAJDOIPEJOIIOXFGOIFJMIZZOFJWOIROIFJOIJDKOKFSDFKDMMNNASPDOQ');
 
@@ -88,23 +100,6 @@ sub startup {
 
 sub meta {
 	return shift->_dict(meta => @_);
-}
-
-sub development_mode {
-	my $self = shift;
-
-	$self->log(Mafia::Log->new);
-}
-
-sub production_mode {
-	my $self = shift;
-
-	my $log = Mafia::Log->new(
-		path  => 'site/mafia.log',
-		level => 'info',
-	);
-
-	$self->log($log);
 }
 
 1;
