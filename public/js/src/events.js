@@ -11,36 +11,20 @@
 if (Mafia.mode == 'development') {
 	(function() {
 		var sheet = document.getElementById('main-stylesheet');
-		var checkcss = function() {
+		(function checkcss() {
 			console.log("Checking CSS");
-			var url = '/watchcss';
-			var matches = sheet.href.match(/\d+$/);
-			if (matches) {
-				url += '?mtime=' + matches[0];
-			}
 			$.ajax({
 				type: 'GET',
-				url: url,
+				url: '/watchcss',
 				success: function(res, status, xhr) {
 					if (sheet.href.match(/mtime=\d+$/)) {
 						sheet.href = sheet.href.replace(/\d+$/, res);
 					} else {
 						sheet.href += '?mtime=' + res;
 					}
-					checkcss();
 				},
-				error: function() {
-					// If it fails, the server probably went down
-					// Better to just stop now and refresh the page
-				}
+				complete: checkcss
 			});
-		};
-		checkcss();
+		})();
 	})();
 }
-
-var events = new EventSource("events");
-
-events.addNewListener("newpost", function(data) {
-
-});

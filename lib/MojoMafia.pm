@@ -8,13 +8,15 @@ use Mafia::Log;
 use Mafia::Schema;
 use YAML ();
 
+has style => sub { Mojo::EventEmitter->new };
+
 sub startup {
 	my $self = shift;
 
 	if ($self->app->mode eq 'development') {
 		$self->app->log(Mafia::Log->new);
 
-		$self->routes->get('/watchcss')->to('root#watchcss');
+		$self->plugin('Mafia::Sass');
 	}
 
 	if ($self->app->mode eq 'production') {
