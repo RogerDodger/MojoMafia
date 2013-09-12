@@ -1,6 +1,7 @@
 package Mafia::Command::scss;
 
 use Mojo::Base 'Mojolicious::Command';
+use Mojo::IOLoop;
 use Getopt::Long qw/GetOptionsFromArray/;
 use File::stat;
 use Text::Sass::XS qw/sass_compile_file/;
@@ -19,7 +20,7 @@ sub run {
 	my $out = $self->rel_file('public/style/mafia.css');
 
 	my $mtime = 0;
-	do {
+	my $cb = sub {
 		my $stat = stat $in;
 		if ($mtime != $stat->mtime) {
 			if ($mtime != 0) {
@@ -42,7 +43,14 @@ sub run {
 				close $fh;
 			}
 		}
-	} while ($self->watch && select(undef, undef, undef, 0.3), 1);
+	};
+
+	if ($self->watch) {
+		Mojo::IOLoop->recurring(0.3 => $cb);
+		Mojo::IOLoop->start unless Mojo::IOLoop->is_running;
+	} else {
+		$cb->();
+	}
 }
 
 1;

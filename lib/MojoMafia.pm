@@ -14,7 +14,7 @@ sub startup {
 	if ($self->app->mode eq 'development') {
 		$self->app->log(Mafia::Log->new);
 
-		$self->routes->get('/events')->to('root#events_development');
+		$self->routes->get('/watchcss')->to('root#watchcss');
 	}
 
 	if ($self->app->mode eq 'production') {
@@ -22,8 +22,6 @@ sub startup {
 			path  => 'site/mafia.log',
 			level => 'info',
 		));
-
-		$self->routes->get('/events')->to('root#events_production');
 	}
 
 	$self->moniker('mafia');
@@ -36,6 +34,7 @@ sub startup {
 	my $r = $self->routes;
 
 	$r->get('/')->to('root#index');
+	$r->get('/events')->to('root#events');
 
 	$r->get('/register')->to('user#register');
 	$r->post('/login')->to('user#login');

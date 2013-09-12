@@ -13,7 +13,7 @@ if (Mafia.mode == 'development') {
 		var sheet = document.getElementById('main-stylesheet');
 		var checkcss = function() {
 			console.log("Checking CSS");
-			var url = '/events';
+			var url = '/watchcss';
 			var matches = sheet.href.match(/\d+$/);
 			if (matches) {
 				url += '?mtime=' + matches[0];
@@ -38,3 +38,9 @@ if (Mafia.mode == 'development') {
 		checkcss();
 	})();
 }
+
+var events = new EventSource("events");
+
+events.addNewListener("newpost", function(data) {
+
+});
