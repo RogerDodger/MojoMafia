@@ -19,13 +19,13 @@ __PACKAGE__->add_columns(
 	{ data_type => "boolean", default_value => 0, is_nullable => 1 },
 	"active",
 	{ data_type => "boolean", default_value => 1, is_nullable => 1 },
-	"token",
-	{ data_type => "varchar", is_nullable => 1, size => 32 },
+	"games",
+	{ data_type => "integer", default_value => 0, is_nullable => 1 },
 	"wins",
 	{ data_type => "integer", default_value => 0, is_nullable => 1 },
 	"losses",
 	{ data_type => "integer", default_value => 0, is_nullable => 1 },
-	"games",
+	"abandons",
 	{ data_type => "integer", default_value => 0, is_nullable => 1 },
 	"created",
 	{ data_type => "timestamp", is_nullable => 1 },
@@ -71,8 +71,8 @@ __PACKAGE__->has_many(
 );
 
 __PACKAGE__->has_many(
-	'username_historys',
-	'Mafia::Schema::Result::UsernameHistory',
+	'name_history',
+	'Mafia::Schema::Result::UserNameHistory',
 	{ 'foreign.user_id', => 'self.id' },
 	{ cascade_copy => 0, cascade_delete => 0 },
 );

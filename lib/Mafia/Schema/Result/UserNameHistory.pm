@@ -1,12 +1,12 @@
 use utf8;
-package Mafia::Schema::Result::UsernameHistory;
+package Mafia::Schema::Result::UserNameHistory;
 
 use strict;
 use warnings;
 
 use base 'Mafia::Schema::Result';
 
-__PACKAGE__->table('username_history');
+__PACKAGE__->table('user_name_history');
 
 __PACKAGE__->add_columns(
 	'user_id',

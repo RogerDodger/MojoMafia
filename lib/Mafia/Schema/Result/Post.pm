@@ -15,13 +15,17 @@ __PACKAGE__->add_columns(
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"user_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-	"player_id",
-	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+	"user_alias",
+	{ data_type => "text", is_nullable => 1 },
+	"user_hidden",
+	{ data_type => "boolean", is_nullable => 1, default_value => 0 },
 	"class",
 	{ data_type => "text", is_nullable => 1 },
-	"plain",
+	"audience",
 	{ data_type => "text", is_nullable => 1 },
-	"render",
+	"body_plain",
+	{ data_type => "text", is_nullable => 1 },
+	"body_render",
 	{ data_type => "text", is_nullable => 1 },
 	"gamedate",
 	{ data_type => "integer", is_nullable => 1 },
@@ -57,22 +61,10 @@ __PACKAGE__->belongs_to(
 	},
 );
 
-__PACKAGE__->belongs_to(
-	"player",
-	"Mafia::Schema::Result::Player",
-	{ id => "player_id" },
-	{
-		is_deferrable => 1,
-		join_type     => "LEFT",
-		on_delete     => "CASCADE",
-		on_update     => "CASCADE",
-	},
-);
-
 sub apply_markup {
 	############# TEMPORARY! ##############
 	my $self = shift;
-	my $text = $self->plain;
+	my $text = $self->body_plain;
 
 	$text =~ s/^\s+|\s+$//g;
 
@@ -82,25 +74,16 @@ sub apply_markup {
 	$text =~ s/"/&quot;/g;
 	$text =~ s/'/&#39;/g;
 
-	$text = join "\n\n", 
+	$text = join "\n\n",
 	          map { s/\n/<br>\n/g; "<p>$_</p>" }
 	            split /\n\n/, $text;
 
-	$self->update({ render => $text });
+	$self->update({ body_render => $text });
 }
 
 sub has_class {
 	my ($self, $class) = @_;
-	return $self->class =~ /\b\Q$class\E\b/;
-}
-
-sub show_username {
-	my $self = shift;
-	return 0 if !$self->user;
-	return 0 if defined $self->player 
-	         && defined $self->player->alias 
-	         && $self->player->game->is_active;
-	1;
+	return scalar $self->class =~ /\b\Q$class\E\b/;
 }
 
 1;

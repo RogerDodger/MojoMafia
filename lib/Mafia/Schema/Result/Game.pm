@@ -73,16 +73,9 @@ __PACKAGE__->has_many(
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
 
-__PACKAGE__->has_many(
-	"threads",
-	"Mafia::Schema::Result::Thread",
-	{ "foreign.game_id" => "self.id" },
-	{ cascade_copy => 0, cascade_delete => 0 },
-);
-
 sub timeofday {
 	my $self = shift;
-	return         $self->is_day ? 'day' : 
+	return         $self->is_day ? 'day' :
 	       defined $self->is_day ? 'night' :
 	       defined $self->end    ? 'post-game' : 'pre-game';
 }
@@ -93,15 +86,9 @@ sub datetime {
 }
 
 sub log {
-	my ($self, $fmt, @list, $opt) = @_;
+	my ($self, $fmt, @list) = @_;
 
-	if (ref $list[-1] eq 'HASH') {
-		$opt = pop @list;
-	}
-	else {
-		$opt = {};
-	}
-
+	my $opt = ref $list[-1] eq 'HASH' ? pop @list : {};
 	my $msg = sprintf $fmt, @list;
 
 	my $post = $self->thread->create_related('posts', {
@@ -132,9 +119,9 @@ sub begin {
 
 	for my $player (shuffle $self->players->all) {
 		my $allocation = pop @pool;
-		$player->update({ 
+		$player->update({
 			role_id => $allocation->role_id,
-			team_id => $allocation->team_id, 
+			team_id => $allocation->team_id,
 		});
 	}
 
@@ -151,15 +138,14 @@ sub cycle {
 
 	# Process votes ...
 
-	$self->update({ 
+	$self->update({
 		date   => $self->date + ($self->is_day != $self->setup->day_start),
 		is_day => !$self->is_day,
 	});
 }
 
 sub is_active {
-	return 1 if shift->date;
-	0;
+	return !!shift->date;
 }
 
 1;

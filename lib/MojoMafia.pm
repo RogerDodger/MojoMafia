@@ -53,7 +53,7 @@ sub startup {
 	$self->helper(db => sub {
 		my ($c, $table) = @_;
 		state $schema = Mafia::Schema->connect(
-			'dbi:SQLite:site/mafia.db','','',
+			$self->config->{dsn},'','',
 			{ sqlite_unicode => 1 },
 		);
 		if (defined $table) {

@@ -28,25 +28,9 @@ sub run {
 	);
 	$schema->deploy;
 
-	say '+ Creating teams';
-	$schema->resultset('Team')->populate([
-		[  qw/name type/   ],
-		[ 'town',   'inno' ],
-		[ 'mafia',  'scum' ],
-		[ 'bratva', 'scum' ],
-		[ 'yakuza', 'scum' ],
-		[ 'other',  'other' ],
-	]);
-
 	say '+ Creating roles';
 	$schema->resultset('Role')->populate([
-		[   qw/name   type/ ],
-		[ 'townie',      'town' ],
-		[ 'cop',         'town' ],
-		[ 'doctor',      'town' ],
-		[ 'goon',        'scum' ],
-		[ 'godfather',   'scum' ],
-		[ 'roleblocker', 'scum' ],
+		map { { name => $_ } } qw/townie cop doctor mafia godfather roleblocker/
 	]);
 
 	say '+ Creating user `Nobody`';
@@ -68,32 +52,45 @@ sub run {
 	});
 
 	my %roles = map { $_->name, $_->id } $schema->resultset('Role')->all;
-	my %teams = map { $_->name, $_->id } $schema->resultset('Team')->all;
 
-	$setup->create_related('setup_roles', {
-		role_id  => $roles{$_->[0]},
-		team_id  => $teams{$_->[1]},
-		pool     => $_->[2],
-		count    => $_->[3],
-	}) for (
-		[ 'townie',      'town', 1, 5 ],
-		[ 'cop',         'town', 1, 1 ],
-		[ 'doctor',      'town', 1, 1 ],
-		[ 'roleblocker', 'mafia', 1, 1 ],
-		[ 'goon',        'mafia', 1, 1 ],
-
-		[ 'townie', 'town', 2, 6 ],
-		[ 'cop',    'town', 2, 1 ],
-		[ 'goon',   'mafia', 2, 2 ],
-
-		[ 'townie', 'town', 3, 6 ],
-		[ 'doctor', 'town', 3, 1 ],
-		[ 'goon',   'mafia', 3, 2 ],
-
-		[ 'townie',      'town', 4, 7 ],
-		[ 'roleblocker', 'mafia', 4, 1 ],
-		[ 'goon' ,       'mafia', 4, 1 ],
+	my @pools = (
+		[
+			([ qw/townie/ ]) x 5,
+			([ qw/townie cop/ ]) x 1,
+			([ qw/townie doctor/ ]) x 1,
+			([ qw/mafia roleblocker/ ]) x 1,
+			([ qw/mafia/ ]) x 1,
+		],
+		[
+			([ qw/townie/ ]) x 6,
+			([ qw/townie cop/ ]) x 1,
+			([ qw/mafia/ ]) x 2,
+		],
+		[
+			([ qw/townie/ ]) x 6,
+			([ qw/townie doctor/ ]) x 1,
+			([ qw/mafia/ ]) x 2,
+		],
+		[
+			([ qw/townie/ ]) x 7,
+			([ qw/townie cop/ ]) x 1,
+			([ qw/mafia/ ]) x 1,
+		],
 	);
+
+	my $i = 0;
+	for my $pool (@pools) {
+		for my $player (@$pool) {
+			for my $role (@$player) {
+				$setup->create_related('setup_roles', {
+					player   => 1 + $i % 9,
+					role_id  => $roles{$role},
+					pool     => 1 + int($i / 9),
+				});
+			}
+			$i++;
+		}
+	}
 }
 
 'Construction complete.';
