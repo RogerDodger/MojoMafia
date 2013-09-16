@@ -83,9 +83,9 @@ sub run {
 		for my $player (@$pool) {
 			for my $role (@$player) {
 				$setup->create_related('setup_roles', {
-					player   => 1 + $i % 9,
-					role_id  => $roles{$role},
-					pool     => 1 + int($i / 9),
+					player_no => 1 + $i % 9,
+					role_id   => $roles{$role},
+					pool      => 1 + int($i / 9),
 				});
 			}
 			$i++;

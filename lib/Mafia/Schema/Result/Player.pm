@@ -9,15 +9,15 @@ use base 'Mafia::Schema::Result';
 __PACKAGE__->table("players");
 
 __PACKAGE__->add_columns(
-	"id",
-	{ data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+	"no",
+	{ data_type => "integer", is_nullable => 0 },
 	"alias",
-	{ data_type => "varchar", is_nullable => 0, size => 16 },
+	{ data_type => "varchar", is_nullable => 0 },
 	"user_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"game_id",
-	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-	"vote_id",
+	{ data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+	"vote_no",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"is_alive",
 	{ data_type => "boolean", default_value => 1, is_nullable => 0 },
@@ -25,7 +25,7 @@ __PACKAGE__->add_columns(
 	{ data_type => "timestamp", is_nullable => 1 },
 );
 
-__PACKAGE__->set_primary_key("id");
+__PACKAGE__->set_primary_key("no", "game_id");
 
 __PACKAGE__->add_unique_constraint("user_id_game_id_unique", ["user_id", "game_id"]);
 
@@ -56,7 +56,10 @@ __PACKAGE__->belongs_to(
 __PACKAGE__->belongs_to(
 	"vote",
 	"Mafia::Schema::Result::Player",
-	{ id => "vote_id" },
+	{
+		"foreign.no"      => "self.vote_no",
+		"foreign.game_id" => "self.game_id",
+	},
 	{
 		is_deferrable => 1,
 		join_type     => "LEFT",
@@ -68,7 +71,10 @@ __PACKAGE__->belongs_to(
 __PACKAGE__->has_many(
 	"player_roles",
 	"Mafia::Schema::Result::PlayerRole",
-	{ "foreign.player_id" => "self.id" },
+	{
+		"foreign.player_no" => "self.no",
+		"foreign.game_id"   => "self.game_id",
+	},
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
 

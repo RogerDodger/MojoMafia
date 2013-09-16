@@ -21,8 +21,6 @@ __PACKAGE__->add_columns(
 	{ data_type => "boolean", is_nullable => 1, default_value => 0 },
 	"class",
 	{ data_type => "text", is_nullable => 1 },
-	"audience",
-	{ data_type => "text", is_nullable => 1 },
 	"body_plain",
 	{ data_type => "text", is_nullable => 1 },
 	"body_render",
@@ -59,6 +57,13 @@ __PACKAGE__->belongs_to(
 		on_delete     => "CASCADE",
 		on_update     => "CASCADE",
 	},
+);
+
+__PACKAGE__->has_many(
+	"audiences",
+	"Mafia::Schema::Result::Audience",
+	{ "foreign.post_id" => "self.id" },
+	{ cascade_copy => 0, cascade_delete => 0 },
 );
 
 sub apply_markup {
