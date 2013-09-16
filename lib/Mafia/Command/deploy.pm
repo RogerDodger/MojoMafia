@@ -35,14 +35,13 @@ sub run {
 
 	say '+ Creating user `Nobody`';
 	my $nobody = $schema->resultset('User')->create({
-		id   => -1,
 		name => 'Nobody',
 	});
 
 	say '+ Creating F11 setup...';
 	my $setup = $schema->resultset('Setup')->create({
 		user_id   => $nobody->id,
-		title     => 'F11',
+		name      => 'F11',
 		descr     => 'Standard newbie setup',
 		allow_nk  => 1,
 		allow_nv  => 1,

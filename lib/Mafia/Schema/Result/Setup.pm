@@ -13,10 +13,10 @@ __PACKAGE__->add_columns(
 	{ data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
 	"user_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-	"title",
-	{ data_type => "varchar", is_nullable => 1, size => 64 },
+	"name",
+	{ data_type => "text", is_nullable => 1 },
 	"descr",
-	{ data_type => "varchar", is_nullable => 1, size => 2048 },
+	{ data_type => "text", is_nullable => 1 },
 	"allow_nk",
 	{ data_type => "boolean", default_value => 1, is_nullable => 1 },
 	"allow_nv",
@@ -66,7 +66,7 @@ __PACKAGE__->belongs_to(
 sub size {
 	my $self = shift;
 
-	return 
+	return
 		$self->setup_roles->get_column('count')->sum /
 		$self->setup_roles->search({}, { group_by => [ 'pool' ] })->count;
 }

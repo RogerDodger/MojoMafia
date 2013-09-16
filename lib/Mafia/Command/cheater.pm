@@ -34,7 +34,7 @@ sub run {
 
 	for (1) {
 		say "+ Creating dummy game";
-		my $f11  = $schema->resultset('Setup')->search({ title => 'F11' })->first;
+		my $f11  = $schema->resultset('Setup')->search({ name => 'F11' })->first;
 		my $game = $f11->create_related('games', {});
 
 		my $thread = $schema->resultset('Thread')->create({
