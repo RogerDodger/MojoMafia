@@ -11,7 +11,7 @@ __PACKAGE__->table('user_name_history');
 __PACKAGE__->add_columns(
 	'user_id',
 	{ data_type => 'integer', is_foreign_key => 1, is_nullable => 0 },
-	'value',
+	'name',
 	{ data_type => 'varchar', is_nullable => 0 },
 	'created',
 	{ data_type => 'timestamp', is_nullable => 0 },
