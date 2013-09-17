@@ -25,9 +25,9 @@ __PACKAGE__->add_columns(
 	{ data_type => "timestamp", is_nullable => 1 },
 );
 
-__PACKAGE__->set_primary_key("no", "game_id");
+__PACKAGE__->set_primary_key("game_id", "no");
 
-__PACKAGE__->add_unique_constraint("user_id_game_id_unique", ["user_id", "game_id"]);
+__PACKAGE__->add_unique_constraint("game_id_user_id_unique", ["game_id", "user_id"]);
 
 __PACKAGE__->belongs_to(
 	"game",
@@ -88,7 +88,12 @@ sub name {
 sub can_talk {
 	my $self = shift;
 	return $self->game->is_active and $self->is_alive
-	   and $self->game->is_day || $self->roles->search({ name => "goon" });
+	   and $self->game->is_day || $self->roles->search({ name => "goon" })->count;
+}
+
+sub role {
+	my $self = shift;
+	return join ' ', map ucfirst, $self->roles->get_column('name')->all;
 }
 
 1;

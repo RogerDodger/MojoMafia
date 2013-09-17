@@ -63,12 +63,19 @@ __PACKAGE__->belongs_to(
 	},
 );
 
+sub player_nos {
+	my $self = shift;
+
+	return $self->setup_roles
+	            ->search({}, { group_by => [ 'player_no' ] })
+	            ->get_column('player_no');
+}
+
 sub size {
 	my $self = shift;
 
-	return
-		$self->setup_roles->get_column('count')->sum /
-		$self->setup_roles->search({}, { group_by => [ 'pool' ] })->count;
+	# Assume the pools are properly balanced
+	return $self->setup_roles->search({}, { group_by => [ 'player_no' ] })->count;
 }
 
 sub random_pool {

@@ -81,19 +81,14 @@
 						<aside class="player">
 							<h1>Player</h1>
 							<p>
-								% if (defined stash('player')->alias) {
-									Your alias is
-									<span class="alias">
-										<%= stash('player')->alias %>
-									</span>
-									<br>
-								% }
+								Your alias is
+								<span class="alias">
+									<%= stash('player')->alias %>
+								</span>
+								<br>
 								You are a
 								<span class="role">
-									<%= ucfirst stash('player')->role->name %>
-								</span>
-								<span class="team <%= stash('player')->team->name %>">
-									(<%= ucfirst stash('player')->team->name %>)
+									<%= stash('player')->role %>
 								</span>
 							</p>
 						</aside>
@@ -103,14 +98,14 @@
 						<aside class="players">
 							<h1>Players</h1>
 							<ul>
-								% for my $player (stash('game')->players->all) {
+								% for my $player (stash('game')->players->sorted->all) {
 									<li>
 										% if ($player->is_alive) {
 											<%= $player->name %>
 										% } else {
 											<del><%= $player->name %></del>
-											<span class="team <%= $player->team->name %>">
-												(<%= ucfirst $player->team->name %>)
+											<span class="role <%= $player->role %>">
+												(<%= ucfirst $player->role %>)
 											</span>
 										% }
 									</li>

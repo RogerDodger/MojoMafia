@@ -73,12 +73,21 @@ __PACKAGE__->has_many(
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
 
-sub timeofday {
+__PACKAGE__->has_many(
+	"player_roles",
+	"Mafia::Schema::Result::PlayerRole",
+	{ "foreign.game_id" => "self.id" },
+	{ cascade_copy => 0, cascade_delete => 0 },
+);
+
+sub time {
 	my $self = shift;
 	return         $self->is_day ? 'day' :
 	       defined $self->is_day ? 'night' :
 	       defined $self->end    ? 'post-game' : 'pre-game';
 }
+
+sub timeofday { shift->time }
 
 sub datetime {
 	my $self = shift;
@@ -92,13 +101,13 @@ sub log {
 	my $msg = sprintf $fmt, @list;
 
 	my $post = $self->thread->create_related('posts', {
-		class    => join(' ', 'system', 'game', $self->timeofday),
-		plain    => $msg,
-		gamedate => $self->date,
+		body_plain  => $msg,
+		gametime    => $self->time,
+		gamedate    => $self->date,
 	});
 
 	if ($opt->{literal}) {
-		$post->update({ render => $msg });
+		$post->update({ body_render => $msg });
 	}
 	else {
 		$post->apply_markup;
@@ -115,13 +124,13 @@ sub begin {
 		Carp::croak "Game does not have correct number of players.";
 	}
 
-	my @pool = shuffle map { ($_) x $_->count } $setup->random_pool;
+	my $pool = $setup->random_pool;
 
-	for my $player (shuffle $self->players->all) {
-		my $allocation = pop @pool;
-		$player->update({
-			role_id => $allocation->role_id,
-			team_id => $allocation->team_id,
+	while (my $role = $pool->next) {
+		$self->create_related(player_roles => {
+			player_no => $role->player_no,
+			role_id   => $role->role_id,
+			state     => $role->initial_state,
 		});
 	}
 

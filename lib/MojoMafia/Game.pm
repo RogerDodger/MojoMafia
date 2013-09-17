@@ -10,18 +10,25 @@ sub fetch {
 	if (defined $game) {
 		$c->stash->{game} = $game;
 
-		if (defined $c->user) {
+		if ($c->app->mode eq 'development' && defined $c->param('player')) {
+			$c->stash->{player} = $c->stash->{game}->search_related(players => {
+				alias => $c->param('player'),
+			})->single;
+		}
+		elsif (defined $c->user) {
 			$c->stash->{player} = $c->db('Player')->find({
 				user_id => $c->user->id,
 				game_id => $game->id,
 			});
 		}
 
+
 		if ($game->is_active) {
 			if ($game->is_day) {
 				$c->stash->{votes} = $game->players->living;
 			}
 		}
+
 
 		return 1;
 	}
@@ -33,9 +40,26 @@ sub fetch {
 sub thread {
 	my $c = shift;
 
-	$c->stash->{posts} = $c->stash->{game}->thread->posts->search({}, {
-		join => [qw/player/],
-	});
+	my $roles = [];
+	my $player_no = -1;
+	if (my $player = $c->stash->{player}) {
+		$roles = [ $player->player_roles->get_column("role_id")->all ];
+		$player_no = $player->no;
+	}
+
+	$c->stash->{posts} = $c->stash->{game}->thread->posts->search(
+		{
+			-or => [
+				{ private => 0 },
+				{ "audiences.role_id" => { -in => $roles } },
+				{ "audiences.player_no" => $player_no },
+			]
+		},
+		{
+			prefetch => [ qw/user/ ],
+			join => [ qw/audiences/ ],
+		}
+	);
 
 	$c->render;
 }

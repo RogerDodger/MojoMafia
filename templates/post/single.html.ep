@@ -5,29 +5,29 @@
 		% }
 
 		<div class="poster">
-			% if ($post->show_username) {
+			% if (!$post->user_hidden && defined $post->user_id) {
 				<span class="name">
-					<a href="/user/ <%= $post->user->id %>">
+					<a href="/user/<%= $post->user_id %>">
 						<%= $post->user->name %>
 					</a>
 				</span>
 			% }
 
-			% if (defined $post->player && defined $post->player->alias) {
-				<span class="alias"><%= $post->player->alias %></span>
+			% if (defined $post->user_alias) {
+				<span class="alias"><%= $post->user_alias %></span>
 			% }
 		</div>
 
 		<div class="posttime"><%== $post->created->delta_html %></div>
 
 		<div class="permalink">
-			<a href="/post/ <%= $post->id %>">#<%= $post->id %></a>
+			<a href="/post/<%= $post->id %>">#<%= $post->id %></a>
 		</div>
 
 		<div class="clearfix"></div>
 	</div>
 
-	<div class="body"><%== $post->render %></div>
+	<div class="body"><%== $post->body_render %></div>
 
 	<div class="footer">
 		<ul class="controls">

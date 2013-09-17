@@ -19,14 +19,18 @@ __PACKAGE__->add_columns(
 	{ data_type => "text", is_nullable => 1 },
 	"user_hidden",
 	{ data_type => "boolean", is_nullable => 1, default_value => 0 },
-	"class",
-	{ data_type => "text", is_nullable => 1 },
 	"body_plain",
 	{ data_type => "text", is_nullable => 1 },
 	"body_render",
 	{ data_type => "text", is_nullable => 1 },
+	"private",
+	{ data_type => "boolean", is_nullable => 1, default_value => 0 },
+	"trigger",
+	{ data_type => "text", is_nullable => 1 },
 	"gamedate",
 	{ data_type => "integer", is_nullable => 1 },
+	"gametime",
+	{ data_type => "text", is_nullable => 1 },
 	"created",
 	{ data_type => "timestamp", is_nullable => 1 },
 	"updated",
@@ -86,9 +90,12 @@ sub apply_markup {
 	$self->update({ body_render => $text });
 }
 
-sub has_class {
-	my ($self, $class) = @_;
-	return scalar $self->class =~ /\b\Q$class\E\b/;
+sub class {
+	my $self = shift;
+
+	return join q{ }, $self->gametime ? ("game", $self->gametime) : (),
+	                  $self->user_id  ? "user" : "system",
+	                  grep defined, $self->trigger,
 }
 
 1;
