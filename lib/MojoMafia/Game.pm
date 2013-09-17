@@ -64,4 +64,4 @@ sub thread {
 	$c->render;
 }
 
-"Gamu no jikan da.";
+"Geemu no jikan da.";
