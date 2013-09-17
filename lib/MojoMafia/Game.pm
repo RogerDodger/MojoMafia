@@ -4,7 +4,6 @@ use Mojo::Base 'Mojolicious::Controller';
 sub fetch {
 	my $c = shift;
 	my $id = $c->param('id');
-	$c->app->log->info($id);
 	my $game = $c->db('Game')->find($id);
 
 	if (defined $game) {
