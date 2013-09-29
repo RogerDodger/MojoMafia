@@ -8,15 +8,13 @@ use Mafia::Log;
 use Mafia::Schema;
 use YAML ();
 
-has style => sub { Mojo::EventEmitter->new };
-
 sub startup {
 	my $self = shift;
 
 	if ($self->app->mode eq 'development') {
 		$self->app->log(Mafia::Log->new);
 
-		$self->plugin('Mafia::Sass');
+		$self->plugin('Mafia::Watcher');
 	}
 
 	if ($self->app->mode eq 'production') {
@@ -42,6 +40,11 @@ sub startup {
 	$r->post('/login')->to('user#login');
 	$r->post('/logout')->to('user#logout');
 	$r->post('/register')->to('user#do_register');
+
+	$r->post('/post/preview')->to(cb => sub {
+		my $c = shift;
+		$c->render(text => '<p>' . $c->req->param('text') . '</p>');
+	});
 
 	my $g = $r->bridge('/game/:id')->to('game#fetch');
 	$g->get('/')->to('game#thread');

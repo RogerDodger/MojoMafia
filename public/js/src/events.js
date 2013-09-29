@@ -11,19 +11,20 @@
 if (Mafia.mode == 'development') {
 	(function() {
 		var sheet = document.getElementById('main-stylesheet');
-		(function checkcss() {
+		(function watch_css() {
 			console.log("Checking CSS");
 			$.ajax({
 				type: 'GET',
-				url: '/watchcss',
+				url: '/watch/css',
 				success: function(res, status, xhr) {
 					if (sheet.href.match(/mtime=\d+$/)) {
 						sheet.href = sheet.href.replace(/\d+$/, res);
-					} else {
+					}
+					else {
 						sheet.href += '?mtime=' + res;
 					}
 				},
-				complete: checkcss
+				complete: watch_css
 			});
 		})();
 	})();

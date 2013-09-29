@@ -1,7 +1,18 @@
 <article class="post <%= $post->class %>" id="<%= $post->id %>">
 	<div class="meta">
 		% if (defined $post->gamedate) {
-			<div class="gamedate"><%= $post->gamedate %></div>
+			<div class="gamedate">
+				% if (defined $post->gametime) {
+					% if ($post->gametime eq 'day') {
+						<i class="icon-sun"></i>
+						Day
+					% } elsif ($post->gametime eq 'night') {
+						<i class="icon-moon"></i>
+						Night
+					% }
+				% }
+				<%= $post->gamedate %>
+			</div>
 		% }
 
 		<div class="poster">
@@ -33,13 +44,13 @@
 		<ul class="controls">
 			<li class="reply">
 				<a href="#">
-					<span class="icon">&#59154;</span>
+					<i class="icon-reply"></i>
 					Reply
 				</a>
 			</li>
 			<li class="report">
 				<a href="#">
-					<span class="icon">&#9888;</span>
+					<i class="icon-warning-sign"></i>
 					Report
 				</a>
 			</li>

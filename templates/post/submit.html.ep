@@ -2,10 +2,18 @@
 	<form method="post" action="#">
 		<div class="editor">
 			<ul class="clearfix controls">
-				<li title="Bold" class="b">B</li>
-				<li title="Italics" class="i">I</li>
-				<li title="Quote" class="q"><span class="icon">&#59168;</span></li>
-				<li title="Link" class="url"><span class="icon">&#128279;</span></li>
+				<li title="Bold" class="b pure-button">
+					<i class="icon-bold"></i>
+				</li>
+				<li title="Italics" class="i pure-button">
+					<i class="icon-italic"></i>
+				</li>
+				<li title="Quote" class="q pure-button">
+					<i class="icon-quote-right"></i>
+				</li>
+				<li title="Link" class="url pure-button">
+					<i class="icon-link"></i>
+				</li>
 			</ul>
 		</div>
 		<div>
@@ -13,11 +21,11 @@
 		</div>
 		<div class="buttons">
 			<button type="submit" class="submit">
-				<span class="icon">&#59160;</span>
+				<i class="icon-comment"></i>
 				Add post
 			</button>
 			<span class="preview">
-				<span class="icon">&#59146;</span>
+				<i class="icon-search"></i>
 				Preview post
 			</span>
 		</div>
@@ -27,7 +35,7 @@
 	<h1>
 		Post preview
 		<a class="close">
-			<span class="icon">&#10060;</span>
+			<i class="icon-remove"></i>
 		</a>
 	</h1>
 	<article class="post">

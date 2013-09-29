@@ -13,7 +13,7 @@
 
 		<link rel="icon" href="/favicon.ico">
 
-		<link rel="stylesheet" href="/style/pure-min.css">
+		<link rel="stylesheet" href="/style/vendor/normalize.css">
 		<link rel="stylesheet" href="/style/mafia-<%= app()->meta('version') %>.css" id="main-stylesheet">
 
 		<script src="/js/vendor/modernizr-2.6.2.min.js"></script>
@@ -42,16 +42,32 @@
 					% if (user) {
 						<li class="name">
 							<a href="#" title="User profile">
-								<span class="icon">&#128100;</span>
+								<i class="icon-user"></i>
 								<%= user()->name %>
 							</a>
 						</li>
-						<li><a href="#" class="icon" title="Change settings">&#9874;</a></li>
-						<li><a href="#" class="icon" id="logout" title="Logout">&#59201;</a></li>
-					% } elsif (current_route eq 'register') {
-						<li><a href="#" class="icon" id="logout" title="Logout">&#59201;</a></li>
+						<li>
+							<a href="#">
+								<i class="icon-cog"></i>
+								Settings
+							</a>
+						</li>
+					% }
+
+					% if (user || current_route eq 'register') {
+						<li>
+							<a href="#" id="logout">
+								<i class="icon-signout"></i>
+								Logout
+							</a>
+						</li>
 					% } else {
-						<li><a href="#" class="icon" id="login" title="Login">&#59200;</a></li>
+						<li>
+							<a href="#" id="login">
+								<i class="icon-signin"></i>
+								Login
+							</a>
+						</li>
 					% }
 				</ul>
 			</div>
@@ -69,6 +85,11 @@
 						<aside class="game">
 							<h1>Game #<%= stash('game')->id %></h1>
 							<p>
+								Using setup
+								<a href="/setup/<%= stash('game')->setup_id %>">
+									<%= stash('game')->setup->name %>
+								</a>
+								<br>
 								It is currently
 								<span class="datetime">
 									<%= ucfirst stash('game')->datetime %>
@@ -135,7 +156,7 @@
 								% for my $game (stash('games')->all) {
 									<li>
 										<span class="id">#<%= $game->id %></span>
-										<span class="setup"><%= $game->setup->title %></span>
+										<span class="setup"><%= $game->setup->name %></span>
 									</li>
 								% }
 							</ul>

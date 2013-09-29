@@ -1,0 +1,529 @@
+@font-face {
+	font-family: "Museo Slab";
+	src:
+		url('../font/museo_slab_500.woff'),
+		url('../font/museo_slab_500.ttf'),
+		url('../font/museo_slab_500.svg'),
+		url('../font/museo_slab_500.eot');
+}
+
+.maxwidth {
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+.reset {
+	outline: 0;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+}
+
+.button {
+	@extend .reset;
+	padding: 0.6em 0.8em;
+	cursor: pointer;
+
+	font-family: "Museo Slab", Georgia, serif;
+	background-color: #fff;
+	box-shadow: 0 1px rgba(255, 255, 255, 0.6) inset;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	@include border-radius(4px);
+
+	&:hover {
+		border: 1px solid rgba(0, 0, 0, 0.3);
+		@include linear-gradient(#e5e5e5, #fff);
+		position: relative;
+		z-index: 1;
+	}
+
+	&:active {
+		@include linear-gradient(#fff, #e5e5e5);
+		border: 1px solid rgba(0, 0, 0, 0.15);
+	}
+}
+
+h1 {
+	font-family: "Museo Slab", Georgia, serif;
+}
+
+$site-width:    60em;
+$aside-width:   15em;
+$content-width: ($site-width - $aside-width - 2em);
+
+body {
+	min-width: ($site-width + 2em);
+}
+
+nav.top {
+	@include linear-gradient(#f9f9f9, #f3f3f3);
+
+	text-shadow: 0 1px 0 #fff;
+	border-bottom: 1px solid #e5e5e5;
+
+	div.container {
+		margin: 0 auto;
+		width: $site-width;
+	}
+
+	div.divider {
+		float: left;
+		width: 1px;
+		height: 2.5em;
+		background-color: #e5e5e5;
+		border-right: 1px solid #fff;
+	}
+
+	a {
+		text-decoration: none;
+		@include transition(all 0.1s ease-in 0);
+
+		&:hover {
+			color: #48b;
+		}
+	}
+
+	header {
+		float: left;
+		margin: 0.3em 1.25em 0 0;
+
+		a {
+			color: #bbb;
+			font-weight: bold;
+			font-size: 1.4em;
+			text-shadow: 0 0 1px #d8d8d8;
+		}
+	}
+
+	ul {
+		margin: 0.65em 0.2em 0 0.2em;
+		padding: 0;
+
+		a {
+			color: #a5a5a5;
+		}
+
+		li {
+			float: left;
+			padding: 0 0.5em;
+		}
+	}
+
+	ul.public {
+		float: left;
+		font-weight: bold;
+	}
+
+	ul.user {
+		float: right;
+
+		li.name {
+			padding-right: 0.5em;
+		}
+	}
+
+}
+
+article.main {
+	width: $site-width;
+	margin: 1em auto;
+
+	section.content {
+		float: left;
+		width: $content-width;
+		margin-bottom: 1em;
+
+		&.no-sidebar {
+			width: $site-width;
+		}
+
+		h1 {
+			font-weight: normal;
+		}
+
+		.posts {
+			margin: 1em 0;
+
+			h1 {
+				margin: 0;
+				padding: 0.5em 0.5em 0.5em 1.5em;
+				font-size: 1.4em;
+
+				background-color: #f7f7f7;
+			}
+
+			border: 1px solid #ddd;
+			@include border-radius(4px 4px 0 0);
+
+			&.preview .close {
+				@extend .button;
+				font-size: 0.5em;
+				float: right;
+			}
+
+			article.post {
+
+				padding: 0.01em 1em;
+				position: relative;
+
+				& + article.post {
+					border-top: 1px solid #ddd;
+				}
+
+				font-size: 0.9em;
+
+				&.system {
+					background-color: #f7f7f7;
+				}
+
+				.meta,
+				.body,
+				.footer {
+					margin: 1em 0;
+				}
+
+				.meta,
+				.footer {
+					font-size: 0.8em;
+					color: #888;
+
+					a {
+						text-decoration: none;
+						color: inherit;
+					}
+				}
+
+				.meta {
+					a {
+						font-weight: bold;
+					}
+
+					.poster,
+					.gamedate,
+					.posttime {
+						float: left;
+						margin-right: 0.8em;
+					}
+
+					.poster {
+						.name + .alias {
+							&:before {
+								content: "(";
+							}
+							&:after {
+								content: ")";
+							}
+						}
+					}
+
+					.permalink {
+						float: right;
+					}
+				}
+
+				.body {
+					blockquote {
+						margin: 1em 0;
+						padding-left: 0.2em;
+						border-left: 3px solid #cdf;
+						color: #666;
+					}
+
+					word-wrap: break-word;
+				}
+
+				.footer {
+					ul.controls {
+						float: right;
+
+						list-style-type: none;
+						padding: 0;
+						margin: 0;
+
+						li {
+							float: left;
+
+							& + li {
+								margin-left: 0.6em;
+							}
+						}
+					}
+				}
+
+				&:hover {
+					.meta {
+						a {
+							color: #48b;
+
+							&:hover {
+								text-decoration: underline;
+							}
+						}
+					}
+
+					.footer {
+						.controls {
+							a {
+								color: #666;
+
+								&:hover {
+									color: #222;
+								}
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+		#NewPost {
+			border: 1px solid #ddd;
+			@include border-radius(4px 4px 0 0);
+			margin: 1em 0;
+
+			.editor {
+				padding: 0.01em 1em;
+				border-bottom: 1px solid #ddd;
+				background-color: #f7f7f7;
+
+				ul {
+					list-style-type: none;
+					padding: 0;
+					font-size: 0.8em;
+					line-height: 1.2em;
+
+					li {
+						@extend .button;
+						float: left;
+						margin-left: -1px;
+						width: 1em;
+						text-align: center;
+
+						@include border-radius(0);
+						&:first-of-type {
+							@include border-radius(4px 0 0 4px);
+						}
+						&:last-of-type {
+							@include border-radius(0 4px 4px 0);
+						}
+
+						&.b {
+							font-weight: bold;
+						}
+						&.i {
+							font-style: italic;
+						}
+					}
+				}
+			}
+
+			textarea {
+				@extend .reset;
+				@extend .maxwidth;
+				height: 12em;
+				padding: 0.5em;
+				color: #444;
+			}
+
+			.buttons {
+				padding: 1em;
+				background-color: #f7f7f7;
+				border-top: 1px solid #e5e5e5;
+
+				button,
+				span.preview {
+					@extend .button;
+				}
+			}
+
+		}
+
+		.splash {
+			width: ($aside-width * 2);
+			margin: 1em auto;
+			padding: 2em;
+			border: 1px solid #e5e5e5;
+			@include border-radius(4px);
+			background: #f7f7f7;
+
+			p {
+				font-size: 0.9em;
+				color: #444;
+				font-weight: bold;
+			}
+
+			input[type=text] {
+				font-size: 1.4em;
+				border: 1px solid #fff;
+				@include border-radius(4px);
+				box-shadow: 0 1px 2px #bbb inset;
+				font-family: "Museo Slab", serif;
+				height: 2em;
+				padding-left: 0.5em;
+				padding-top: 0.25em;
+			}
+
+			input[type=submit] {
+				@extend .button;
+			}
+		}
+	}
+
+	section.sidebar {
+		float: right;
+		width: $aside-width;
+
+		aside {
+			h1 {
+				margin: 0;
+				font-size: 1em;
+				padding: 0.5em 1em;
+				background-color: #f7f7f7;
+			}
+
+			p {
+				font-size: 0.8em;
+				padding: 0.625em 1.25em;
+			}
+
+			margin: 1em 0;
+			border: 1px solid #ddd;
+			@include border-radius(4px 4px 0 0);
+
+			&.game ,
+			&.player {
+				p {
+					color: #999;
+
+					.role,
+					.datetime,
+					.alias {
+						color: #222;
+					}
+				}
+			}
+
+			&.players {
+				ul {
+					font-size: 0.85em;
+					padding-left: 2em;
+					list-style-type: none;
+					font-weight: bold;
+					color: #444;
+				}
+			}
+
+			&.game,
+			&.player,
+			&.players {
+				.team {
+					&.town {
+						color: green;
+					}
+
+					&.mafia,
+					&.yakuza,
+					&.brakva {
+						color: red;
+					}
+
+					&.other {
+						color: orange;
+					}
+				}
+			}
+
+			&.votes {
+				table {
+					font-size: 0.85em;
+					margin: 1em 0;
+					width: 100%;
+
+					td {
+						padding: 0.1em 0.3em;
+						font-weight: bold;
+
+						&.player {
+							text-align: right;
+							color: #444;
+						}
+
+						&.vote {
+							text-align: left;
+							min-width: 3em;
+							color: #888;
+						}
+					}
+				}
+			}
+		}
+	}
+
+}
+
+footer {
+
+	div.content {
+		width: $site-width;
+		margin: 0 auto;
+		padding: 2em 1em;
+		border-top: 1px solid #e5e5e5;
+
+		article {
+			float: left;
+			max-width: $aside-width;
+			padding-right: 2em;
+
+			h1 {
+				font-size: 1.2em;
+				font-weight: normal;
+			}
+
+			ul {
+
+				list-style-type: none;
+				padding: 0;
+
+				a {
+					text-decoration: none;
+					@include transition(0.1s all ease-in 0);
+
+					color: #a5a5a5;
+					font-weight: bold;
+
+					&:hover {
+						color: #48b;
+					}
+				}
+			}
+		}
+
+		article + article {
+			padding-left: 2em;
+		}
+
+		.sosumi {
+			width: ($site-width / 2);
+			margin: 1em auto;
+			text-align: center;
+			font-size: 0.7em;
+			color: #bbb;
+
+			a {
+				color: #a5a5a5;
+				font-weight: bold;
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+	border-bottom: 30em solid #e6e6e6;
+}

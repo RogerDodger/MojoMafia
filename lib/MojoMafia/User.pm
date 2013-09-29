@@ -42,6 +42,10 @@ sub logout {
 sub register {
 	my $c = shift;
 
+	if (!$c->session->{email} || $c->user) {
+		return $c->redirect_to('/');
+	}
+
 	if (defined $c->req->headers->referrer) {
 		$c->session->{register_redirect} = $c->req->headers->referrer;
 	}
@@ -67,7 +71,7 @@ sub do_register {
 			},
 		});
 
-		$c->redirect_to($c->session->{register_redirect} or $c->req->url->to_abs);
+		$c->redirect_to($c->session->{register_redirect} || '/');
 		delete $c->session->{register_redirect};
 	} else {
 		$c->render(template => 'user/register');
