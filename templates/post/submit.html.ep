@@ -2,16 +2,16 @@
 	<form method="post" action="#">
 		<div class="editor">
 			<ul class="clearfix controls">
-				<li title="Bold" class="b pure-button">
+				<li title="Bold" class="b">
 					<i class="icon-bold"></i>
 				</li>
-				<li title="Italics" class="i pure-button">
+				<li title="Italics" class="i">
 					<i class="icon-italic"></i>
 				</li>
-				<li title="Quote" class="q pure-button">
+				<li title="Quote" class="q">
 					<i class="icon-quote-right"></i>
 				</li>
-				<li title="Link" class="url pure-button">
+				<li title="Link" class="url">
 					<i class="icon-link"></i>
 				</li>
 			</ul>
