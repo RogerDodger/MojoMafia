@@ -1,0 +1,48 @@
+// ===========================================================================
+// Partial containing reusable components in the site's layout. For the most
+// part, these are naked class definitions.
+//
+// This document is a part of MojoMafia, Copyright (c) Cameron Thornton 2013
+//
+// MojoMafia is free software; you can redistribute it and/or modify it under
+// the same terms as Perl version 5.14.2.
+// ===========================================================================
+
+.maxwidth {
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+.reset {
+	outline: 0;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+}
+
+.button {
+	@extend .reset;
+	padding: 0.6em 0.8em;
+	cursor: pointer;
+
+	font-family: "Museo Slab", Georgia, serif;
+	background-color: #fff;
+	box-shadow: 0 1px rgba(255, 255, 255, 0.6) inset;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	@include border-radius(4px);
+
+	&:hover {
+		border: 1px solid rgba(0, 0, 0, 0.3);
+		@include linear-gradient(#e5e5e5, #fff);
+		position: relative;
+		z-index: 1;
+	}
+
+	&:active {
+		@include linear-gradient(#fff, #e5e5e5);
+		border: 1px solid rgba(0, 0, 0, 0.15);
+	}
+}
