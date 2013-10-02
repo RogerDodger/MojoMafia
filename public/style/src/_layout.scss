@@ -8,7 +8,7 @@
 // ===========================================================================
 
 h1 {
-	font-family: "Museo Slab", serif;
+	font-family: $header-font-primary;
 }
 
 body {
@@ -84,11 +84,11 @@ nav.top {
 
 }
 
-article.main {
+.main {
 	width: $site-width;
 	margin: 1em auto;
 
-	section.content {
+	.content {
 		float: left;
 		width: $content-width;
 		margin-bottom: 1em;
@@ -126,7 +126,7 @@ article.main {
 		border: 1px solid #fff;
 		border-radius: 4px;
 		box-shadow: 0 1px 2px #bbb inset;
-		font-family: "Museo Slab", serif;
+		font-family: $header-font-primary;
 		height: 2em;
 		padding-left: 0.5em;
 		padding-top: 0.25em;
@@ -354,10 +354,6 @@ article.main {
 		padding: 0.5em;
 	}
 
-	.post.preview {
-		min-height: (12em / 0.9);
-	}
-
 	.senders {
 		padding: 1em;
 		background-color: #f7f7f7;
@@ -365,10 +361,14 @@ article.main {
 	}
 }
 
+// ===========================================================================
+// Site footer
+// ===========================================================================
+
 footer {
 	border-bottom: 30em solid #e6e6e6;
 
-	div.content {
+	.content {
 		width: $site-width;
 		margin: 0 auto;
 		padding: 2em 1em;

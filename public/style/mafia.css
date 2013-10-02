@@ -301,16 +301,16 @@ nav.top {
   nav.top ul.user {
     float: right; }
 
-article.main {
+.main {
   width: 60em;
   margin: 1em auto; }
-  article.main section.content {
+  .main .content {
     float: left;
     width: 43em;
     margin-bottom: 1em; }
-    article.main section.content.no-sidebar {
+    .main .content.no-sidebar {
       width: 60em; }
-    article.main section.content h1 {
+    .main .content h1 {
       font-weight: normal; }
 
 .splash {
@@ -442,8 +442,6 @@ article.main {
     color: #444444;
     min-height: 12em;
     padding: 0.5em; }
-  #NewPost .post.preview {
-    min-height: 13.33333em; }
   #NewPost .senders {
     padding: 1em;
     background-color: #f7f7f7;
@@ -451,41 +449,41 @@ article.main {
 
 footer {
   border-bottom: 30em solid #e6e6e6; }
-  footer div.content {
+  footer .content {
     width: 60em;
     margin: 0 auto;
     padding: 2em 1em;
     border-top: 1px solid #e5e5e5; }
-    footer div.content article {
+    footer .content article {
       float: left;
       max-width: 15em;
       padding-right: 2em; }
-      footer div.content article h1 {
+      footer .content article h1 {
         font-size: 1.2em;
         font-weight: normal; }
-      footer div.content article ul {
+      footer .content article ul {
         list-style-type: none;
         padding: 0; }
-        footer div.content article ul a {
+        footer .content article ul a {
           text-decoration: none;
           -webkit-transition: 0.1s all ease-in 0;
           -moz-transition: 0.1s all ease-in 0;
           transition: 0.1s all ease-in 0;
           color: #a5a5a5;
           font-weight: bold; }
-          footer div.content article ul a:hover {
+          footer .content article ul a:hover {
             color: #4488bb; }
-    footer div.content article + article {
+    footer .content article + article {
       padding-left: 2em; }
-    footer div.content .sosumi {
+    footer .content .sosumi {
       width: 30em;
       margin: 1em auto;
       text-align: center;
       font-size: 0.7em;
       color: #bbbbbb; }
-      footer div.content .sosumi a {
+      footer .content .sosumi a {
         color: #a5a5a5;
         font-weight: bold;
         text-decoration: none; }
-        footer div.content .sosumi a:hover {
+        footer .content .sosumi a:hover {
           text-decoration: underline; }
