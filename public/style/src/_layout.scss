@@ -8,12 +8,16 @@
 // ===========================================================================
 
 h1 {
-	font-family: "Museo Slab", Georgia, serif;
+	font-family: "Museo Slab", serif;
 }
 
 body {
 	min-width: ($site-width + 2em);
 }
+
+// ===========================================================================
+// Primary sitenav
+// ===========================================================================
 
 nav.top {
 	@include linear-gradient(#f9f9f9, #f3f3f3);
@@ -76,10 +80,6 @@ nav.top {
 
 	ul.user {
 		float: right;
-
-		li.name {
-			padding-right: 0.5em;
-		}
 	}
 
 }
@@ -100,329 +100,273 @@ article.main {
 		h1 {
 			font-weight: normal;
 		}
+	}
+}
 
-		.posts {
-			margin: 1em 0;
+// ===========================================================================
+// New user form
+// ===========================================================================
 
-			h1 {
-				margin: 0;
-				padding: 0.5em 0.5em 0.5em 1.5em;
-				font-size: 1.4em;
+.splash {
+	width: ($aside-width * 2);
+	margin: 1em auto;
+	padding: 2em;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	background: #f7f7f7;
 
-				background-color: #f7f7f7;
-			}
+	p {
+		font-size: 0.9em;
+		color: #444;
+		font-weight: bold;
+	}
 
-			border: 1px solid #ddd;
-			@include border-radius(4px 4px 0 0);
+	input[type=text] {
+		font-size: 1.4em;
+		border: 1px solid #fff;
+		border-radius: 4px;
+		box-shadow: 0 1px 2px #bbb inset;
+		font-family: "Museo Slab", serif;
+		height: 2em;
+		padding-left: 0.5em;
+		padding-top: 0.25em;
+	}
 
-			&.preview .close {
-				@extend .button;
-				font-size: 0.5em;
-				float: right;
-			}
+	input[type=submit] {
+		@extend .button;
+	}
+}
 
-			article.post {
+// ===========================================================================
+// Sidebar
+// ===========================================================================
 
-				padding: 0.01em 1em;
-				position: relative;
+.sidebar {
+	float: right;
+	width: $aside-width;
 
-				& + article.post {
-					border-top: 1px solid #ddd;
-				}
-
-				font-size: 0.9em;
-
-				&.system {
-					background-color: #f7f7f7;
-				}
-
-				.meta,
-				.body,
-				.footer {
-					margin: 1em 0;
-				}
-
-				.meta,
-				.footer {
-					font-size: 0.8em;
-					color: #888;
-
-					a {
-						text-decoration: none;
-						color: inherit;
-					}
-				}
-
-				.meta {
-					a {
-						font-weight: bold;
-					}
-
-					.poster,
-					.gamedate,
-					.posttime {
-						float: left;
-						margin-right: 0.8em;
-					}
-
-					.poster {
-						.name + .alias {
-							&:before {
-								content: "(";
-							}
-							&:after {
-								content: ")";
-							}
-						}
-					}
-
-					.permalink {
-						float: right;
-					}
-				}
-
-				.body {
-					blockquote {
-						margin: 1em 0;
-						padding-left: 0.2em;
-						border-left: 3px solid #cdf;
-						color: #666;
-					}
-
-					word-wrap: break-word;
-				}
-
-				.footer {
-					ul.controls {
-						float: right;
-
-						list-style-type: none;
-						padding: 0;
-						margin: 0;
-
-						li {
-							float: left;
-
-							& + li {
-								margin-left: 0.6em;
-							}
-						}
-					}
-				}
-
-				&:hover {
-					.meta {
-						a {
-							color: #48b;
-
-							&:hover {
-								text-decoration: underline;
-							}
-						}
-					}
-
-					.footer {
-						.controls {
-							a {
-								color: #666;
-
-								&:hover {
-									color: #222;
-								}
-							}
-						}
-					}
-				}
-			}
-
+	aside {
+		h1 {
+			margin: 0;
+			font-size: 1em;
+			padding: 0.5em 1em;
+			background-color: #f7f7f7;
 		}
 
-		#NewPost {
-			border: 1px solid #ddd;
-			@include border-radius(4px 4px 0 0);
-			margin: 1em 0;
-
-			.editor {
-				padding: 0.01em 1em;
-				border-bottom: 1px solid #ddd;
-				background-color: #f7f7f7;
-
-				ul {
-					list-style-type: none;
-					padding: 0;
-					font-size: 0.8em;
-					line-height: 1.2em;
-
-					li {
-						@extend .button;
-						float: left;
-						margin-left: -1px;
-						width: 1em;
-						text-align: center;
-
-						@include border-radius(0);
-						&:first-of-type {
-							@include border-radius(4px 0 0 4px);
-						}
-						&:last-of-type {
-							@include border-radius(0 4px 4px 0);
-						}
-
-						&.b {
-							font-weight: bold;
-						}
-						&.i {
-							font-style: italic;
-						}
-					}
-				}
-			}
-
-			textarea {
-				@extend .reset;
-				@extend .maxwidth;
-				height: 12em;
-				padding: 0.5em;
-				color: #444;
-			}
-
-			.buttons {
-				padding: 1em;
-				background-color: #f7f7f7;
-				border-top: 1px solid #e5e5e5;
-
-				button,
-				span.preview {
-					@extend .button;
-				}
-			}
-
+		p {
+			font-size: 0.8em;
+			padding: 0.625em 1.25em;
 		}
 
-		.splash {
-			width: ($aside-width * 2);
-			margin: 1em auto;
-			padding: 2em;
-			border: 1px solid #e5e5e5;
-			@include border-radius(4px);
-			background: #f7f7f7;
+		margin: 1em 0;
+		border: 1px solid #ddd;
+		border-radius: 4px 4px 0 0;
 
+		&.game,
+		&.player {
 			p {
-				font-size: 0.9em;
-				color: #444;
+				color: #999;
+
+				.role,
+				.datetime,
+				.alias {
+					color: #222;
+				}
+			}
+		}
+
+		&.players {
+			ul {
+				font-size: 0.85em;
+				padding-left: 2em;
+				list-style-type: none;
 				font-weight: bold;
+				color: #444;
 			}
+		}
 
-			input[type=text] {
-				font-size: 1.4em;
-				border: 1px solid #fff;
-				@include border-radius(4px);
-				box-shadow: 0 1px 2px #bbb inset;
-				font-family: "Museo Slab", serif;
-				height: 2em;
-				padding-left: 0.5em;
-				padding-top: 0.25em;
+		&.votes {
+			table {
+				font-size: 0.85em;
+				margin: 1em 0;
+				width: 100%;
+
+				td {
+					padding: 0.1em 0.3em;
+					font-weight: bold;
+
+					&.player {
+						text-align: right;
+						color: #444;
+					}
+
+					&.vote {
+						text-align: left;
+						min-width: 3em;
+						color: #888;
+					}
+				}
 			}
+		}
+	}
+}
 
-			input[type=submit] {
-				@extend .button;
+// ===========================================================================
+// User-submitted post
+// ===========================================================================
+
+.post {
+	padding: 0.01em 1em;
+	font-size: 0.9em;
+
+	& + .post {
+		border-top: 1px solid #ddd;
+	}
+
+
+	&.system {
+		background-color: #f7f7f7;
+	}
+
+	.meta,
+	.body,
+	.footer {
+		margin: 1em 0;
+	}
+
+	.meta,
+	.footer {
+		font-size: 0.8em;
+		color: #888;
+
+		a {
+			text-decoration: none;
+			color: inherit;
+		}
+	}
+
+	.meta {
+		a {
+			font-weight: bold;
+		}
+
+		.poster,
+		.gamedate,
+		.posttime {
+			float: left;
+			margin-right: 0.8em;
+		}
+
+		.name + .alias {
+			&:before {
+				content: "(";
+			}
+			&:after {
+				content: ")";
+			}
+		}
+
+		.permalink {
+			float: right;
+		}
+	}
+
+	.body {
+		blockquote {
+			margin: 1em 0;
+			padding-left: 0.2em;
+			border-left: 3px solid #cdf;
+			color: #666;
+		}
+
+		word-wrap: break-word;
+	}
+
+	.footer {
+		.controls {
+			float: right;
+
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+
+			li {
+				float: left;
+
+				& + li {
+					margin-left: 0.8em;
+				}
 			}
 		}
 	}
 
-	section.sidebar {
-		float: right;
-		width: $aside-width;
+	&:hover {
+		.meta {
+			a {
+				color: #48b;
 
-		aside {
-			h1 {
-				margin: 0;
-				font-size: 1em;
-				padding: 0.5em 1em;
-				background-color: #f7f7f7;
+				&:hover {
+					text-decoration: underline;
+				}
 			}
+		}
 
-			p {
-				font-size: 0.8em;
-				padding: 0.625em 1.25em;
-			}
+		.footer {
+			.controls {
+				a {
+					color: #666;
 
-			margin: 1em 0;
-			border: 1px solid #ddd;
-			@include border-radius(4px 4px 0 0);
-
-			&.game ,
-			&.player {
-				p {
-					color: #999;
-
-					.role,
-					.datetime,
-					.alias {
+					&:hover {
 						color: #222;
 					}
 				}
 			}
-
-			&.players {
-				ul {
-					font-size: 0.85em;
-					padding-left: 2em;
-					list-style-type: none;
-					font-weight: bold;
-					color: #444;
-				}
-			}
-
-			&.game,
-			&.player,
-			&.players {
-				.team {
-					&.town {
-						color: green;
-					}
-
-					&.mafia,
-					&.yakuza,
-					&.brakva {
-						color: red;
-					}
-
-					&.other {
-						color: orange;
-					}
-				}
-			}
-
-			&.votes {
-				table {
-					font-size: 0.85em;
-					margin: 1em 0;
-					width: 100%;
-
-					td {
-						padding: 0.1em 0.3em;
-						font-weight: bold;
-
-						&.player {
-							text-align: right;
-							color: #444;
-						}
-
-						&.vote {
-							text-align: left;
-							min-width: 3em;
-							color: #888;
-						}
-					}
-				}
-			}
 		}
 	}
+}
 
+.posts {
+	border: 1px solid #ddd;
+	border-radius: 4px 4px 0 0;
+	margin: 1em 0;
+}
+
+// ===========================================================================
+// Post submission form
+// ===========================================================================
+
+#NewPost {
+	border: 1px solid #ddd;
+	border-radius: 4px 4px 0 0;
+	margin: 1em 0;
+
+	.editor {
+		padding: 0.01em 1em;
+		border-bottom: 1px solid #ddd;
+		background-color: #f7f7f7;
+	}
+
+	textarea {
+		@extend .reset;
+		@extend .maxwidth;
+		color: #444;
+		min-height: 12em;
+		padding: 0.5em;
+	}
+
+	.post.preview {
+		min-height: (12em / 0.9);
+	}
+
+	.senders {
+		padding: 1em;
+		background-color: #f7f7f7;
+		border-top: 1px solid #e5e5e5;
+	}
 }
 
 footer {
+	border-bottom: 30em solid #e6e6e6;
 
 	div.content {
 		width: $site-width;
@@ -481,6 +425,4 @@ footer {
 			}
 		}
 	}
-
-	border-bottom: 30em solid #e6e6e6;
 }

@@ -1,44 +1,43 @@
 <section id="NewPost">
 	<form method="post" action="#">
+
 		<div class="editor">
-			<ul class="clearfix controls">
-				<li title="Bold" class="b">
+			<ul class="btn-group clearfix">
+				<li title="Bold" class="bold btn">
 					<i class="icon-bold"></i>
-				</li>
-				<li title="Italics" class="i">
+
+				<li title="Italics" class="italic btn">
 					<i class="icon-italic"></i>
-				</li>
-				<li title="Quote" class="q">
+
+				<li title="Quote" class="quote btn">
 					<i class="icon-quote-right"></i>
-				</li>
-				<li title="Link" class="url">
+
+				<li title="Link" class="url btn">
 					<i class="icon-link"></i>
-				</li>
 			</ul>
 		</div>
-		<div>
+
+		<div class="postbody">
 			<textarea rows="1" cols="1" name="body"></textarea>
+			<div class="post preview hidden"></div>
 		</div>
-		<div class="buttons">
-			<button type="submit" class="submit">
+
+		<div class="senders">
+			<button type="submit">
 				<i class="icon-comment"></i>
 				Add post
 			</button>
-			<span class="preview">
+
+			<span class="preview btn">
 				<i class="icon-search"></i>
 				Preview post
 			</span>
+
+			<span class="edit btn hidden">
+				<i class="icon-edit"></i>
+				Edit post
+			</span>
 		</div>
+
 	</form>
-</section>
-<section class="posts preview hidden">
-	<h1>
-		Post preview
-		<a class="close">
-			<i class="icon-remove"></i>
-		</a>
-	</h1>
-	<article class="post">
-		<div class="body"></div>
-	</article>
 </section>

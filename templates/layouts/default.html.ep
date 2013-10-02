@@ -14,6 +14,7 @@
 		<link rel="icon" href="/favicon.ico">
 
 		<link rel="stylesheet" href="/style/vendor/normalize.css">
+		<link rel="stylesheet" href="/style/vendor/font-awesome-v3.2.1.css">
 		<link rel="stylesheet" href="/style/mafia-<%= app()->meta('version') %>.css" id="main-stylesheet">
 
 		<script src="/js/vendor/modernizr-2.6.2.min.js"></script>
@@ -189,6 +190,7 @@
 					<h1>Help</h1>
 					<ul>
 						<li><a href="/contact">Contact a human</a></li>
+						<li><a href="/faq">FAQ</a></li>
 					</ul>
 				</article>
 
@@ -203,7 +205,13 @@
 		<script src="/js/vendor/jquery-1.8.3.min.js"></script>
 		<script src="/js/vendor/jquery-fieldselection-0.1.1.min.js"></script>
 		<script src="https://login.persona.org/include.js"></script>
-		<script src="/js/mafia-<%= app()->meta('version') %>.js"></script>
+		% if (app()->mode eq 'development') {
+			% for my $fn (glob 'public/js/src/*') {
+				<script src="<%= $fn =~ s/^public//r %>"></script>
+			% }
+		% } else {
+			<script src="/js/mafia-<%= app()->meta('version') %>.js"></script>
+		% }
 
 		% if (defined config 'ga') {
 			<script>

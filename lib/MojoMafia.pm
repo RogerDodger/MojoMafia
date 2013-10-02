@@ -43,7 +43,9 @@ sub startup {
 
 	$r->post('/post/preview')->to(cb => sub {
 		my $c = shift;
-		$c->render(text => '<p>' . $c->req->param('text') . '</p>');
+		Mojo::IOLoop->timer(2 => sub {
+			$c->render(text => '<p>' . $c->req->param('text') . '</p>');
+		});
 	});
 
 	my $g = $r->bridge('/game/:id')->to('game#fetch');

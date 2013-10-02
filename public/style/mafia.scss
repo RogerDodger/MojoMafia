@@ -1,5 +1,13 @@
-@import "vendor/font-awesome/font-awesome.scss";
-@import "vendor/h5bp/defaults.scss";
+// ===========================================================================
+// Header for the primary stylesheet
+//
+// This document is a part of MojoMafia, Copyright (c) Cameron Thornton 2013
+//
+// MojoMafia is free software; you can redistribute it and/or modify it under
+// the same terms as Perl version 5.14.2.
+// ===========================================================================
+
 @import "vendor/bourbon/_bourbon.scss";
-@import "src/_main.scss";
+@import "vendor/h5bp/defaults.scss";
 @import "vendor/h5bp/helpers.scss";
+@import "src/_main.scss";
