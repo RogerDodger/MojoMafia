@@ -27,21 +27,27 @@ function replaceSelection(e, newSelection) {
 }
 
 $(document).ready(function() {
-	$('#NewPost .editor .btn-group .btn').click(function() {
-		var textarea = $('#NewPost').find('textarea');
-		var selection = textarea.getSelection();
+	var $textarea = $('#NewPost').find('textarea');
 
-		if ($(this).hasClass('italic')) {
+	$('#NewPost .editor .btn-group .btn').click(function() {
+		var selection = $textarea.getSelection();
+		var $btn = $(this);
+
+		if ($textarea.attr("disabled") || $btn.hasClass("disabled")) {
+			return;
+		}
+
+		if ($btn.hasClass('italic')) {
 			selection.text   = '*' + selection.text + '*';
 			selection.start += 1;
 			selection.end   += 1;
 		}
-		else if($(this).hasClass('bold')) {
+		else if ($btn.hasClass('bold')) {
 			selection.text  = '**' + selection.text + '**';
 			selection.start += 2;
 			selection.end   += 2;
 		}
-		else if ($(this).hasClass('quote')) {
+		else if ($btn.hasClass('quote')) {
 			selection.text = selection.text.replace(/^/mg, '> ');
 			if (selection.start == selection.end) {
 				selection.end = selection.start += 2;
@@ -50,29 +56,30 @@ $(document).ready(function() {
 				selection.end += 2 * selection.text.match(/^/mg).length;
 			}
 		}
-		else if ($(this).hasClass('url')) {
+		else if ($btn.hasClass('url')) {
 			var mask = selection.text !== '' ? selection.text : 'link text';
 			selection.text   = '[' + mask + '](http://www.example.com)';
 			selection.start += mask.length + 3;
 			selection.end   += selection.text.length - 1;
 		}
 
-		replaceSelection(textarea.get(0), selection);
+		replaceSelection($textarea.get(0), selection);
 	});
 
 	$('.post .controls .reply a').click(function(e) {
 		e.preventDefault();
+		var postid = $(this).parentsUntil('.post')
+		                    .parent()
+		                    .find('.permalink a')
+		                    .attr('href')
+		                    .match(/\d+$/),
+		    selection = $textarea.getSelection();
 
-		var textarea = $('#NewPost').find('textarea');
-		var selection = textarea.getSelection();
+		selection.text = "#" + postid + "\n";
+		selection.end = selection.start += selection.text.length;
 
-		var link = "#" + $(this).parentsUntil('.post').parent().find('.permalink a').attr('href').match(/\d+$/) + "\n";
-
-		selection.text = link;
-		selection.end = selection.start += link.length;
-
-		textarea.focus();
-		replaceSelection(textarea.get(0), selection);
+		$textarea.focus();
+		replaceSelection($textarea.get(0), selection);
 	});
 });
 
@@ -81,36 +88,42 @@ $(document).ready(function() {
 // ===========================================================================
 
 $(document).ready(function() {
-	var $preview_area = $("#NewPost .post.preview");
-	var $preview_btn = $("#NewPost .senders .preview");
-	var $edit_btn = $("#NewPost .senders .edit");
-	var $textarea = $("#NewPost textarea");
+	var $preview_area = $("#NewPost .post.preview"),
+	    $preview_btn = $("#NewPost .senders .preview"),
+	    $edit_btn = $("#NewPost .senders .edit"),
+	    $wait_btn = $("#NewPost .senders .wait"),
+	    $textarea = $("#NewPost textarea"),
+	    $editor = $("#NewPost .editor");
 
 	$preview_btn.click(function(e) {
-		var oldhtml = $preview_btn.html();
-		$preview_btn.html(
-			'<i class="icon-spinner icon-spin"></i>' + "\n" +
-			'Please wait...');
 		$textarea.attr({ "disabled" : "disabled" });
+		$preview_btn.addClass("hidden");
+		$wait_btn.removeClass("hidden");
+		$editor.find("li").each(function(i) {
+			$(this).addClass("disabled");
+		});
 
 		$.ajax({
 			type: 'POST',
 			url: '/post/preview',
-			data: { "text" : $('#NewPost').find('textarea').val() },
+			data: { "text" : $textarea.val() },
 			success: function(res, status, xhr) {
 				$preview_area.html(res);
-				$preview_btn.addClass("hidden");
-				$edit_btn.removeClass("hidden");
 				$textarea.addClass("hidden");
 				$preview_area.removeClass("hidden");
+				$edit_btn.removeClass("hidden");
+				$editor.addClass("hidden");
 			},
 			error: function(xhr, status, err) {
-				alert("Error: " + status);
+				alert(err);
 				$edit_btn.click();
 			},
 			complete: function(xhr, status) {
-				$preview_btn.html(oldhtml);
 				$textarea.attr({ "disabled" : null });
+				$wait_btn.addClass("hidden");
+				$editor.find("li").each(function(i) {
+					$(this).removeClass("disabled");
+				});
 			}
 		});
 	});
@@ -121,5 +134,6 @@ $(document).ready(function() {
 		$textarea.removeClass("hidden");
 		$edit_btn.addClass("hidden");
 		$preview_btn.removeClass("hidden");
+		$editor.removeClass("hidden");
 	});
 });

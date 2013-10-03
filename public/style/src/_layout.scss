@@ -40,7 +40,6 @@ nav.top {
 
 	a {
 		text-decoration: none;
-		@include transition(all 0.1s ease-in 0);
 
 		&:hover {
 			color: #48b;
@@ -81,8 +80,11 @@ nav.top {
 	ul.user {
 		float: right;
 	}
-
 }
+
+// ===========================================================================
+// Primary site container
+// ===========================================================================
 
 .main {
 	width: $site-width;
@@ -107,7 +109,7 @@ nav.top {
 // New user form
 // ===========================================================================
 
-.splash {
+.register {
 	width: ($aside-width * 2);
 	margin: 1em auto;
 	padding: 2em;
@@ -119,21 +121,6 @@ nav.top {
 		font-size: 0.9em;
 		color: #444;
 		font-weight: bold;
-	}
-
-	input[type=text] {
-		font-size: 1.4em;
-		border: 1px solid #fff;
-		border-radius: 4px;
-		box-shadow: 0 1px 2px #bbb inset;
-		font-family: $header-font-primary;
-		height: 2em;
-		padding-left: 0.5em;
-		padding-top: 0.25em;
-	}
-
-	input[type=submit] {
-		@extend .button;
 	}
 }
 
@@ -390,11 +377,9 @@ footer {
 				padding: 0;
 
 				a {
-					text-decoration: none;
-					@include transition(0.1s all ease-in 0);
-
 					color: #a5a5a5;
 					font-weight: bold;
+					text-decoration: none;
 
 					&:hover {
 						color: #48b;

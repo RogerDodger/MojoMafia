@@ -204,11 +204,11 @@ textarea {
   font-family: "Museo Slab";
   src: url('../font/museo_slab_500.woff'), url('../font/museo_slab_500.ttf'), url('../font/museo_slab_500.svg'), url('../font/museo_slab_500.eot'); }
 
-.maxwidth, #NewPost textarea {
-  width: 100%;
+.maxwidth, input[type="email"], input[type="number"], input[type="password"], input[type="search"], input[type="tel"], input[type="text"], input[type="url"], input[type="color"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="time"], input[type="week"], #NewPost textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  width: 100%; }
 
 .reset, .button, .btn, button, #NewPost textarea {
   outline: 0;
@@ -218,18 +218,21 @@ textarea {
   font-size: 100%;
   text-decoration: none; }
 
-.button, .splash input[type=submit], .btn, button {
+.button, .btn, button {
   background-color: white;
   border: 1px solid #cccccc;
-  border-radius: 4px;
-  box-shadow: 0 1px rgba(255, 255, 255, 0.6) inset;
+  border-radius: 0.25em;
+  box-shadow: none;
   cursor: pointer;
   font-family: "Museo Slab", serif;
   padding: 0.6em 0.8em; }
   .button:hover, .btn:hover, button:hover {
-    background-color: #ebebeb; }
+    box-shadow: 0 0 0.3em #aaaaaa; }
   .button:active, .btn:active, button:active {
     box-shadow: 0 0.17em 0.3em rgba(0, 0, 0, 0.15) inset; }
+  .button.disabled:hover, .button.disabled:active, .btn.disabled:hover, .btn.disabled:active, button.disabled:hover, button.disabled:active {
+    box-shadow: none;
+    cursor: default; }
 
 .btn-group {
   padding: 0;
@@ -243,12 +246,17 @@ textarea {
     text-align: center;
     border-radius: 0; }
     .btn-group .btn:first-of-type {
-      border-radius: 4px 0 0 4px; }
+      border-radius: 0.25em 0 0 0.25em; }
     .btn-group .btn:last-of-type {
-      border-radius: 0 4px 4px 0; }
+      border-radius: 0 0.25em 0.25em 0; }
     .btn-group .btn:hover {
       position: relative;
       z-index: 1; }
+
+input[type="email"], input[type="number"], input[type="password"], input[type="search"], input[type="tel"], input[type="text"], input[type="url"], input[type="color"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="time"], input[type="week"] {
+  border: 1px solid #cccccc;
+  display: block;
+  padding: 0.5em; }
 
 h1 {
   font-family: "Museo Slab", serif; }
@@ -273,10 +281,7 @@ nav.top {
     background-color: #e5e5e5;
     border-right: 1px solid white; }
   nav.top a {
-    text-decoration: none;
-    -webkit-transition: all 0.1s ease-in 0;
-    -moz-transition: all 0.1s ease-in 0;
-    transition: all 0.1s ease-in 0; }
+    text-decoration: none; }
     nav.top a:hover {
       color: #4488bb; }
   nav.top header {
@@ -313,26 +318,17 @@ nav.top {
     .main .content h1 {
       font-weight: normal; }
 
-.splash {
+.register {
   width: 30em;
   margin: 1em auto;
   padding: 2em;
   border: 1px solid #e5e5e5;
   border-radius: 4px;
   background: #f7f7f7; }
-  .splash p {
+  .register p {
     font-size: 0.9em;
     color: #444444;
     font-weight: bold; }
-  .splash input[type=text] {
-    font-size: 1.4em;
-    border: 1px solid white;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px #bbbbbb inset;
-    font-family: "Museo Slab", serif;
-    height: 2em;
-    padding-left: 0.5em;
-    padding-top: 0.25em; }
 
 .sidebar {
   float: right;
@@ -465,12 +461,9 @@ footer {
         list-style-type: none;
         padding: 0; }
         footer .content article ul a {
-          text-decoration: none;
-          -webkit-transition: 0.1s all ease-in 0;
-          -moz-transition: 0.1s all ease-in 0;
-          transition: 0.1s all ease-in 0;
           color: #a5a5a5;
-          font-weight: bold; }
+          font-weight: bold;
+          text-decoration: none; }
           footer .content article ul a:hover {
             color: #4488bb; }
     footer .content article + article {

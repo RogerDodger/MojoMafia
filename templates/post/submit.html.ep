@@ -18,7 +18,7 @@
 		</div>
 
 		<div class="postbody">
-			<textarea rows="1" cols="1" name="body"></textarea>
+			<textarea rows="1" cols="1" name="body" required="required"></textarea>
 			<div class="post preview hidden"></div>
 		</div>
 
@@ -31,6 +31,11 @@
 			<span class="preview btn">
 				<i class="icon-search"></i>
 				Preview post
+			</span>
+
+			<span class="wait btn disabled hidden">
+				<i class="icon-spinner icon-spin"></i>
+				Please wait...
 			</span>
 
 			<span class="edit btn hidden">

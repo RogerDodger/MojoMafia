@@ -9,10 +9,8 @@
 // ===========================================================================
 
 .maxwidth {
+	@include box-sizing(border-box);
 	width: 100%;
-	-webkit-box-sizing: border-box;
-	   -moz-box-sizing: border-box;
-	        box-sizing: border-box;
 }
 
 .reset {
@@ -30,18 +28,26 @@ button {
 	@extend .reset;
 	background-color: #fff;
 	border: 1px solid darken(#fff, 20%);
-	border-radius: 4px;
-	box-shadow: 0 1px rgba(255, 255, 255, 0.6) inset;
+	border-radius: 0.25em;
+	box-shadow: none;
 	cursor: pointer;
 	font-family: $header-font-primary;
 	padding: 0.6em 0.8em;
 
 	&:hover {
-		background-color: darken(#fff, 8%);
+		box-shadow: 0 0 0.3em #aaa;
 	}
 
 	&:active {
 		box-shadow: 0 0.17em 0.3em rgba(0, 0, 0, 0.15) inset;
+	}
+
+	&.disabled {
+		&:hover,
+		&:active {
+			box-shadow: none;
+			cursor: default;
+		}
 	}
 }
 
@@ -59,10 +65,10 @@ button {
 
 		border-radius: 0;
 		&:first-of-type {
-			border-radius: 4px 0 0 4px;
+			border-radius: 0.25em 0 0 0.25em;
 		}
 		&:last-of-type {
-			border-radius: 0 4px 4px 0;
+			border-radius: 0 0.25em 0.25em 0;
 		}
 
 		&:hover {
@@ -70,4 +76,11 @@ button {
 			z-index: 1;
 		}
 	}
+}
+
+#{$all-text-inputs} {
+	@extend .maxwidth;
+	border: 1px solid darken(#fff, 20%);
+	display: block;
+	padding: 0.5em;
 }
