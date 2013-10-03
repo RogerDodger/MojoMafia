@@ -28,7 +28,6 @@ sub fetch {
 			}
 		}
 
-
 		return 1;
 	}
 	else {
@@ -46,6 +45,13 @@ sub thread {
 		$player_no = $player->no;
 	}
 
+	my $page = $c->param('page');
+	if ($page =~ /([1-9][0-9]*)/) {
+		$page = $1 + 0;
+	} else {
+		$page = 1;
+	}
+
 	$c->stash->{posts} = $c->stash->{game}->thread->posts->search(
 		{
 			-or => [
@@ -55,6 +61,8 @@ sub thread {
 			]
 		},
 		{
+			page => $page,
+			rows => 10,
 			prefetch => [ qw/user/ ],
 			join => [ qw/audiences/ ],
 		}

@@ -1,0 +1,9 @@
+% my $pager = stash('posts')->pager;
+<div class="pager-centred">
+	<ul class="pager clearfix">
+		% for my $page (1 .. $pager->last_page) {
+			<li class="<%= $page == $pager->current_page ? 'active' : '' %>">
+				<a href="<%= url_with->query([ page => $page ]) %>"><%= $page %></a>
+		% }
+	</ul>
+</div>

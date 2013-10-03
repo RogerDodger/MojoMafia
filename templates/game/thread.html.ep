@@ -1,8 +1,6 @@
 % layout 'default';
 
-<section class="gamenav">
-	
-</section>
+%= include 'game/pager';
 
 <section class="posts">
 	% while (my $post = stash('posts')->next) {
@@ -10,6 +8,9 @@
 	% }
 </section>
 
+%= include 'game/pager';
+
 % if (defined stash('player') && stash('player')->can_talk) {
 	%= include 'post/submit';
 % }
+

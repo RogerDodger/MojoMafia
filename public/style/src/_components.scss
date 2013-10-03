@@ -78,6 +78,42 @@ button {
 	}
 }
 
+.pager {
+	list-style-type: none;
+
+	li {
+		float: left;
+	}
+
+	li + li {
+		margin-left: 0.3em;
+	}
+
+	li:hover a,
+	li.active a {
+		border-color: #ccc;
+	}
+
+	a {
+		border: 1px solid transparent;
+		padding: 0.2em 0.5em;
+	}
+
+	a, a:visited {
+		text-decoration: none;
+		color: #48b;
+	}
+}
+
+.pager-centred {
+	text-align: center;
+
+	.pager li {
+		float: none;
+		display: inline-block;
+	}
+}
+
 #{$all-text-inputs} {
 	@extend .maxwidth;
 	border: 1px solid darken(#fff, 20%);

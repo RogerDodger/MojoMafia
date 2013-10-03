@@ -253,6 +253,27 @@ textarea {
       position: relative;
       z-index: 1; }
 
+.pager {
+  list-style-type: none; }
+  .pager li {
+    float: left; }
+  .pager li + li {
+    margin-left: 0.3em; }
+  .pager li:hover a, .pager li.active a {
+    border-color: #cccccc; }
+  .pager a {
+    border: 1px solid transparent;
+    padding: 0.2em 0.5em; }
+  .pager a, .pager a:visited {
+    text-decoration: none;
+    color: #4488bb; }
+
+.pager-centred {
+  text-align: center; }
+  .pager-centred .pager li {
+    float: none;
+    display: inline-block; }
+
 input[type="email"], input[type="number"], input[type="password"], input[type="search"], input[type="tel"], input[type="text"], input[type="url"], input[type="color"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="time"], input[type="week"] {
   border: 1px solid #cccccc;
   display: block;
