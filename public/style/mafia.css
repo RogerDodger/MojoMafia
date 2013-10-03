@@ -254,7 +254,8 @@ textarea {
       z-index: 1; }
 
 .pager {
-  list-style-type: none; }
+  list-style-type: none;
+  padding-left: 0; }
   .pager li {
     float: left; }
   .pager li + li {
