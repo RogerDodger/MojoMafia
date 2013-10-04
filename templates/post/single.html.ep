@@ -1,15 +1,14 @@
 <article class="post <%= $post->class %>" id="<%= $post->id %>">
-	<div class="meta">
+	<div class="meta clearfix">
 		% if (defined $post->gamedate) {
 			<div class="gamedate">
 				% if (defined $post->gametime) {
 					% if ($post->gametime eq 'day') {
 						<i class="icon-sun"></i>
-						Day
 					% } elsif ($post->gametime eq 'night') {
 						<i class="icon-moon"></i>
-						Night
 					% }
+					<%= ucfirst $post->gametime %>
 				% }
 				<%= $post->gamedate %>
 			</div>
@@ -34,13 +33,11 @@
 		<div class="permalink">
 			<a href="/post/<%= $post->id %>">#<%= $post->id %></a>
 		</div>
-
-		<div class="clearfix"></div>
 	</div>
 
 	<div class="body"><%== $post->body_render %></div>
 
-	<div class="footer">
+	<div class="footer clearfix">
 		<ul class="controls">
 			<li class="reply">
 				<a href="#">
@@ -55,7 +52,5 @@
 				</a>
 			</li>
 		</ul>
-
-		<div class="clearfix"></div>
 	</div>
 </article>

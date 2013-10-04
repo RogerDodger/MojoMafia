@@ -393,7 +393,7 @@ nav.top {
           color: #888888; }
 
 .post {
-  padding: 0.01em 1em;
+  padding: 0.2em 1em;
   font-size: 0.9em; }
   .post + .post {
     border-top: 1px solid #dddddd; }
