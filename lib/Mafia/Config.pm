@@ -6,25 +6,25 @@ use YAML;
 sub load {
 	my $filename = shift || 'site/config.yml';
 
+	# Configuration variables set by default but changeable in deployment
 	my %defaults = (
 
 	);
 
-	my ($site, $err);
+	my $site = {};
 	if (-e $filename) {
 		$site = YAML::LoadFile($filename);
 		if (ref $site ne 'HASH') {
 			$site = {};
 		}
-	} else {
-		# $err = "Config file $filename does not exist. Have you deployed yet?";
 	}
 
+	# Configuration variables not changeable in deployment
 	my %constants = (
-		dsn => 'dbi:SQLite:site/data.db',
+		dsn => 'dbi:SQLite:site/mafia.db',
 	);
 
-	my %config = (%defaults, %{ $site || {} }, %constants);
+	my %config = (%defaults, %$site, %constants);
 
 	return \%config;
 }
