@@ -329,32 +329,21 @@ nav.top {
     float: right; }
 
 .main {
-  width: 60em;
-  margin: 1em auto; }
-  .main .content {
-    float: left;
-    width: 43em;
-    margin-bottom: 1em; }
-    .main .content.no-sidebar {
-      width: 60em; }
-    .main .content h1 {
-      font-weight: normal; }
-
-.register {
-  width: 30em;
-  margin: 1em auto;
-  padding: 2em;
-  border: 1px solid #e5e5e5;
-  border-radius: 4px;
-  background: #f7f7f7; }
-  .register p {
-    font-size: 0.9em;
-    color: #444444;
-    font-weight: bold; }
+  margin: 1em 0; }
+  .main .container {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    width: 60em; }
+    .main .container .content {
+      flex: 3;
+      margin-bottom: 1em; }
+      .main .container .content h1 {
+        font-weight: normal; }
 
 .sidebar {
-  float: right;
-  width: 15em; }
+  flex: 1;
+  margin-left: 1em; }
   .sidebar aside {
     margin: 1em 0;
     border: 1px solid #dddddd;
@@ -367,30 +356,42 @@ nav.top {
     .sidebar aside p {
       font-size: 0.8em;
       padding: 0.625em 1.25em; }
-    .sidebar aside.game p, .sidebar aside.player p {
-      color: #999999; }
-      .sidebar aside.game p .role, .sidebar aside.game p .datetime, .sidebar aside.game p .alias, .sidebar aside.player p .role, .sidebar aside.player p .datetime, .sidebar aside.player p .alias {
-        color: #222222; }
-    .sidebar aside.players ul {
-      font-size: 0.85em;
-      padding-left: 2em;
-      list-style-type: none;
-      font-weight: bold;
-      color: #444444; }
-    .sidebar aside.votes table {
-      font-size: 0.85em;
-      margin: 1em 0;
-      width: 100%; }
-      .sidebar aside.votes table td {
-        padding: 0.1em 0.3em;
-        font-weight: bold; }
-        .sidebar aside.votes table td.player {
-          text-align: right;
-          color: #444444; }
-        .sidebar aside.votes table td.vote {
-          text-align: left;
-          min-width: 3em;
-          color: #888888; }
+  .sidebar .game p, .sidebar .player p {
+    color: #999999; }
+    .sidebar .game p .role, .sidebar .game p .datetime, .sidebar .game p .alias, .sidebar .player p .role, .sidebar .player p .datetime, .sidebar .player p .alias {
+      color: #222222; }
+  .sidebar .players ul {
+    font-size: 0.85em;
+    padding-left: 2em;
+    list-style-type: none;
+    font-weight: bold;
+    color: #444444; }
+  .sidebar .votes table {
+    font-size: 0.85em;
+    margin: 1em 0;
+    width: 100%; }
+    .sidebar .votes table td {
+      padding: 0.1em 0.3em;
+      font-weight: bold; }
+      .sidebar .votes table td.player {
+        text-align: right;
+        color: #444444; }
+      .sidebar .votes table td.vote {
+        text-align: left;
+        min-width: 3em;
+        color: #888888; }
+
+.register {
+  width: 40em;
+  margin: 1em auto;
+  padding: 2em;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  background: #f7f7f7; }
+  .register p {
+    font-size: 0.9em;
+    color: #444444;
+    font-weight: bold; }
 
 .post {
   padding: 0.2em 1em;
@@ -474,7 +475,7 @@ footer {
     border-top: 1px solid #e5e5e5; }
     footer .content article {
       float: left;
-      max-width: 15em;
+      max-width: 20em;
       padding-right: 2em; }
       footer .content article h1 {
         font-size: 1.2em;

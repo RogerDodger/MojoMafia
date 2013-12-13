@@ -1,89 +1,86 @@
-% layout 'base';
+% extends 'layouts/default';
+% content sidebar => begin
+	<section class="sidebar">
+		% if (defined stash 'game') {
+			<aside class="game">
+				<h1>Game #<%= stash('game')->id %></h1>
+				<p>
+					Using setup
+					<a href="/setup/<%= stash('game')->setup_id %>">
+						<%= stash('game')->setup->name %>
+					</a>
+					<br>
+					It is currently
+					<span class="datetime">
+						<%= ucfirst stash('game')->datetime %>
+					</span>
+				</p>
+			</aside>
+		% }
 
-<section class="content">
-	<%= content %>
-</section>
+		% if (defined stash 'player') {
+			<aside class="player">
+				<h1>Player</h1>
+				<p>
+					Your alias is
+					<span class="alias">
+						<%= stash('player')->alias %>
+					</span>
+					<br>
+					You are a
+					<span class="role">
+						<%= stash('player')->role %>
+					</span>
+				</p>
+			</aside>
+		% }
 
-<section class="sidebar">
-	% if (defined stash 'game') {
-		<aside class="game">
-			<h1>Game #<%= stash('game')->id %></h1>
-			<p>
-				Using setup
-				<a href="/setup/<%= stash('game')->setup_id %>">
-					<%= stash('game')->setup->name %>
-				</a>
-				<br>
-				It is currently
-				<span class="datetime">
-					<%= ucfirst stash('game')->datetime %>
-				</span>
-			</p>
-		</aside>
-	% }
+		% if (defined stash('game')) {
+			<aside class="players">
+				<h1>Players</h1>
+				<ul>
+					% for my $player (stash('game')->players->sorted->all) {
+						<li>
+							% if ($player->is_alive) {
+								<%= $player->name %>
+							% } else {
+								<del><%= $player->name %></del>
+								<span class="role <%= $player->role %>">
+									(<%= ucfirst $player->role %>)
+								</span>
+							% }
+						</li>
+					% }
+				</ul>
+			</aside>
+		% }
 
-	% if (defined stash 'player') {
-		<aside class="player">
-			<h1>Player</h1>
-			<p>
-				Your alias is
-				<span class="alias">
-					<%= stash('player')->alias %>
-				</span>
-				<br>
-				You are a
-				<span class="role">
-					<%= stash('player')->role %>
-				</span>
-			</p>
-		</aside>
-	% }
+		% if (defined stash('votes') && stash('votes')->count) {
+			<aside class="votes">
+				<h1>Votes</h1>
+				<table>
+					% for my $voter (stash('votes')->all) {
+						<tr>
+							<td class="player"><%= $voter->name %></td>
+							<td class="vote"><%= eval { $voter->vote->name } %></td>
+						</tr>
+					% }
+				</table>
+			</aside>
+		% }
 
-	% if (defined stash('game')) {
-		<aside class="players">
-			<h1>Players</h1>
-			<ul>
-				% for my $player (stash('game')->players->sorted->all) {
-					<li>
-						% if ($player->is_alive) {
-							<%= $player->name %>
-						% } else {
-							<del><%= $player->name %></del>
-							<span class="role <%= $player->role %>">
-								(<%= ucfirst $player->role %>)
-							</span>
-						% }
-					</li>
-				% }
-			</ul>
-		</aside>
-	% }
-
-	% if (defined stash('votes') && stash('votes')->count) {
-		<aside class="votes">
-			<h1>Votes</h1>
-			<table>
-				% for my $voter (stash('votes')->all) {
-					<tr>
-						<td class="player"><%= $voter->name %></td>
-						<td class="vote"><%= eval { $voter->vote->name } %></td>
-					</tr>
-				% }
-			</table>
-		</aside>
-	% }
-
-	% if (defined stash('games') && stash('games')->count) {
-		<aside class="games">
-			<h1>Active games</h1>
-			<ul>
-				% for my $game (stash('games')->all) {
-					<li>
-						<span class="id">#<%= $game->id %></span>
-						<span class="setup"><%= $game->setup->name %></span>
-					</li>
-				% }
-			</ul>
-		</aside>
-	% }
-</section>
+		% if (defined stash('games') && stash('games')->count) {
+			<aside class="games">
+				<h1>Active games</h1>
+				<ul>
+					% for my $game (stash('games')->all) {
+						<li>
+							<span class="id">#<%= $game->id %></span>
+							<span class="setup"><%= $game->setup->name %></span>
+						</li>
+					% }
+				</ul>
+			</aside>
+		% }
+	</section>
+% end
