@@ -79,9 +79,11 @@
 				<section class="content">
 					%= content
 				</section>
-				<section class="sidebar">
-					%= content_for 'sidebar'
-				</section>
+				% if (content_for 'sidebar') {
+					<section class="sidebar">
+						%= content_for 'sidebar'
+					</section>
+				% }
 			</div>
 		</div>
 
