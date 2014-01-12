@@ -77,9 +77,11 @@
 		<div class="main">
 			<div class="container">
 				<section class="content">
-					<%= content %>
+					%= content
 				</section>
-				%= content_for 'sidebar'
+				<section class="sidebar">
+					%= content_for 'sidebar'
+				</section>
 			</div>
 		</div>
 
