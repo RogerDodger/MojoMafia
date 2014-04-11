@@ -25,34 +25,18 @@ sub startup {
 	}
 
 	$self->moniker('mafia');
-	$self->secret('OIAJDOIPEJOIIOXFGOIFJMIZZOFJWOIROIFJOIJDKOKFSDFKDMMNNASPDOQ');
+
+	$self->meta(YAML::LoadFile('meta.yml'));
+	$self->config(Mafia::Config::load());
+	if (defined $self->config('secret')) {
+		$self->secret($self->config('secret'));
+	}
 
 	# Allow use of commands in the Mafia::Command namespace
 	unshift $self->commands->namespaces, 'Mafia::Command';
 
-	# Routes
-	my $r = $self->routes;
-
-	$r->get('/')->to('root#index');
-	$r->get('/events')->to('root#events');
-
-	$r->get('/register')->to('user#register');
-	$r->post('/login')->to('user#login');
-	$r->post('/logout')->to('user#logout');
-	$r->post('/register')->to('user#do_register');
-
-	$r->post('/post/preview')->to(cb => sub {
-		my $c = shift;
-		Mojo::IOLoop->timer(2 => sub {
-			$c->render(text => '<p>' . $c->req->param('text') . '</p>');
-		});
-	});
-
-	my $g = $r->bridge('/game/:id')->to('game#fetch');
-	$g->get('/')->to('game#thread');
-
-	$self->config(Mafia::Config::load());
-	$self->meta(YAML::LoadFile('meta.yml'));
+	# Load routes from lib/mafia.routes
+	$self->plugin('PlainRoutes', { autoname => 1 });
 
 	# Access database
 	$self->helper(db => sub {

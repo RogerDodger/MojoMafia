@@ -3,12 +3,19 @@
 
 <h1>Active games</h1>
 
-<p>Perferendis libero velit quia distinctio. Autem ea unde eum esse assumenda et sint. Voluptatibus dolorem ad quia voluptatibus eos nostrum repellat. Suscipit ad ut et quaerat.</p>
-
-<h1>Upcoming games</h1>
-
-<p>Neque explicabo animi aut laborum nostrum ullam quis. Repellendus nobis aut enim rerum est nemo. Mollitia hic tempora nihil et aut sit tenetur maiores. Et ea inventore dolor velit mollitia. Autem reiciendis perspiciatis perspiciatis quis dignissimos et molestiae excepturi. Pariatur ducimus reiciendis perferendis.</p>
-
-<h1>Finished games</h1>
-
-<p>Officiis dolorem repellendus quae numquam est. Et temporibus voluptatem fuga numquam vel ipsum. Alias illum tempore reiciendis ea corporis doloribus sunt. </p>
+<ul class="games">
+	% while (my $game = $games->next) {
+		<li>
+			<a href="<%= url_for 'game-view', id => $game->id %>">
+				Game #<%= $game->id %>
+			</a>
+			<br>
+			Setup:
+			<a href="<%= url_for 'setup-view', id => $game->setup->id %>">
+				<%= $game->setup->name %>
+			</a>
+			<br>
+			Players: <%= join ', ', map { $_->alias } $game->players %>
+		</li>
+	% }
+</ul>

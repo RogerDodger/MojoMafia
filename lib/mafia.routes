@@ -1,0 +1,53 @@
+# ----------------------------------------------------------------------------
+# PlainRoutes file for MojoMafia
+# ----------------------------------------------------------------------------
+
+GET /      -> Root.index
+GET /about -> Root.about
+
+ANY /game/:id -> Game.fetch {
+	GET /        -> Game.view
+	GET /edit    -> Game.edit
+	GET /players -> Game.players
+}
+GET /game/create -> Game.create
+GET /games       -> Game.list
+GET /games/:page -> Game.list
+
+ANY /setup/:id -> Setup.fetch {
+	GET /     -> Setup.view
+	GET /edit -> Setup.edit
+}
+GET /setup/create -> Setup.create
+
+ANY /user/:id -> User.fetch {
+	GET /     -> User.view
+	GET /edit -> User.edit
+}
+GET /user/register -> User.create
+GET /users         -> User.list
+
+POST /post/preview -> Post.preview
+
+POST /user         -> User.post
+POST /user/login   -> User.login
+POST /user/logout  -> User.logout
+
+ANY / -> User.auth {
+	ANY /game/:id -> Game.fetch {
+		PATCH  / -> Game.patch
+		DELETE / -> Game.delete
+	}
+	POST /game -> Game.post
+
+	ANY /post/:id -> Post.fetch {
+		PATCH  / -> Post.patch
+		DELETE / -> Post.delete
+	}
+	POST /post -> Post.post
+
+	ANY /setup/:id -> Setup.fetch {
+		PATCH  / -> Setup.patch
+		DELETE / -> Setup.delete
+	}
+}
