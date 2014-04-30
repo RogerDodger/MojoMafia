@@ -9,7 +9,7 @@
 // doesn't work with morbo for whatever reason.
 
 if (Mafia.mode == 'development') {
-	(function() {
+	$(document).ready(function() {
 		var sheet = document.getElementById('main-stylesheet');
 		(function watch_css() {
 			console.log("Checking CSS");
@@ -27,5 +27,5 @@ if (Mafia.mode == 'development') {
 				complete: watch_css
 			});
 		})();
-	})();
+	});
 }

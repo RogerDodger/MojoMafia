@@ -4,8 +4,8 @@
  * This library is free software; you can redistribute and/or modify it
  * under the same terms as Perl version 5.14.2.
  */
-if(Mafia.mode=='development'){(function(){var sheet=document.getElementById('main-stylesheet');(function watch_css(){console.log("Checking CSS");$.ajax({type:'GET',url:'/watch/css',success:function(res,status,xhr){if(sheet.href.match(/mtime=\d+$/)){sheet.href=sheet.href.replace(/\d+$/,res);}
-else{sheet.href+='?mtime='+res;}},complete:watch_css});})();})();}
+if(Mafia.mode=='development'){$(document).ready(function(){var sheet=document.getElementById('main-stylesheet');(function watch_css(){console.log("Checking CSS");$.ajax({type:'GET',url:'/watch/css',success:function(res,status,xhr){if(sheet.href.match(/mtime=\d+$/)){sheet.href=sheet.href.replace(/\d+$/,res);}
+else{sheet.href+='?mtime='+res;}},complete:watch_css});})();});}
 function replaceSelection(e,newSelection){if('selectionStart'in e){e.focus();e.value=e.value.substr(0,e.selectionStart)
 +newSelection.text
 +e.value.substr(e.selectionEnd,e.value.length);e.selectionStart=newSelection.start;e.selectionEnd=newSelection.end;}
