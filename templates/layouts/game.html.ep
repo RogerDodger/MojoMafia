@@ -5,7 +5,7 @@
 			<h1>Game #<%= stash('game')->id %></h1>
 			<p>
 				Using setup
-				<a href="/setup/<%= stash('game')->setup_id %>">
+				<a href="<%= url_for 'setup-view', id => stash('game')->setup_id %>">
 					<%= stash('game')->setup->name %>
 				</a>
 				<br>

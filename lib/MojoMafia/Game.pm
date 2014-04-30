@@ -1,5 +1,6 @@
 package MojoMafia::Game;
 use Mojo::Base 'Mojolicious::Controller';
+use Scalar::Util qw/looks_like_number/;
 
 sub fetch {
 	my $c = shift;
@@ -14,7 +15,7 @@ sub fetch {
 				alias => $c->param('player'),
 			})->single;
 		}
-		elsif (defined $c->user) {
+		elsif ($c->user) {
 			$c->stash->{player} = $c->db('Player')->find({
 				user_id => $c->user->id,
 				game_id => $game->id,
@@ -35,7 +36,7 @@ sub fetch {
 	}
 }
 
-sub thread {
+sub view {
 	my $c = shift;
 
 	my $roles = [];
@@ -45,12 +46,8 @@ sub thread {
 		$player_no = $player->no;
 	}
 
-	my $page = $c->param('page');
-	if ($page =~ /([1-9][0-9]*)/) {
-		$page = $1 + 0;
-	} else {
-		$page = 1;
-	}
+	my $param = $c->param('page');
+	my $page = looks_like_number($param) ? int $param : 1;
 
 	$c->stash->{posts} = $c->stash->{game}->thread->posts->search(
 		{
