@@ -1,6 +1,11 @@
 package MojoMafia::User;
 use Mojo::Base 'Mojolicious::Controller';
 
+sub auth {
+	my $c = shift;
+	return !!$c->user;
+}
+
 sub login {
 	my $c = shift;
 	my $form = {};

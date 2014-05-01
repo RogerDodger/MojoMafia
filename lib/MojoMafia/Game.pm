@@ -11,7 +11,7 @@ sub fetch {
 		$c->stash->{game} = $game;
 
 		if ($c->app->mode eq 'development' && defined $c->param('player')) {
-			$c->stash->{player} = $c->stash->{game}->search_related(players => {
+			$c->stash->{player} = $game->search_related(players => {
 				alias => $c->param('player'),
 			})->single;
 		}

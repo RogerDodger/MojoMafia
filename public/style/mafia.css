@@ -461,6 +461,8 @@ nav.top {
     color: #444444;
     min-height: 12em;
     padding: 0.5em; }
+  #NewPost textarea[disabled] {
+    background-color: #f7f7f7; }
   #NewPost .senders {
     padding: 1em;
     background-color: #f7f7f7;

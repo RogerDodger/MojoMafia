@@ -338,6 +338,10 @@ nav.top {
 		padding: 0.5em;
 	}
 
+	textarea[disabled] {
+		background-color: #f7f7f7;
+	}
+
 	.senders {
 		padding: 1em;
 		background-color: #f7f7f7;

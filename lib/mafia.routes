@@ -35,13 +35,13 @@ POST /logout  -> User.logout
 
 ANY / -> User.auth {
 	ANY /game/:id -> Game.fetch {
-		PATCH  / -> Game.patch
-		DELETE / -> Game.delete
+		POST   /post -> Post.post_game
+		DELETE /     -> Game.delete
 	}
 	POST /game -> Game.post
 
 	ANY /post/:id -> Post.fetch {
-		GET    /report -> Post.report
+		POST   /report -> Report.post
 		PATCH  /       -> Post.patch
 		DELETE /       -> Post.delete
 	}

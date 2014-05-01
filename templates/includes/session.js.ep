@@ -6,6 +6,11 @@
 			id    => user()->id || undef,
 			email => session('email'),
 		},
+		paths => {
+			"user-login"   => url_for("user-login"),
+			"user-logout"  => url_for("user-logout"),
+			"post-preview" => url_for("post-preview"),
+		},
 	};
 =%>
 var Mafia = <%== Mojo::JSON->new->encode($mafia) %>;<%

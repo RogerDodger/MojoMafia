@@ -105,7 +105,7 @@ $(document).ready(function() {
 
 		$.ajax({
 			type: 'POST',
-			url: '/post/preview',
+			url: Mafia.paths["post-preview"],
 			data: { "text" : $textarea.val() },
 			success: function(res, status, xhr) {
 				$preview_area.html(res);
