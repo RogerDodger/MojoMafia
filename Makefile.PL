@@ -1,7 +1,6 @@
 #/usr/bin/env perl
 
 use 5.014;
-use lib::App::cpanminus;
 use Getopt::Long;
 
 GetOptions(\my %opt, 'devel|development');
@@ -15,19 +14,24 @@ my @production = qw(
 	Class::Null~2.110730
 );
 
-say "Installing production dependencies...";
-my $cpanm = App::cpanminus::script->new;
-$cpanm->{argv} = \@production;
-$cpanm->doit;
-
-exit(0) unless $opt{devel};
-
 my @development = qw(
 	JavaScript::Minifier~1.05
 	Text::Sass::XS~0.10
 	Text::Lorem::More~0.13
 );
 
-say "Installing development dependencies...";
-$cpanm->{argv} = \@development;
-$cpanm->doit;
+if (eval { require App::cpanminus; 1; }) {
+	*install = sub { system 'cpanm', @_ };
+}
+else {
+	require CPAN;
+	CPAN->import;
+}
+
+say "Installing production dependencies...";
+install(@production);
+
+if ($opt{devel}) {
+	say "Installing development dependencies...";
+	install(@development);
+}
