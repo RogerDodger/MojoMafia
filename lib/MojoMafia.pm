@@ -68,6 +68,34 @@ sub startup {
 		return Class::Null->new;
 	});
 
+	# Fetch and cache player
+	$self->helper(player => sub {
+		my $c = shift;
+		state $key = '_player_object';
+		return $c->stash($key) if defined $c->stash($key);
+
+		if (defined $c->stash->{game}) {
+			if ($c->app->mode eq 'development' && defined $c->param('player')) {
+				my $query = $c->stash->{game}->search_related(
+					players => { alias => $c->param('player') });
+
+				if ($query->count == 1) {
+					return $c->stash->{$key} = $query->single;
+				}
+			}
+			elsif ($c->user) {
+				my $player = $c->db('Player')->find({
+					user_id => $c->user->id,
+					game_id => $c->stash->{game}->id,
+				});
+				if (defined $player) {
+					return $c->stash->{$key} = $player;
+				}
+			}
+		}
+		return Class::Null->new;
+	});
+
 	# For certain static files, users will request a file with the app version
 	# appended to force cache revalidation. However, we don't want to actually
 	# rename the files constantly, so we rewrite the requests instead.

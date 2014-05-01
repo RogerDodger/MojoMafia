@@ -10,30 +10,14 @@ sub fetch {
 	if (defined $game) {
 		$c->stash->{game} = $game;
 
-		if ($c->app->mode eq 'development' && defined $c->param('player')) {
-			$c->stash->{player} = $game->search_related(players => {
-				alias => $c->param('player'),
-			})->single;
-		}
-		elsif ($c->user) {
-			$c->stash->{player} = $c->db('Player')->find({
-				user_id => $c->user->id,
-				game_id => $game->id,
-			});
-		}
-
-
 		if ($game->is_active) {
 			if ($game->is_day) {
 				$c->stash->{votes} = $game->players->living;
 			}
 		}
+	}
 
-		return 1;
-	}
-	else {
-		return 0;
-	}
+	defined $game;
 }
 
 sub view {
