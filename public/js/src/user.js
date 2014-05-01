@@ -11,7 +11,7 @@ $(document).ready(function() {
 		onlogin: function(assertion) {
 			$.ajax({
 				type: 'POST',
-				url: '/login',
+				url: Mafia.paths["user-login"],
 				data: { "assertion" : assertion },
 				success: function(res, status, xhr) {
 					if ('redirect' in res) {
@@ -29,7 +29,7 @@ $(document).ready(function() {
 		onlogout: function() {
 			$.ajax({
 				type: 'POST',
-				url: '/logout',
+				url: Mafia.paths["user-logout"],
 				success: function(res, status, xhr) {
 					window.location.reload();
 				},
