@@ -59,8 +59,8 @@ $(document).ready(function() {
 		else if ($btn.hasClass('url')) {
 			var mask = selection.text !== '' ? selection.text : 'link text';
 			selection.text   = '[' + mask + '](http://www.example.com)';
+			selection.end    = selection.start + selection.text.length - 1;
 			selection.start += mask.length + 3;
-			selection.end   += selection.text.length - 1;
 		}
 
 		replaceSelection($textarea.get(0), selection);

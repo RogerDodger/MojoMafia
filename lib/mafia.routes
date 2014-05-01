@@ -29,9 +29,9 @@ GET /users         -> User.list
 
 POST /post/preview -> Post.preview
 
-POST /user         -> User.post
-POST /user/login   -> User.login
-POST /user/logout  -> User.logout
+POST /user    -> User.post
+POST /login   -> User.login
+POST /logout  -> User.logout
 
 ANY / -> User.auth {
 	ANY /game/:id -> Game.fetch {
@@ -41,8 +41,9 @@ ANY / -> User.auth {
 	POST /game -> Game.post
 
 	ANY /post/:id -> Post.fetch {
-		PATCH  / -> Post.patch
-		DELETE / -> Post.delete
+		GET    /report -> Post.report
+		PATCH  /       -> Post.patch
+		DELETE /       -> Post.delete
 	}
 	POST /post -> Post.post
 

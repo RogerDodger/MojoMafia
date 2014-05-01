@@ -346,25 +346,27 @@ nav.top {
   margin-left: 1em; }
   .sidebar aside {
     margin: 1em 0;
-    border: 1px solid #dddddd;
+    border: 1px solid #8bd2c4;
     border-radius: 4px 4px 0 0; }
     .sidebar aside h1 {
+      background-color: #d4efe9;
+      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d4efe9), color-stop(100%, #8bd2c4));
+      background-image: -webkit-linear-gradient( #d4efe9, #8bd2c4);
+      background-image: linear-gradient(#d4efe9, #8bd2c4);
       margin: 0;
       font-size: 1em;
-      padding: 0.5em 1em;
-      background-color: #f7f7f7; }
+      padding: 0.5em 1em; }
     .sidebar aside p {
       font-size: 0.8em;
       padding: 0.625em 1.25em; }
   .sidebar .game p, .sidebar .player p {
-    color: #999999; }
+    color: #666666; }
     .sidebar .game p .role, .sidebar .game p .datetime, .sidebar .game p .alias, .sidebar .player p .role, .sidebar .player p .datetime, .sidebar .player p .alias {
       color: #222222; }
   .sidebar .players ul {
     font-size: 0.85em;
-    padding-left: 2em;
+    padding: 0.625em 1.25em;
     list-style-type: none;
-    font-weight: bold;
     color: #444444; }
   .sidebar .votes table {
     font-size: 0.85em;
@@ -398,8 +400,6 @@ nav.top {
   font-size: 0.9em; }
   .post + .post {
     border-top: 1px solid #dddddd; }
-  .post.system {
-    background-color: #f7f7f7; }
   .post .meta, .post .body, .post .footer {
     margin: 1em 0; }
   .post .meta, .post .footer {

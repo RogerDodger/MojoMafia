@@ -16,7 +16,7 @@ if($btn.hasClass('italic')){selection.text='*'+selection.text+'*';selection.star
 else if($btn.hasClass('bold')){selection.text='**'+selection.text+'**';selection.start+=2;selection.end+=2;}
 else if($btn.hasClass('quote')){selection.text=selection.text.replace(/^/mg,'> ');if(selection.start==selection.end){selection.end=selection.start+=2;}
 else{selection.end+=2*selection.text.match(/^/mg).length;}}
-else if($btn.hasClass('url')){var mask=selection.text!==''?selection.text:'link text';selection.text='['+mask+'](http://www.example.com)';selection.start+=mask.length+3;selection.end+=selection.text.length-1;}
+else if($btn.hasClass('url')){var mask=selection.text!==''?selection.text:'link text';selection.text='['+mask+'](http://www.example.com)';selection.end=selection.start+selection.text.length-1;selection.start+=mask.length+3;}
 replaceSelection($textarea.get(0),selection);});$('.post .controls .reply a').click(function(e){e.preventDefault();var postid=$(this).parentsUntil('.post')
 .parent()
 .find('.permalink a')
