@@ -4,11 +4,18 @@ use Mafia::Markup qw/markup/;
 
 sub post_game {
 	my $c = shift;
-	my ($body, $audience) = $c->param([qw/body audience/]);
+	return $c->render_exception("You cannot talk") unless $c->player->can_talk;
 
-	return unless $c->stash->{player} && $body && $audience;
+	my $v = $c->validation;
+	$v->required('body')->size(1, 65535);
+	$v->required('audience')->in($c->player->audiences);
 
-	my $public = $audience eq 'town';
+	if (!$v->has_error) {
+		# TODO:
+		return $c->redirect_to('game-view', id => $c->stash->{game}->id);
+	}
+
+	$c->render(text => "Bad input");
 }
 
 sub preview {

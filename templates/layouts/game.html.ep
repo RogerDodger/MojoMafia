@@ -17,18 +17,18 @@
 		</aside>
 	% }
 
-	% if (defined stash 'player') {
+	% if (player) {
 		<aside class="player">
 			<h1>Player</h1>
 			<p>
 				Your alias is
 				<span class="alias">
-					<%= stash('player')->alias %>
+					<%= player()->alias %>
 				</span>
 				<br>
 				You are a
 				<span class="role">
-					<%= stash('player')->role %>
+					<%= player()->role %>
 				</span>
 			</p>
 		</aside>

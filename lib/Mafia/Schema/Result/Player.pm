@@ -83,6 +83,12 @@ __PACKAGE__->has_many(
 
 __PACKAGE__->many_to_many(roles => "player_roles", "role");
 
+sub audiences {
+	my $self = shift;
+	my @r = ('town');
+	return @r;
+}
+
 sub name {
 	my $self = shift;
 	return $self->alias // $self->user->name;

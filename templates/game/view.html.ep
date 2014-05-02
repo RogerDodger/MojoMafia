@@ -10,6 +10,6 @@
 
 %= include 'game/pager';
 
-% if (defined stash('player') && stash('player')->can_talk) {
-	%= include 'post/submit', action => url_for 'post-post_game', id => $game->id;
+% if (player()->can_talk) {
+	%= include 'post/submit', action => url_for('post-post_game', id => $game->id)->query(player => player()->alias);
 % }

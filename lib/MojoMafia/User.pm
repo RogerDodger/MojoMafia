@@ -3,7 +3,10 @@ use Mojo::Base 'Mojolicious::Controller';
 
 sub auth {
 	my $c = shift;
-	return !!$c->user;
+	return 1 if $c->user;
+
+	$c->render(text => 'You are not logged in');
+	undef;
 }
 
 sub login {

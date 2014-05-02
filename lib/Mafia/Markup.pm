@@ -1,14 +1,16 @@
 package Mafia::Markup;
 use Mojo::Base 'Exporter';
+use Mojo::Util qw/xml_escape/;
 
 our @EXPORT_OK = qw/markup/;
 
 sub markup {
 	my $text = shift;
 
-	return join '',
+	return join q{},
 	         map { "<p>$_</p>" }
-	           split /\n\n/, $text;
+	         	grep /\S/,
+	              split /\n\n/, xml_escape $text;
 }
 
 1;

@@ -23,12 +23,7 @@ sub fetch {
 sub view {
 	my $c = shift;
 
-	my $roles = [];
-	my $player_no = -1;
-	if (my $player = $c->stash->{player}) {
-		$roles = [ $player->player_roles->get_column("role_id")->all ];
-		$player_no = $player->no;
-	}
+	my @roles = $c->player->player_roles->get_column("role_id")->all;
 
 	my $param = $c->param('page');
 	my $page = looks_like_number($param) ? int $param : 1;
@@ -37,8 +32,8 @@ sub view {
 		{
 			-or => [
 				{ private => 0 },
-				{ "audiences.role_id" => { -in => $roles } },
-				{ "audiences.player_no" => $player_no },
+				{ "audiences.role_id" => { -in => \@roles } },
+				{ "audiences.player_no" => $c->player->no || -1 },
 			]
 		},
 		{
