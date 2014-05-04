@@ -115,7 +115,7 @@ sub startup {
 
 		$self->app->log->debug("Tidying rendered HTML");
 
-		Mafia::HTML::tidy($output);
+		${ $output } = Mafia::HTML::tidy(${ $output });
 	});
 }
 

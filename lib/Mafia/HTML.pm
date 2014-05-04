@@ -1,20 +1,30 @@
 package Mafia::HTML;
+use Mojo::Base qw/Exporter/;
+use Mojo::Util qw/xml_escape/;
+use Mojo::DOM;
+use Data::Dump;
+
+our @EXPORT_OK = qw/tidy_html/;
+
+my %BLOCK = map $_ => 1, qw{
+	html head body
+};
+
+my %INLINE = map $_ => 1, qw{
+	title
+};
 
 sub tidy {
-	my $html = shift;
-
-	if (ref $html eq 'SCALAR') {
-		$$html = _tidy($$html);
-	} else {
-		return _tidy($html);
-	}
+	_tidy(Mojo::DOM->new->parse(shift), 0);
 }
 
-sub _tidy {
-	my $html = shift;
+*tidy_html = \&tidy;
 
-	# TODO - Low priority
-	return $html;
+sub _tidy {
+	my ($tree, $depth) = @_;
+
+	# TODO - low priority
+	return "$tree";
 }
 
 1;
