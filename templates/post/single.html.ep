@@ -17,9 +17,8 @@
 		<div class="poster">
 			% if (!$post->user_hidden && defined $post->user_id) {
 				<span class="name">
-					<a href="/user/<%= $post->user_id %>">
-						<%= $post->user->name %>
-					</a>
+					<a href="<%= url_for('user-view', id => $post->user_id) %>">
+						<%= $post->user->name %></a>
 				</span>
 			% }
 

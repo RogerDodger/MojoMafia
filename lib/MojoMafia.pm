@@ -76,8 +76,9 @@ sub startup {
 
 		if (defined $c->stash->{game}) {
 			if ($c->app->mode eq 'development' && defined $c->param('player')) {
-				my $query = $c->stash->{game}->search_related(
-					players => { alias => $c->param('player') });
+				my $query = $c->stash->{game}->search_related('players', {
+					alias => $c->param('player'),
+				});
 
 				if ($query->count == 1) {
 					return $c->stash->{$key} = $query->single;
@@ -107,16 +108,16 @@ sub startup {
 		}
 	});
 
-	# Tidy HTML output after rendering
-	$self->hook(after_render => sub {
-		my ($self, $output, $format) = @_;
+	# # Tidy HTML output after rendering
+	# $self->hook(after_render => sub {
+	# 	my ($self, $output, $format) = @_;
 
-		return unless $format eq 'html';
+	# 	return unless $format eq 'html';
 
-		$self->app->log->debug("Tidying rendered HTML");
+	# 	$self->app->log->debug("Tidying rendered HTML");
 
-		${ $output } = Mafia::HTML::tidy(${ $output });
-	});
+	# 	${ $output } = Mafia::HTML::tidy(${ $output });
+	# });
 }
 
 sub meta {

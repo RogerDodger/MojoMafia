@@ -11,5 +11,7 @@
 %= include 'game/pager';
 
 % if (player()->can_talk) {
-	%= include 'post/submit', action => url_for('post-post_game', id => $game->id)->query(player => player()->alias);
+	% my $action = url_for('post-post_game', id => $game->id);
+	% $action->query({ $_ => param $_ }) for grep { defined param $_ } qw/player page/;
+	%= include 'post/submit', action => $action, audiences => [ player()->audiences ];
 % }

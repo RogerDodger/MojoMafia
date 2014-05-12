@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use base 'Mafia::Schema::Result';
+use Mafia::Markup qw/render_markup/;
 
 __PACKAGE__->table("posts");
 
@@ -71,23 +72,14 @@ __PACKAGE__->has_many(
 );
 
 sub apply_markup {
-	############# TEMPORARY! ##############
 	my $self = shift;
-	my $text = $self->body_plain;
+	my ($render, @cited) = render_markup $self->body_plain;
 
-	$text =~ s/^\s+|\s+$//g;
+	$self->update({ body_render => $render });
 
-	$text =~ s/&/&amp;/g;
-	$text =~ s/</&lt;/g;
-	$text =~ s/>/&gt;/g;
-	$text =~ s/"/&quot;/g;
-	$text =~ s/'/&#39;/g;
+	# TODO: track cites
 
-	$text = join "\n\n",
-	          map { s/\n/<br>\n/g; "<p>$_</p>" }
-	            split /\n\n/, $text;
-
-	$self->update({ body_render => $text });
+	$self;
 }
 
 sub class {
@@ -95,7 +87,7 @@ sub class {
 
 	return join q{ }, $self->gametime ? ("game", $self->gametime) : (),
 	                  $self->user_id  ? "user" : "system",
-	                  grep defined, $self->trigger,
+	                  grep defined, $self->trigger;
 }
 
 1;

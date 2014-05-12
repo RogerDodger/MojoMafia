@@ -20,8 +20,10 @@ sub login {
 		return $c->render(json => {error => 'no assertion sent'});
 	}
 
-	my $url = $c->req->url->to_abs;
-	$form->{audience} = $url->protocol . "://" . $url->host . ':' . $url->port;
+	# Hardcoding this for now
+	$form->{audience} = $c->app->mode eq 'development'
+		? 'http://dev.rogerdodger.me'
+		: 'http://mojomafia.net';
 
 	my $json = $c->ua->post($authority, form => $form)->res->json;
 

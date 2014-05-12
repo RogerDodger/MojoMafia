@@ -16,6 +16,45 @@ body {
 }
 
 // ===========================================================================
+// Messages that go above the sitenav
+// ===========================================================================
+
+.top_msg {
+	@include linear-gradient(
+		darken($color-d, 15),
+		darken($color-d, 10));
+	border-bottom: 0.15em solid darken($color-d, 15);
+
+	.container {
+		color: white;
+		margin: 0 auto;
+		padding: 0.2em 0;
+		position: relative;
+		text-shadow: 1px 1px 1px darken($color-e, 40);
+		top: 0.1em;
+		width: $site-width;
+	}
+
+	.error_msg {
+		padding-left: 1em;
+	}
+
+	.close-btn {
+		float: right;
+		cursor: pointer;
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		&:hover {
+			color: lighten($color-e, 25);
+		}
+	}
+}
+
+// ===========================================================================
 // Primary sitenav
 // ===========================================================================
 
@@ -343,9 +382,17 @@ nav.top {
 	}
 
 	.senders {
-		padding: 1em;
 		background-color: #f7f7f7;
 		border-top: 1px solid #e5e5e5;
+		padding: 1em;
+	}
+
+	.audience {
+		float: right;
+		margin: 0.5em 0;
+
+		select { padding: 0.2em; }
+		label { font-family: $header-font-primary; }
 	}
 }
 

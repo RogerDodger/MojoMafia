@@ -18,9 +18,10 @@
 		</div>
 
 		<div class="postbody">
-			<textarea rows="1" cols="1" name="body" required="required"></textarea>
+			<textarea rows="1" cols="1" name="body" required="required" maxlength="65535"></textarea>
 			<div class="post preview hidden"></div>
 		</div>
+
 
 		<div class="senders">
 			<button type="submit">
@@ -42,6 +43,17 @@
 				<i class="icon-edit"></i>
 				Edit post
 			</span>
+
+			% if ($audiences) {
+				<div class="audience">
+					<label for="audience">Audience</label>
+					<select name="audience" id="audience">
+						% for my $audience (@$audiences) {
+							<option value="<%= $audience %>"><%= ucfirst $audience %></option>
+						% }
+					</select>
+				</div>
+			% }
 		</div>
 
 	</form>

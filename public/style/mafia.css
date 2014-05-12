@@ -286,6 +286,31 @@ h1 {
 body {
   min-width: 62em; }
 
+.top_msg {
+  background-color: #b9531c;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b9531c), color-stop(100%, #cf5d1f));
+  background-image: -webkit-linear-gradient( #b9531c, #cf5d1f);
+  background-image: linear-gradient(#b9531c, #cf5d1f);
+  border-bottom: 0.15em solid #b9531c; }
+  .top_msg .container {
+    color: white;
+    margin: 0 auto;
+    padding: 0.2em 0;
+    position: relative;
+    text-shadow: 1px 1px 1px #4e140e;
+    top: 0.1em;
+    width: 60em; }
+  .top_msg .error_msg {
+    padding-left: 1em; }
+  .top_msg .close-btn {
+    float: right;
+    cursor: pointer; }
+    .top_msg .close-btn a {
+      color: inherit;
+      text-decoration: none; }
+    .top_msg .close-btn:hover {
+      color: #f2bbb5; }
+
 nav.top {
   background-color: #f9f9f9;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f9f9f9), color-stop(100%, #f3f3f3));
@@ -464,9 +489,16 @@ nav.top {
   #NewPost textarea[disabled] {
     background-color: #f7f7f7; }
   #NewPost .senders {
-    padding: 1em;
     background-color: #f7f7f7;
-    border-top: 1px solid #e5e5e5; }
+    border-top: 1px solid #e5e5e5;
+    padding: 1em; }
+  #NewPost .audience {
+    float: right;
+    margin: 0.5em 0; }
+    #NewPost .audience select {
+      padding: 0.2em; }
+    #NewPost .audience label {
+      font-family: "Museo Slab", serif; }
 
 footer {
   border-bottom: 30em solid #e6e6e6; }

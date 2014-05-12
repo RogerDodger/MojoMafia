@@ -24,6 +24,15 @@
 	</head>
 
 	<body>
+		% my $error_msg = stash('error_msg') || flash('error_msg');
+		% if (defined $error_msg) {
+		<div class="top_msg">
+			<div class="container">
+				<i class="icon-warning-sign"></i>
+				<strong>Error</strong><span class="error_msg"><%= $error_msg %></span>
+			</div>
+		</div>
+		% }
 		<nav class="top">
 			<div class="container clearfix">
 				<header><a href="/">MojoMafia</a></header>

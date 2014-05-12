@@ -85,6 +85,8 @@ sub register {
 			my $self = shift;
 			$self->app->style->unsubscribe(change => $cb);
 		});
+
+		$c->render_later;
 	});
 }
 

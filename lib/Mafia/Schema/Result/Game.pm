@@ -153,6 +153,19 @@ sub cycle {
 	});
 }
 
+sub create_post {
+	my ($self, $body) = @_;
+
+	my $post = $self->thread->create_related(posts => {
+		user_hidden => defined $self->end,
+		body_plain  => $body,
+		gamedate    => $self->date,
+		gametime    => $self->time,
+	});
+
+	$post->apply_markup;
+}
+
 sub is_active {
 	return !!shift->date;
 }

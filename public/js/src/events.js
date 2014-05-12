@@ -29,3 +29,21 @@ if (Mafia.mode == 'development') {
 		})();
 	});
 }
+
+// ===========================================================================
+// Adds a dismiss button to global messages
+// ===========================================================================
+
+$(document).ready(function() {
+	var $container = $('.top_msg .container');
+	if ($container) {
+		var $btn = $('<div class="close-btn"></div>');
+		$btn.html('<i class="icon-remove"></i> Dismiss');
+
+		$btn.click(function() {
+			$container.parent().remove();
+		});
+
+		$container.append($btn);
+	}
+});

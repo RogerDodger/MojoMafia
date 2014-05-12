@@ -5,6 +5,8 @@ use Scalar::Util qw/looks_like_number/;
 sub fetch {
 	my $c = shift;
 	my $id = $c->param('id');
+	return $c->render_not_found unless looks_like_number $id;
+
 	my $game = $c->db('Game')->find($id);
 
 	if (defined $game) {
@@ -44,7 +46,7 @@ sub view {
 		}
 	);
 
-	$c->render;
+	$c->render('game/view');
 }
 
 "Geemu no jikan da.";

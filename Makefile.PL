@@ -11,6 +11,7 @@ my @production = qw(
 	SQL::Translator~0.11016
 	DBIx::Class::DynamicDefault~0.04
 	DBIx::Class::InflateColumn::Serializer~0.06
+	IO::Socket::SSL~1.84
 	Class::Null~2.110730
 );
 
