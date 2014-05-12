@@ -85,8 +85,12 @@ __PACKAGE__->many_to_many(roles => "player_roles", "role");
 
 sub audiences {
 	my $self = shift;
-	my @r = ('town');
-	return @r;
+	my @audiences = (
+		('town') x!! $self->game->is_day,
+		('mafia') x!! $self->roles->search({ name => "goon" })->count,
+	);
+
+	return @audiences;
 }
 
 sub name {

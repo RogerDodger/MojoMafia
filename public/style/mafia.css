@@ -395,8 +395,7 @@ nav.top {
     color: #444444; }
   .sidebar .votes table {
     font-size: 0.85em;
-    margin: 1em 0;
-    width: 100%; }
+    margin: 0.625em 1.25em; }
     .sidebar .votes table td {
       padding: 0.1em 0.3em;
       font-weight: bold; }
@@ -407,6 +406,9 @@ nav.top {
         text-align: left;
         min-width: 3em;
         color: #888888; }
+
+.no-flexbox .sidebar {
+  margin-left: 0; }
 
 .register {
   width: 40em;
