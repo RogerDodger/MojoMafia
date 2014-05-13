@@ -17,7 +17,7 @@ sub run {
 	my $self = shift;
 	my $schema = $self->db;
 
-	my $mafia = $schema->resultset('Role')->search({ name => "mafia" })->single;
+	my $mafia = $schema->resultset('Role')->search({ name => "mafioso" })->single;
 
 	say '+ Creating dummy users';
 	my @users = map {
@@ -72,7 +72,7 @@ sub run {
 				@players = $game->players->living->all;
 				$n_of_posts = 10 + int rand 60;
 			} else {
-				@players = $game->players->living->with_role("mafia")->all;
+				@players = $game->players->living->with_role("mafioso")->all;
 				$n_of_posts = 4 + int rand 10;
 			}
 

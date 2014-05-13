@@ -30,7 +30,7 @@ sub run {
 
 	say '+ Creating roles';
 	$schema->resultset('Role')->populate([
-		map { { name => $_ } } qw/townie cop doctor goon godfather roleblocker/
+		map { { name => $_ } } qw/townie cop doctor mafioso godfather roleblocker/
 	]);
 
 	say '+ Creating user `Nobody`';
@@ -57,23 +57,23 @@ sub run {
 			([ qw/townie/ ]) x 5,
 			([ qw/townie cop/ ]) x 1,
 			([ qw/townie doctor/ ]) x 1,
-			([ qw/goon roleblocker/ ]) x 1,
-			([ qw/goon/ ]) x 1,
+			([ qw/mafioso roleblocker/ ]) x 1,
+			([ qw/mafioso/ ]) x 1,
 		],
 		[
 			([ qw/townie/ ]) x 6,
 			([ qw/townie cop/ ]) x 1,
-			([ qw/goon/ ]) x 2,
+			([ qw/mafioso/ ]) x 2,
 		],
 		[
 			([ qw/townie/ ]) x 6,
 			([ qw/townie doctor/ ]) x 1,
-			([ qw/goon/ ]) x 2,
+			([ qw/mafioso/ ]) x 2,
 		],
 		[
 			([ qw/townie/ ]) x 7,
 			([ qw/townie cop/ ]) x 1,
-			([ qw/goon/ ]) x 1,
+			([ qw/mafioso/ ]) x 1,
 		],
 	);
 

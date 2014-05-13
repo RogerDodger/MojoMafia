@@ -305,9 +305,6 @@ body {
   .top_msg .close-btn {
     float: right;
     cursor: pointer; }
-    .top_msg .close-btn a {
-      color: inherit;
-      text-decoration: none; }
     .top_msg .close-btn:hover {
       color: #f2bbb5; }
 
@@ -407,9 +404,11 @@ nav.top {
         min-width: 3em;
         color: #888888; }
 
+/* Feature detection seems buggy
 .no-flexbox .sidebar {
-  margin-left: 0; }
-
+	margin-left: 0;
+}
+*/
 .register {
   width: 40em;
   margin: 1em auto;

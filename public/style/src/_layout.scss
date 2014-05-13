@@ -43,11 +43,6 @@ body {
 		float: right;
 		cursor: pointer;
 
-		a {
-			color: inherit;
-			text-decoration: none;
-		}
-
 		&:hover {
 			color: lighten($color-e, 25);
 		}
@@ -219,9 +214,11 @@ nav.top {
 	}
 }
 
+/* Feature detection seems buggy
 .no-flexbox .sidebar {
 	margin-left: 0;
 }
+*/
 
 // ===========================================================================
 // New user form

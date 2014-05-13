@@ -85,9 +85,12 @@ __PACKAGE__->many_to_many(roles => "player_roles", "role");
 
 sub audiences {
 	my $self = shift;
+
+	return () unless $self->is_alive;
+
 	my @audiences = (
 		('town') x!! $self->game->is_day,
-		('mafia') x!! $self->roles->search({ name => "goon" })->count,
+		('mafia') x!! $self->roles->search({ name => "mafioso" })->count,
 	);
 
 	return @audiences;
@@ -100,8 +103,7 @@ sub name {
 
 sub can_talk {
 	my $self = shift;
-	return $self->game->is_active and $self->is_alive
-	   and $self->game->is_day || $self->roles->search({ name => "goon" })->count;
+	return scalar $self->audiences;
 }
 
 sub role {
