@@ -4,6 +4,7 @@
 
 GET /      -> Root.index
 GET /about -> Root.about
+GET /roles -> Root.roles
 GET /rules -> Root.rules
 
 ANY /game/:id -> Game.fetch {

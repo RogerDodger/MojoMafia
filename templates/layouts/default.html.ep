@@ -41,6 +41,7 @@
 
 				<ul class="public">
 					<li><a href="<%= url_for 'setup-list' %>">Setups</a></li>
+					<li><a href="<%= url_for 'root-roles' %>">Roles</a></li>
 					<li><a href="<%= url_for 'root-about' %>">About</a></li>
 					<li><a href="<%= url_for 'root-rules' %>">Rules</a></li>
 				</ul>
