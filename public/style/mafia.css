@@ -286,6 +286,14 @@ h1 {
 body {
   min-width: 62em; }
 
+pre {
+  background: url(images/pinstripe.gif);
+  border-radius: 0.5em;
+  color: #eeeeee;
+  font-size: 0.75em;
+  line-height: 1.5em;
+  padding: 1em 1.5em; }
+
 .top_msg {
   background-color: #b9531c;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b9531c), color-stop(100%, #cf5d1f));

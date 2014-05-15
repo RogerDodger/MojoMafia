@@ -40,10 +40,9 @@
 				<div class="divider"></div>
 
 				<ul class="public">
-					<li><a href="#">Games</a></li>
-					<li><a href="#">Setups</a></li>
-					<li><a href="#">About</a></li>
-					<li><a href="#">Forum</a></li>
+					<li><a href="<%= url_for 'setup-list' %>">Setups</a></li>
+					<li><a href="<%= url_for 'root-about' %>">About</a></li>
+					<li><a href="<%= url_for 'root-rules' %>">Rules</a></li>
 				</ul>
 
 				<div class="divider"></div>

@@ -15,6 +15,15 @@ body {
 	min-width: ($site-width + 2em);
 }
 
+pre {
+	background: url(images/pinstripe.gif);
+	border-radius: 0.5em;
+	color: #eee;
+	font-size: 0.75em;
+	line-height: 1.5em;
+	padding: 1em 1.5em;
+}
+
 // ===========================================================================
 // Messages that go above the sitenav
 // ===========================================================================

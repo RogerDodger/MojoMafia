@@ -4,6 +4,7 @@
 
 GET /      -> Root.index
 GET /about -> Root.about
+GET /rules -> Root.rules
 
 ANY /game/:id -> Game.fetch {
 	GET /        -> Game.view
@@ -19,6 +20,7 @@ ANY /setup/:id -> Setup.fetch {
 	GET /edit -> Setup.edit
 }
 GET /setup/create -> Setup.create
+GET /setups -> Setup.list
 
 ANY /user/:id -> User.fetch {
 	GET /     -> User.view

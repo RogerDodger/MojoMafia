@@ -1,0 +1,103 @@
+% layout 'default';
+
+<h1>About</h1>
+
+<p class="notice"> If you're already familiar with Mafia, skip to <a
+href="#MojoMafia">here</a>. </p>
+
+<h2>Mafia</h2>
+
+<p> Mafia is a game that, at its core, revolves around one core tenant: an
+informed minority against an uninformed majority. </p>
+
+<p> At the start of the game, each player is assigned to either the Town
+(uninformed majority) or the Mafia (informed minority). The Mafia's goal is to
+kill everyone in the Town. Naturally, the Town don't want that to happen, so
+their goal is to kill everyone in the Mafia. </p>
+
+<p> Every night, the Mafia can kill one person. Every day, the Town can lynch
+a person they suspect by majority vote to be in the Mafia. </p>
+
+<p> Because the Town don't know who is and isn't with the Mafia, the decision
+of who to lynch is usually made after a lot of discussion, and this discussion
+takes up the majority of the game. </p>
+
+<p> The game ends when one team has won decisively: either the Mafia are all
+dead (Town wins) or the Mafia outnumber the Town (Mafia wins). </p>
+
+<p> That's the basic game, anyway. Things get a little more complex with the
+addition of what is generally known as <strong>power roles</strong>. Players
+with these special roles have things to do in addition to their Townie or
+Mafioso obligations. </p>
+
+<p> For example, a Townie Cop can investigate one player every night and learn
+whether they are with the Town or the Mafia. Conversely, a Mafioso Godfather
+will appear to a Cop to be with the Town, despite being with the Mafia. </p>
+
+<p>  There are a countless number of possible power roles used in Mafia
+variants. Check the <a href="<%= url_for 'root-roles' %>">Roles</a> page out
+to find out about all the possible roles in MojoMafia. </p>
+
+<h2 id="MojoMafia">MojoMafia</h2>
+
+<p> MojoMafia is an implementation of Mafia that handles all of the game logic
+that would usually have to be done by a human moderator. Its features
+include&mdash; </p>
+
+<ul>
+  <li> Automatic processing of all game logic
+  <li> Consistent rules for power roles
+  <li> Votes and actions built in to the interface
+  <li> Posts hidden as appropriate&mdash;no need to create a quicktopic for private chats
+  <li> Quick filtering of posts to get vote histories, kill/lynch sequences, etc.
+  <li> Archival of games for future reference/perusal
+  <li> Stat tracking: wins, losses, leave percent, etc.
+  <li> Host rules to require players to have a good record
+  <li> Waiting lists to replace dropped-out players
+  <li> Player aliases so that high-reputation players can avoid metagaming
+</ul>
+
+<p> The biggest difference between MojoMafia as a game and usual Mafia
+variants is that each player can have multiple power roles. Rather than a
+player being defined by their singular role, they are defined by the
+combination of all of their roles. Everything, including being a Townie, is a
+role that players may have. </p>
+
+<p> This allows such things as "Bulletproof Serial Killer" without those
+combinations having been defined beforehand. The end result is a more flexible
+and well-defined ruleset for player roles. </p>
+
+<h3>Setups</h3>
+
+<p> Setups in MojoMafia are simply a list of roles that each player will
+have. For example, a basic setup:</p>
+
+<pre><code><% =%>
+Townie Cop
+Townie
+Townie
+Townie
+Townie
+Mafioso
+Mafioso</code></pre>
+
+<p> This is what's known as an open setup, since there is only one possible
+set of roles players may have. This set is referred to as a <strong>role
+pool</strong>. </p>
+
+<p> Setups can have any number of role pools. For example, the popular setup F11 has 4 role pools: </p>
+
+<pre><code><%# Chomp newline =%>
+Townie Cop            Townie Cop            Townie Doctor       Townie
+Townie Doctor         Townie                Townie              Townie
+Townie                Townie                Townie              Townie
+Townie                Townie                Townie              Townie
+Townie                Townie                Townie              Townie
+Townie                Townie                Townie              Townie
+Townie                Townie                Townie              Townie
+Mafioso Roleblocker   Mafioso               Mafioso             Mafioso Roleblocker
+Mafioso               Mafioso               Mafioso             Mafioso</code></pre>
+
+<p> When a game starts, a random pool is chosen from the setup to determine
+the players' roles. A setup with more than one pool is what's known as a semi-
+open setup. </p>
