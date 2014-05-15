@@ -9,8 +9,8 @@ sub markup {
 
 	return join q{},
 	         map { "<p>$_</p>" }
-	         	grep /\S/,
-	              split /\n\n/, xml_escape $text;
+	           grep /\S/,
+	             split /\n\n/, xml_escape $text;
 }
 
 *render_markup = \&markup;

@@ -85,25 +85,43 @@ __PACKAGE__->many_to_many(roles => "player_roles", "role");
 
 sub audiences {
 	my $self = shift;
+	my @audiences;
 
-	return () unless $self->is_alive;
-
-	my @audiences = (
-		('town') x!! $self->game->is_day,
-		('mafia') x!! $self->roles->search({ name => "mafioso" })->count,
-	);
+	if (!$self->game->is_active) {
+		@audiences = (
+			('town'),
+		);
+	}
+	elsif ($self->is_alive) {
+		@audiences = (
+			('town')  x!! $self->game->is_day,
+			('mafia') x!! $self->has_role('mafioso'),
+		);
+	}
+	else {
+		@audiences = (
+			# Unlike "Town" for living players, there's not really any reason
+			# to disallow dead people from talking at night.
+			('dead'),
+		);
+	}
 
 	return @audiences;
-}
-
-sub name {
-	my $self = shift;
-	return $self->alias // $self->user->name;
 }
 
 sub can_talk {
 	my $self = shift;
 	return scalar $self->audiences;
+}
+
+sub has_role {
+	my $self = shift;
+	return $self->roles->search({ name => shift })->count;
+}
+
+sub name {
+	my $self = shift;
+	return $self->alias // $self->user->name;
 }
 
 sub role {
