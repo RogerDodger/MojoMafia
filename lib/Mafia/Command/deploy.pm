@@ -71,8 +71,7 @@ sub run {
 			([ qw/mafioso/ ]) x 2,
 		],
 		[
-			([ qw/townie/ ]) x 6,
-			([ qw/townie cop/ ]) x 1,
+			([ qw/townie/ ]) x 7,
 			([ qw/mafioso/ ]) x 1,
 			([ qw/mafioso roleblocker/ ]) x 1,
 		],
