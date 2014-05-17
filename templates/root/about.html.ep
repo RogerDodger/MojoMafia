@@ -7,16 +7,15 @@ href="#MojoMafia">here</a>. </p>
 
 <h2>Mafia</h2>
 
-<p> Mafia is a game that, at its core, revolves around one core tenant: an
-informed minority against an uninformed majority. </p>
+<p> Mafia is a game of deception. </p>
 
-<p> At the start of the game, each player is assigned to either the Town
-(uninformed majority) or the Mafia (informed minority). The Mafia's goal is to
-kill everyone in the Town. Naturally, the Town don't want that to happen, so
-their goal is to kill everyone in the Mafia. </p>
+<p> At the start of the game, each player is assigned to either the Town or
+the Mafia. The Mafia's goal is to kill everyone in the Town. Naturally, the
+Town don't want that to happen, so their goal is to kill everyone in the
+Mafia. </p>
 
 <p> Every night, the Mafia can kill one person. Every day, the Town can lynch
-a person they suspect by majority vote to be in the Mafia. </p>
+a person they suspect by majority vote to be in the Mafia. Because the Mafia are pretending to be with the Town, they are also involved in this vote. </p>
 
 <p> Because the Town don't know who is and isn't with the Mafia, the decision
 of who to lynch is usually made after a lot of discussion, and this discussion
@@ -26,14 +25,14 @@ takes up the majority of the game. </p>
 dead (Town wins) or the Mafia outnumber the Town (Mafia wins). </p>
 
 <p> That's the basic game, anyway. Things get a little more complex with the
-addition of <strong>power roles</strong>. Players with these special roles
-have things to do in addition to their Townie or Mafioso obligations. </p>
+addition of extra roles. Players with extra roles have things to do in
+addition to their Townie or Mafioso obligations. </p>
 
 <p> For example, a Townie Cop can investigate one player every night and learn
 whether they are with the Town or the Mafia. Conversely, a Mafioso Godfather
 will appear to a Cop to be with the Town, despite being with the Mafia. </p>
 
-<p> Check the out <a href="<%= url_for 'root-roles' %>">Roles</a> page to
+<p> Check out the <a href="<%= url_for 'root-roles' %>">Roles</a> page to
 learn about all the roles in MojoMafia. </p>
 
 <h2 id="MojoMafia">MojoMafia</h2>
@@ -57,7 +56,7 @@ include&mdash; </p>
 
 <p> The biggest difference between MojoMafia as a game and usual Mafia
 variants is that each player can have multiple power roles. Rather than a
-player being defined by their singular powerrole, they are defined by the
+player being defined by their singular power role, they are defined by the
 combination of all of their roles. Everything, including being a Townie, is a
 role that players may have. </p>
 
