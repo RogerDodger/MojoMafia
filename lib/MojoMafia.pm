@@ -14,6 +14,7 @@ sub startup {
 	if ($self->app->mode eq 'development') {
 		$self->app->log(Mafia::Log->new);
 
+		$self->plugin('Mafia::Names');
 		$self->plugin('Mafia::Watcher');
 	}
 

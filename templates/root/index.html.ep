@@ -16,6 +16,10 @@
 			</a>
 			<br>
 			Players: <%= join ', ', map { $_->alias } $game->players %>
+			<br>
+			<a href="#" class="namegen">Generate name</a>
+			<input type="text" name="alias" placeholder="Alias" length="34">
+			<input type="submit" value="Join game">
 		</li>
 	% }
 </ul>
