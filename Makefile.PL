@@ -7,6 +7,7 @@ GetOptions(\my %opt, 'devel|development');
 
 my @production = qw(
 	Mojolicious~3.89
+	Mojolicious::Plugin::PlainRoutes~0.04
 	DBIx::Class~0.08210
 	SQL::Translator~0.11016
 	DBIx::Class::DynamicDefault~0.04
