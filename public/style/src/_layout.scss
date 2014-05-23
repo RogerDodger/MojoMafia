@@ -160,8 +160,8 @@ nav.top {
 	aside {
 		h1 {
 			@include linear-gradient(
-				lighten($color-b, 40),
-				lighten($color-b, 20));
+				$header-gradient-a,
+				$header-gradient-b);
 			margin: 0;
 			font-size: 1em;
 			padding: 0.5em 1em;
@@ -173,8 +173,7 @@ nav.top {
 		}
 
 		margin: 1em 0;
-		border: 1px solid lighten($color-b, 20);
-		border-radius: 4px 4px 0 0;
+		border: 1px solid $header-gradient-b;
 	}
 
 	.game,
@@ -246,6 +245,42 @@ nav.top {
 		color: #444;
 		font-weight: bold;
 	}
+}
+
+// ===========================================================================
+// Game listing
+// ===========================================================================
+
+.game-listing {
+	& + .game-listing {
+		margin-top: 1em;
+	}
+
+	form {
+		display: inline;
+	}
+
+	input[type="text"] {
+		width: 8em;
+	}
+
+	.title {
+		@include linear-gradient($header-gradient-a, $header-gradient-b);
+		font-family: $header-font-primary;
+		font-size: 1.1em;
+		padding: (0.6em / 1.1);
+	}
+
+	.players {
+		padding: 0.6em;
+		font-size: 0.9em;
+	}
+
+	.player-count {
+		float: right;
+	}
+
+	border: em(1) solid $header-gradient-b;
 }
 
 // ===========================================================================
@@ -410,8 +445,6 @@ nav.top {
 // ===========================================================================
 
 footer {
-	border-bottom: 30em solid #e6e6e6;
-
 	.content {
 		width: $site-width;
 		margin: 0 auto;

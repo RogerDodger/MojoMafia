@@ -38,8 +38,9 @@ POST /logout  -> User.logout
 
 ANY / -> User.auth {
 	ANY /game/:id -> Game.fetch {
-		POST   /post -> Post.post_game
-		DELETE /     -> Game.delete
+		POST   /post   -> Post.post_game
+		POST   /player -> Player.post
+		DELETE /       -> Game.delete
 	}
 	POST /game -> Game.post
 

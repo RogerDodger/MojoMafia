@@ -26,11 +26,12 @@ $(document).ready(function() {
 
 			name += dict[i].randomElement();
 		}
+
 		return name;
 	};
 
 	$('.namegen').click(function() {
-		$(this).next().val(getname());
+		$(this).parent().find('input[name="alias"]').val(getname());
 	});
 
 	dicts = <%== $dicts %>;

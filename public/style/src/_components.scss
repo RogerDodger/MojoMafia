@@ -23,8 +23,7 @@
 }
 
 .button,
-.btn,
-button {
+.btn {
 	@extend .reset;
 	background-color: #fff;
 	border: 1px solid darken(#fff, 20%);
@@ -113,11 +112,4 @@ button {
 		float: none;
 		display: inline-block;
 	}
-}
-
-#{$all-text-inputs} {
-	@extend .maxwidth;
-	border: 1px solid darken(#fff, 20%);
-	display: block;
-	padding: 0.5em;
 }

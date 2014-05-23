@@ -22,9 +22,8 @@
 			<div class="post preview hidden"></div>
 		</div>
 
-
 		<div class="senders">
-			<button type="submit">
+			<button class="btn" type="submit">
 				<i class="icon-comment"></i>
 				Add post
 			</button>

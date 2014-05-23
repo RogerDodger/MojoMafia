@@ -8,7 +8,7 @@ sub index {
 
 	$c->stash->{games} = $c->db('Game')->active;
 
-	$c->render;
+	$c->render('game/list');
 }
 
 sub events {
