@@ -93,15 +93,15 @@ rine ron rus ry sten tine ton um ver
 
 @@ nordic.dict
 
-A Ab Ad Ae Ag Al Alf All An Ar Ark Arn Aum Ba Bar Bed Bjad Bor Bot Bra Bri Bru
-Cri Dag Dath Dryn Ei Eig Ek Enn Erg Ey Fa Fjol Fjor Fra Gar God Gog Grei Gud
-Ha Haa Hae Ham Hedd Hef Heid Heif Hel Herd Hi Hir Hjo Hjol Hjron Hlar Hlor Ho
-Hod Hol Honth Hor Hrar Hrei Hris Hro Hron Hror Hrun Hu Hurg Hurn Hy I Id Ig Il
-Im In Jol Kar Knur Kun Lo Mae Men Mer Met Nor Od On Ra Radd Raf Ran Ring Rogg
+A Ab Ad Ae Ag Al Alf An Ar Ark Arn Aum Ba Bar Bed Bjad Bor Bot Bra Bri Bru Cri
+Dag Dath Dryn Ei Eig Ek Enn Erg Ey Fa Fjol Fjor Fra Gar God Gog Grei Gud Ha
+Haa Hae Ham Hedd Hef Heid Heif Hel Herd Hi Hir Hjo Hjol Hjron Hlar Hlor Ho Hod
+Hol Honth Hor Hrar Hrei Hris Hro Hron Hror Hrun Hu Hurg Hurn Hy I Id Ig Il Im
+In Jol Kar Knur Kun Lo Mae Men Mer Met Nor Od On Ra Radd Raf Ran Ring Rogg
 Rost Ru Sa Sae Sar Si Sif Sit Sjarn Sjo Sjor Sna Sno Snor Sork Sot Star Svog
 Tha Tho Thon Thro Thu Thun Ur Val Vel Vir Vo Vong Yng
 
-ad ge gok gu he ko la le lis lo raf rir ru
+ad ge gok gu he ir ko la le lis lo raf ri ru
 
 a bard bjof dar del di dil ding dir dis eas fhild fid fing fred ga gal gar
 geir gerd gheid gi gil i ja jolf kar khi ki knir knolf kon la lin ling lod lof
