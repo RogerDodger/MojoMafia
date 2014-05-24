@@ -52,7 +52,6 @@ is(
 	"Bold and italic text, nested",
 );
 
-
 is(
 	render_markup("Lorem **ipsum *dolor** sit* amet."),
 	"<p>Lorem <strong>ipsum <em>dolor</em></strong> sit amet.</p>",
@@ -64,7 +63,6 @@ is(
 	"<p>Lorem **ipsum dolor sit amet.</p>",
 	"Bold text, no terminator",
 );
-
 
 is(
 	render_markup(q{[](http://www.example.com)}),
