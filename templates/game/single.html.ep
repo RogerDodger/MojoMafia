@@ -10,7 +10,7 @@
 	</div>
 
 	<div class="players clearfix">
-		<%= join ', ', map { $_->alias } $game->players %>
+		<%= join ', ', map { $_->alias } $game->players->sorted %>
 		<div class="player-count">
 		% if ($showform) {
 			<form action="<%= url_for 'player-post', id => $game->id %>" method="post">
