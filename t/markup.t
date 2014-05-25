@@ -1,6 +1,8 @@
 #!/usr/bin/env perl
 
+use utf8;
 use 5.014;
+use Encode;
 use Test::More;
 use Mafia::Markup qw/render_markup/;
 
@@ -86,6 +88,12 @@ is(
 	render_markup(q{[foo](javascript:alert('Hello');)}),
 	q{<p><a href="alert('Hello');">foo</a></p>},
 	"Link XSS, javascript scheme",
+);
+
+is(
+	render_markup(Encode::encode_utf8 '[☃](http://☃.com)'),
+	'<p><a href="http://xn--n3h.com">☃</a></p>',
+	"UTF-8 bytes handled properly",
 );
 
 done_testing;
