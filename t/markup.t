@@ -164,7 +164,7 @@ is(
 
 is(
 	render_markup("** *** * **\n\n** *** ** *\n\n** *** ***"),
-	"<p><strong> **</strong> * **</p>\n\n<p><strong> **</strong> ** *</p>\n\n<p><strong> **</strong> ***</p>",
+	"<p><strong> *</strong> * **</p>\n\n<p><strong> *</strong> ** *</p>\n\n<p><strong> *</strong> ***</p>",
 	"Oblique ends bold only",
 );
 
