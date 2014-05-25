@@ -2,9 +2,10 @@ package Mafia::Timestamp;
 
 use Mojo::Base -base;
 
-use overload 
+use overload (
 	q{""} => 'rfc3339',
-	fallback => 1;
+	fallback => 1
+);
 
 has year   => 1900;
 has month  => 1;
@@ -36,8 +37,8 @@ sub parse {
 	state $iso8601_re = qr{
 		(?<year>   \d{4} ) -
 		(?<month>  \d{2} ) -
-		(?<day>    \d{2} ) 
-		(?: 
+		(?<day>    \d{2} )
+		(?:
 			[T\x20]
 			(?<hour>   \d{2} ) :
 			(?<minute> \d{2} ) :
@@ -45,7 +46,7 @@ sub parse {
 		)? # Time portion is optional
 	}axo;
 
-	if($str =~ $iso8601_re) {
+	if ($str =~ $iso8601_re) {
 		return $class->new(map { $_ => int $+{$_} } keys %+);
 	}
 	else {
@@ -74,14 +75,14 @@ sub days_in_month {
 }
 
 sub day_of_week {
-	# Tomohiko Sakamoto 1993, C FAQ 20.31 (http://c-faq.com/misc/zeller.html) 
+	# Tomohiko Sakamoto 1993, C FAQ 20.31 (http://c-faq.com/misc/zeller.html)
 	my $self = shift;
 	my ($day, $month, $year) = ($self->day, $self->month, $self->year);
 	state $offset = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4];
-	
+
 	$year -= $month < 3;
 
-	return ($year + int($year / 4) - int($year / 100) + int($year / 400) 
+	return ($year + int($year / 4) - int($year / 100) + int($year / 400)
 	              + $offset->[$month-1] + $day) % 7;
 }
 
@@ -131,16 +132,16 @@ sub delta {
 	my $significant_figures = $SIGNIFICANT_FIGURES;
 	state $units            = [qw/year month day hour minute second/];
 
-	if(!ref $other) {
+	if (!ref $other) {
 		$other = $self->parse($other);
 	}
 
 	return "just now" if $self eq $other;
 
 	my ($big, $small, $neg) = (
-		($self cmp $other) > 0 ?
-		($self, $other, 0) :
-		($other, $self, 1)
+		($self cmp $other) > 0
+			? ($self, $other, 0)
+			: ($other, $self, 1)
 	);
 
 	my %delta;
@@ -153,7 +154,7 @@ sub delta {
 		$delta{minute}--;
 		$delta{second} += 60;
 	}
-	
+
 	if ($delta{minute} < 0) {
 		$delta{hour}--;
 		$delta{minute} += 60;
@@ -176,10 +177,10 @@ sub delta {
 
 	my @deltas;
 	for my $unit (@$units) {
-		if(my $n = $delta{$unit}) {
+		if (my $n = $delta{$unit}) {
 			push @deltas, "$n $unit" . ($n == 1 ? '' : 's');
 		}
-		if(@deltas) {
+		if (@deltas) {
 			# Significant figures start counting as soon as a non-zero is
 			# found.
 			last if --$significant_figures == 0;
@@ -188,7 +189,7 @@ sub delta {
 
 	my $time = eval {
 		# x and y
-		if(@deltas <= 2) {
+		if (@deltas <= 2) {
 			return join " and ", @deltas
 		}
 		# x, y, and z
@@ -221,7 +222,7 @@ Mafia::Timestamp - Portable timestamps with human-readable deltas
     use Mafia::Timestamp;
 
     my $t = Mafia::Timestamp->now;
-    
+
     sleep(5);
     say $t->delta; # "5 seconds ago"
     sleep(60);
@@ -241,10 +242,10 @@ Mafia::Timestamp - Portable timestamps with human-readable deltas
     my $t3 = Mafia::Timestamp->parse($date_str);
     say $t3->delta;   # "2 hours ago"
 
-    say $t3->delta_html; 
+    say $t3->delta_html;
     # Assuming we started at 2013-04-11 06:00:00,
     #
-    # <time title="Thu, 11 Apr 2013 06:00:00" 
+    # <time title="Thu, 11 Apr 2013 06:00:00"
     #       datetime="2013-04-11T06:00:00Z">2 hours ago</time>
 
 This module has two main purposes: to portably create, store and retrieve
@@ -281,7 +282,7 @@ Returns a timestamp from a given UNIX epoch.
 
 Constructs a new timestamp from an ISO-8601 datetime string.
 
-=head3 
+=head3
 
 =head2 Output formats
 
