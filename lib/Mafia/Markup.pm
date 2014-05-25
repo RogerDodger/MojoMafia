@@ -63,13 +63,10 @@ sub _parse_inline {
 	# having been inserted by the parser earlier
 	my %eat;
 	for my $token (@tokens) {
-		my @cats = grep { $token =~ /^$igrammar{$_}$/ } keys %igrammar;
-
-		if (@cats > 1) {
-			warn "Token $token has multiple lexicographical categories: @cats";
+		my $cat;
+		if (ref $token) {
+			($cat, $token) = @$token;
 		}
-
-		my $cat = $cats[0];
 
 		# Token needs to be eaten, so do nothing with it
 		if (defined $cat && $eat{$cat}) {
@@ -179,13 +176,20 @@ sub _parse_inline {
 sub _tokenise_inline {
 	my $text = shift;
 
-	my @tokens = grep defined && length,
-	               split qr{( $igrammar{escape}
-	                        | $igrammar{bold}
-	                        | $igrammar{italics}
-	                        | $igrammar{link} )}x, $text;
+	my @tokens;
+	my $prev_end = 0;
+	while ($text =~ m{(?<escape>  $igrammar{escape})
+	                | (?<bold>    $igrammar{bold})
+	                | (?<italics> $igrammar{italics})
+	                | (?<link>    $igrammar{link})}gxo
+	) {
+		push @tokens, substr $text, $prev_end, $-[0] - $prev_end;
+		push @tokens, [ %+ ];
+		$prev_end = $+[0];
+	}
+	push @tokens, substr $text, $prev_end, length($text) - $prev_end;
 
-	return @tokens;
+	@tokens;
 }
 
 1;
