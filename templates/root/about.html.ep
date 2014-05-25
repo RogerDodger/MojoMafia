@@ -15,11 +15,16 @@ Town don't want that to happen, so their goal is to kill everyone in the
 Mafia. </p>
 
 <p> Every night, the Mafia can kill one person. Every day, the Town can lynch
-a person they suspect by majority vote to be in the Mafia. Because the Mafia are pretending to be with the Town, they are also involved in this vote. </p>
+(i.e., kill) one person. Both groups make the decision via a majority vote. </p>
 
-<p> Because the Town don't know who is and isn't with the Mafia, the decision
-of who to lynch is usually made after a lot of discussion, and this discussion
-takes up the majority of the game. </p>
+<p> The key difference between the two groups is that the Town don't know who
+is in the Mafia and who isn't, and the Mafia do, and the Mafia can discuss
+things privately amongst each other. For the Town vote everyone in the game
+has a say, even those in the Mafia (because the Town don't know who is and
+isn't in the Mafia), but the Mafia kill vote is decided by only those in the
+Mafia. </p>
+
+<p> When a player dies, their true affiliation is revealed to everyone in the game. </p>
 
 <p> The game ends when one team has won decisively: either the Mafia are all
 dead (Town wins) or the Mafia outnumber the Town (Mafia wins). </p>

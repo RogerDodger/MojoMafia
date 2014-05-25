@@ -25,6 +25,10 @@ my %tag = (
 sub markup {
 	my $text = shift;
 
+	if (!utf8::is_utf8 $text) {
+		$text = Encode::decode_utf8($text);
+	}
+
 	$text = _parse_block($text);
 }
 
@@ -130,8 +134,12 @@ sub _parse_inline {
 				if ($token =~ $cgrammar{link}) {
 					my ($name, $url) = ($1, $2);
 
-					$name = _html_escape($name);
+					$name = _html_escape(length($name) ? $name : $url);
 					$url  = Mojo::URL->new($url);
+
+					if (defined $url->scheme && $url->scheme eq 'javascript') {
+						delete $url->{scheme};
+					}
 
 					$escaped = qq{<a href="$url">$name</a>};
 				}
