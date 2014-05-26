@@ -14,7 +14,7 @@ my %igrammar = (
 
 # Captures grammar
 my %cgrammar = (
-	link    => qr{^ \[ (.*) \] \( (.+) \) $}x,
+	link => qr{^ \[ (.*) \] \( (.+) \) $}x,
 );
 
 # Lookup table for style tags
@@ -42,8 +42,8 @@ sub _html_escape {
 
 	s/</&lt;/g;
 	s/>/&gt;/g;
-	s/'/&#39;/g;
 	s/"/&quot;/g;
+	s/'/&#39;/g;
 
 	$_;
 }
