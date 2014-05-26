@@ -37,12 +37,6 @@ is(
 );
 
 is(
-	render_markup("Lorem [ipsum dolor](http://example.com) sit amet."),
-	q{<p>Lorem <a href="http://example.com">ipsum dolor</a> sit amet.</p>},
-	"Link text",
-);
-
-is(
 	render_markup("Lorem ipsum **dolor** sit amet."),
 	"<p>Lorem ipsum <strong>dolor</strong> sit amet.</p>",
 	"Bold text",
@@ -121,8 +115,8 @@ is(
 );
 
 is(
-	render_markup("** * ** ** * **"),
-	"<p><em> * </em> <em> * </em></p>",
+	render_markup("* ** * * ** *"),
+	"<p><em> ** </em> <em> ** </em></p>",
 	"Bad italic, bad italic",
 );
 
@@ -226,6 +220,12 @@ is(
 	render_markup("**** ** *\n\n**** ** ***"),
 	"<p><strong>** </strong> *</p>\n\n<p><strong>** </strong> ***</p>",
 	"Bold badly-terminates >3 oblique",
+);
+
+is(
+	render_markup("Lorem [ipsum dolor](http://example.com) sit amet."),
+	q{<p>Lorem <a href="http://example.com">ipsum dolor</a> sit amet.</p>},
+	"Link text",
 );
 
 is(
