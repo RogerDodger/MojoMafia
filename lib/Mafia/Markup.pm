@@ -153,6 +153,9 @@ sub _parse_inline {
 					$_ = _html_escape($token);
 				}
 			}
+			else {
+				warn "Unknown category: '$cat'";
+			}
 		}
 		# plain text token
 		else {
