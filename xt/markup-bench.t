@@ -44,3 +44,10 @@ for (1..5) {
 	my $text = join "", map { $tokens[rand @tokens] } 1..1000;
 	timetext $text;
 }
+
+diag "Html escapes: <>\"'";
+{
+	my @tokens = qw/< > " ' a a a a/;
+	my $text = join "", map { $tokens[rand @tokens] } 1..10000;
+	timetext $text;
+}
