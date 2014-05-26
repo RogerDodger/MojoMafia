@@ -1,15 +1,15 @@
 package Mafia::Markup;
 use Mojo::Base 'Exporter';
 use Mojo::URL;
+use List::Util ();
 
 our @EXPORT_OK = qw/render_markup/;
 
 # Inline grammar
 my %igrammar = (
-	escape  => qr{ \\ . }x,
-	bold    => qr{ \*{2} }x,
-	italics => qr{ \* }x,
-	link    => qr{ \[ .* \] (?<!\]\\) \( .* [^\\] \) }x,
+	escape => qr{ \\ . }x,
+	style  => qr{ \*+ }x,
+	link   => qr{ \[ .* \] (?<!\]\\) \( .* [^\\] \) }x,
 );
 
 # Captures grammar
@@ -17,9 +17,12 @@ my %cgrammar = (
 	link    => qr{^ \[ (.*) \] \( (.+) \) $}x,
 );
 
-my %tag = (
-	bold    => 'strong',
-	italics => 'em',
+# Lookup table for style tags
+my @style_tags = (
+	undef,
+	[ '<em>', '</em>' ],
+	[ '<strong>', '</strong>' ],
+	[ '<strong><em>', '</em></strong>' ],
 );
 
 sub markup {
@@ -32,7 +35,7 @@ sub markup {
 	$text = _parse_block($text);
 }
 
-*render_markup = \&markup;
+BEGIN { *render_markup = \&markup }
 
 sub _html_escape {
 	local $_ = shift;
@@ -46,9 +49,9 @@ sub _html_escape {
 }
 
 sub _parse_block {
-	return join "\n\n",
-	         map { '<p>' . _parse_inline($_) . '</p>' }
-	           split /\n{2}/, shift;
+	join "\n\n",
+	  map { '<p>' . _parse_inline($_) . '</p>' }
+	    split /\n\n+/, shift;
 }
 
 sub _parse_inline {
@@ -57,128 +60,110 @@ sub _parse_inline {
 
 	my @tokens = _tokenise_inline($text);
 
-	my $buf = "";
-	my @stack;
+	# bit mask of which font style we're in. a value of 3 means we're in both style 1 and 2
+	my $in = 0;
 
-	# Used to indicate whether a capture of the given type has started
-	my %in = ( bold => undef, italics => undef );
+	# references of up to two font style opening tokens in order
+	my @open;
 
-	# Used to indicate when a token should be eaten, on account of one
-	# having been inserted by the parser earlier
-	my %eat;
-	for my $token (@tokens) {
-		my $cat;
-		if (ref $token) {
-			($cat, $token) = @$token;
-		}
+	# modify the array of tokens in-place
+	# all special tokens are turned into strings according to the token's rules
+	for (@tokens) {
+		# special token
+		if (ref) {
+			my ($cat, $token) = @$_;
 
-		# Token needs to be eaten, so do nothing with it
-		if (defined $cat && $eat{$cat}) {
-			$eat{$cat}--;
-		}
-		# Capturing tokens, utilising stack
-		elsif (defined $cat and $cat eq 'bold' || $cat eq 'italics') {
-			if (!$in{$cat}) {
-				# Start of capture
-				push @stack, [ $token, $cat ];
-				$in{$cat} = 1;
-			}
-			else {
-				# End of capture
-				my $cap = '';
-				while (@stack) {
-					my $pop = pop @stack;
+			if ($cat eq 'style') {
+				# effective length of style token
+				my $length = List::Util::min(length $token, 3);
 
-					if (ref $pop) {
-						my $popcat = $pop->[1];
-						$cap = "<$tag{$popcat}>$cap</$tag{$popcat}>";
-						$in{$popcat} = 0;
+				# if we're in a style that we can close, this token is a closing token
+				# otherwise this token is an opening token. it's never both
 
-						if ($popcat ne $cat) {
-							# Oh oh, someone's given us a bad tree. We'd
-							# better fix it up.
-							$eat{$popcat} = 1;
-						}
-						else {
-							# All is as it should be
-							last;
+				# closing token
+				if ($in & $length) {
+					# closing style token is level 1 or 2, which closes from the end only what it needs to
+					if ($length < 3) {
+						while (@open) {
+							my ($open, $open_length) = @{pop @open};
+
+							# close any opened style level we pass over
+							$in &= ~$open_length;
+
+							# closing either the same style level, or closing level 3
+							if ($open_length & $length) {
+								my ($open_tag, $close_tag) = @{$style_tags[$length]};
+
+								substr($$open, 0, $length) = $open_tag;
+								$_ = $close_tag;
+
+								# closed our style level, so we're done
+								last;
+							}
 						}
 					}
+					# closing style token is level 3, which closes everything it can
 					else {
-						$cap = $pop . $cap;
+						# substitutions happen from the outside of the closing token. keep track of the position
+						my $close_offset = length $token;
+
+						# start from the outside of the open token list
+						for my $open_item (@open) {
+							my ($open, $open_length) = @$open_item;
+							my ($open_tag, $close_tag) = @{$style_tags[$open_length]};
+
+							substr($$open, 0, $open_length) = $open_tag;
+
+							$close_offset -= $open_length;
+							substr($token, $close_offset, $open_length) = $close_tag;
+							$_ = $token;
+						}
+
+						# close everything
+						$in = 0;
+						@open = ();
 					}
 				}
-
-				if (@stack) {
-					push @stack, $cap;
-				}
+				# opening token
 				else {
-					$buf .= $cap;
+					$_ = $token;
+					push @open, [ \$_, $length ];
+					$in |= $length;
 				}
 			}
-		}
-		# Non-capturing
-		else {
-			my $escaped;
+			elsif ($cat eq 'escape') {
+				$token = _html_escape($token);
 
-			if (!defined $cat || $cat eq 'escape') {
-				# Escape HTML special chars
-				$escaped = _html_escape($token);
+				# chop \ from escape text
+				$token = substr $token, 1;
 
-				if (defined $cat) {
-					# Chop \ from escape text
-					$escaped = substr $escaped, 1;
-				}
+				$_ = $token;
 			}
 			elsif ($cat eq 'link') {
-				if ($token =~ $cgrammar{link}) {
-					my ($name, $url) = ($1, $2);
-
-					$name = _html_escape(length($name) ? $name : $url);
+				if (my ($name, $url) = $token =~ $cgrammar{link}) {
+					$name = _html_escape(length $name ? $name : $url);
 					$url  = Mojo::URL->new($url);
 
 					if (defined $url->scheme && $url->scheme eq 'javascript') {
 						delete $url->{scheme};
 					}
 
-					$escaped = qq{<a href="$url">$name</a>};
+					$_ = qq{<a href="$url">$name</a>};
 				}
 				else {
 					warn "Token '$token' doesn't match cgrammar{link}";
+					$_ = _html_escape($token);
 				}
 			}
-
-			if (@stack) {
-				push @stack, $escaped;
-			}
-			else {
-				$buf .= $escaped;
-			}
+		}
+		# plain text token
+		else {
+			$_ = _html_escape($_);
 		}
 	}
 
-	# Some caps were left on the stack without terminating
-	if (@stack) {
-		my $cap = '';
-		while (@stack) {
-			my $pop = pop @stack;
-			if (ref $pop) {
-				my $popcat = $pop->[1];
-				if ($eat{$popcat}) {
-					$eat{$popcat}--;
-				}
-				else {
-					$cap = $pop->[0] . $cap;
-				}
-			}
-			else {
-				$cap = $pop . $cap;
-			}
-		}
-		$buf .= $cap;
-	}
-
-	$buf;
+	# now that all the tokens are strings, we can simply join them
+	join "", @tokens;
 }
 
 sub _tokenise_inline {
@@ -186,10 +171,9 @@ sub _tokenise_inline {
 
 	my @tokens;
 	my $prev_end = 0;
-	while ($text =~ m{(?<escape>  $igrammar{escape})
-	                | (?<bold>    $igrammar{bold})
-	                | (?<italics> $igrammar{italics})
-	                | (?<link>    $igrammar{link})}gxo
+	while ($text =~ m{(?<escape> $igrammar{escape})
+	                | (?<style>  $igrammar{style})
+	                | (?<link>   $igrammar{link})}gxo
 	) {
 		push @tokens, substr $text, $prev_end, $-[0] - $prev_end;
 		push @tokens, [ %+ ];
