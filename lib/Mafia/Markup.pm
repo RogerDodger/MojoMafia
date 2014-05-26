@@ -132,12 +132,10 @@ sub _parse_inline {
 				}
 			}
 			elsif ($cat eq 'escape') {
-				$token = _html_escape($token);
-
 				# chop \ from escape text
 				$token = substr $token, 1;
 
-				$_ = $token;
+				$_ = _html_escape($token);
 			}
 			elsif ($cat eq 'link') {
 				if (my ($name, $url) = $token =~ $cgrammar{link}) {
