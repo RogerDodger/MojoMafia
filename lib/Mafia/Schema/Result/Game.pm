@@ -80,42 +80,6 @@ __PACKAGE__->has_many(
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
 
-sub time {
-	my $self = shift;
-	return         $self->is_day ? 'day' :
-	       defined $self->is_day ? 'night' :
-	       defined $self->end    ? 'post-game' : 'pre-game';
-}
-
-sub timeofday { shift->time }
-
-sub datetime {
-	my $self = shift;
-	return join(' ', $self->timeofday, $self->date);
-}
-
-sub log {
-	my ($self, $fmt, @list) = @_;
-
-	my $opt = ref $list[-1] eq 'HASH' ? pop @list : {};
-	my $msg = sprintf $fmt, @list;
-
-	my $post = $self->thread->create_related('posts', {
-		body_plain  => $msg,
-		gametime    => $self->time,
-		gamedate    => $self->date,
-	});
-
-	if ($opt->{literal}) {
-		$post->update({ body_render => $msg });
-	}
-	else {
-		$post->apply_markup;
-	}
-
-	return $post;
-}
-
 sub begin {
 	my $self = shift;
 	my $setup = $self->setup;
@@ -142,17 +106,6 @@ sub begin {
 	$self->log('%s has begun.', ucfirst $self->datetime);
 }
 
-sub cycle {
-	my $self = shift;
-
-	# Process votes ...
-
-	$self->update({
-		date   => $self->date + ($self->is_day != $self->setup->day_start),
-		is_day => !$self->is_day,
-	});
-}
-
 sub create_post {
 	my ($self, $body) = @_;
 
@@ -166,8 +119,55 @@ sub create_post {
 	$post->apply_markup;
 }
 
+sub cycle {
+	my $self = shift;
+
+	# Process votes ...
+
+	$self->update({
+		date   => $self->date + ($self->is_day != $self->setup->day_start),
+		is_day => !$self->is_day,
+	});
+}
+
+sub datetime {
+	my $self = shift;
+	return join(' ', $self->timeofday, $self->date);
+}
+
 sub is_active {
 	return !!shift->date;
 }
+
+sub log {
+	my ($self, $fmt, @list) = @_;
+
+	my $opt = ref $list[-1] eq 'HASH' ? pop @list : {};
+	my $msg = sprintf $fmt, @list;
+
+	my $post = $self->thread->create_related('posts', {
+		body_plain  => $msg,
+		gametime    => $self->time,
+		gamedate    => $self->date,
+	});
+
+	if ($opt->{literal}) {
+		$post->update({ body_render => $msg });
+	}
+	else {
+		$post->apply_markup;
+	}
+
+	return $post;
+}
+
+sub time {
+	my $self = shift;
+	return         $self->is_day ? 'day' :
+	       defined $self->is_day ? 'night' :
+	       defined $self->end    ? 'post-game' : 'pre-game';
+}
+
+BEGIN { *timeofday = \&time }
 
 1;
