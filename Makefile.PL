@@ -14,6 +14,7 @@ my @production = qw(
 	DBIx::Class::InflateColumn::Serializer~0.06
 	IO::Socket::SSL~1.84
 	Class::Null~2.110730
+	HTML::Entities~3.69
 );
 
 my @development = qw(

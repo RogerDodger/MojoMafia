@@ -140,7 +140,7 @@ sub delta {
 
 	my ($big, $small, $neg) = (
 		($self cmp $other) > 0
-			? ($self, $other, 0)
+			? ($self, $other, 0)
 			: ($other, $self, 1)
 	);
 

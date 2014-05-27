@@ -282,4 +282,10 @@ is(
 	"UTF-8 bytes handled properly",
 );
 
+is(
+	render_markup("&mdash; &foo; & moo &#x4242; &#xffffff"),
+	"<p>— &amp;foo; &amp; moo \x{4242} &amp;#xffffff</p>",
+	'HTML entities handled properly',
+);
+
 done_testing;
