@@ -127,8 +127,8 @@ is(
 );
 
 is(
-	render_markup("*** ***"),
-	"<p><strong><em> </em></strong></p>",
+	render_markup("***foo***"),
+	"<p><strong><em>foo</em></strong></p>",
 	"Simple oblique",
 );
 
@@ -139,39 +139,75 @@ is(
 );
 
 is(
-	render_markup("** * ***"),
-	"<p><strong> <em> </em></strong></p>",
+	render_markup("**a*b***c"),
+	"<p><strong>a<em>b</em></strong>c</p>",
 	"Oblique ends bold and italic",
 );
 
 is(
-	render_markup("* ** ***"),
-	"<p><em> <strong> </strong></em></p>",
+	render_markup("*a**b***c"),
+	"<p><em>a<strong>b</strong></em>c</p>",
 	"Oblique ends italic and bold",
 );
 
 is(
-	render_markup("* *** * **\n\n* *** ** *\n\n* *** ***"),
-	"<p><em> **</em> * **</p>\n\n<p><em> **</em> ** *</p>\n\n<p><em> **</em> ***</p>",
+	render_markup("*a*** * **\n\n*a*** ** *\n\n*a*** ***"),
+	"<p><em>a</em>** * **</p>\n\n<p><em>a</em>** ** *</p>\n\n<p><em>a</em>** ***</p>",
 	"Oblique ends italic only",
 );
 
 is(
-	render_markup("** *** * **\n\n** *** ** *\n\n** *** ***"),
-	"<p><strong> *</strong> * **</p>\n\n<p><strong> *</strong> ** *</p>\n\n<p><strong> *</strong> ***</p>",
+	render_markup("**a*** * **\n\n**a*** ** *\n\n**a*** ***"),
+	"<p><strong>a</strong>* * **</p>\n\n<p><strong>a</strong>* ** *</p>\n\n<p><strong>a</strong>* ***</p>",
 	"Oblique ends bold only",
 );
 
 is(
-	render_markup("*** * **\n\n*** * ***"),
-	"<p><em>** </em> **</p>\n\n<p><em>** </em> ***</p>",
-	"Italic badly-terminates oblique",
+	render_markup("***a*b** *A* **B**"),
+	"<p><strong><em>a</em>b</strong> <em>A</em> <strong>B</strong></p>",
+	"Oblique ended by italic, then bold",
 );
 
 is(
-	render_markup("*** ** *\n\n*** ** ***"),
-	"<p><strong>* </strong> *</p>\n\n<p><strong>* </strong> ***</p>",
-	"Bold badly-terminates oblique",
+	render_markup("***a**b* *A* **B**"),
+	"<p><em><strong>a</strong>b</em> <em>A</em> <strong>B</strong></p>",
+	"Oblique ended by bold, then italic",
+);
+
+is(
+	render_markup("***a*b *A* *B* c**d"),
+	"<p><strong><em>a</em>b <em>A</em> <em>B</em> c</strong>d</p>",
+	"Oblique ended by italic, then italics, then ended by bold",
+);
+
+is(
+	render_markup("***a**b **A** **B** c*d"),
+	"<p><em><strong>a</strong>b <strong>A</strong> <strong>B</strong> c</em>d</p>",
+	"Oblique ended by bold, then bold, then ended by italics",
+);
+
+is(
+	render_markup("***a*b *c**d *A* **B**"),
+	"<p><strong><em>a</em>b *c</strong>d <em>A</em> <strong>B</strong></p>",
+	"Oblique ended by italic, then badly nested italics",
+);
+
+is(
+	render_markup("***a**b **c*d *A* **B**"),
+	"<p><em><strong>a</strong>b **c</em>d <em>A</em> <strong>B</strong></p>",
+	"Oblique ended by bold, then badly nested bold",
+);
+
+is(
+	render_markup("***a*b***d *A* **B**"),
+	"<p><strong><em>a</em>b</strong>*d <em>A</em> <strong>B</strong></p>",
+	"Oblique ended by italic, then ended by oblique",
+);
+
+is(
+	render_markup("***a**b***d *A* **B**"),
+	"<p><em><strong>a</strong>b</em>**d <em>A</em> <strong>B</strong></p>",
+	"Oblique ended by bold, then ended by oblique",
 );
 
 is(
@@ -181,45 +217,21 @@ is(
 );
 
 is(
-	render_markup("**** ***\n\n***** ***"),
-	"<p><strong><em>* </em></strong></p>\n\n<p><strong><em>** </em></strong></p>",
+	render_markup("****a***\n\n*****a***"),
+	"<p>*<strong><em>a</em></strong></p>\n\n<p>**<strong><em>a</em></strong></p>",
 	"Oblique with more * on left side",
 );
 
 is(
-	render_markup("*** ****\n\n*** *****"),
-	"<p><strong><em> *</em></strong></p>\n\n<p><strong><em> **</em></strong></p>",
+	render_markup("***a****\n\n***a*****"),
+	"<p><strong><em>a</em></strong>*</p>\n\n<p><strong><em>a</em></strong>**</p>",
 	"Oblique with more * on right side",
 );
 
 is(
-	render_markup("**** *****\n\n***** ****"),
-	"<p><strong><em>* **</em></strong></p>\n\n<p><strong><em>** *</em></strong></p>",
+	render_markup("****a*****\n\n*****a****"),
+	"<p>*<strong><em>a</em></strong>**</p>\n\n<p>**<strong><em>a</em></strong>*</p>",
 	"Oblique with more * on both sides",
-);
-
-is(
-	render_markup("* ****\n\n** ****"),
-	"<p><em> ***</em></p>\n\n<p><strong> **</strong></p>",
-	">3 oblique ending bold or italics",
-);
-
-is(
-	render_markup("* ** ****\n\n** * ****"),
-	"<p><em> <strong> *</strong></em></p>\n\n<p><strong> <em> *</em></strong></p>",
-	">3 oblique ending nested bold and italics",
-);
-
-is(
-	render_markup("**** * **\n\n**** * ***"),
-	"<p><em>*** </em> **</p>\n\n<p><em>*** </em> ***</p>",
-	"Italic badly-terminates >3 oblique",
-);
-
-is(
-	render_markup("**** ** *\n\n**** ** ***"),
-	"<p><strong>** </strong> *</p>\n\n<p><strong>** </strong> ***</p>",
-	"Bold badly-terminates >3 oblique",
 );
 
 is(
