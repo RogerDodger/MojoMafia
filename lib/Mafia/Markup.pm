@@ -90,16 +90,34 @@ sub _parse_inline {
 					# closing style token is level 1 or 2, which closes from the end only what it needs to
 					if ($length < 3) {
 						while (@open) {
-							my ($open, $open_length) = @{pop @open};
+							my $open = pop @open;
+							my $open_length = length $$open;
 
-							# close any opened style level we pass over
+							# closing a level 3 style token
+							if ($open_length >= 3) {
+								my ($open_tag, $close_tag) = @{$style_tags[$length]};
+
+								# close only part of the opening token
+								$in &= ~$length;
+
+								substr($$open, -$length, $length) = $open_tag;
+								$_ = $close_tag;
+
+								# reuse the level 3 opening token as the token we're left in
+								push @open, \substr($$open, 0, $in);
+
+								# closed our style level, so we're done
+								last;
+							}
+
+							# close any style level we pass over
 							$in &= ~$open_length;
 
-							# closing either the same style level, or closing level 3
+							# closing the same style level
 							if ($open_length & $length) {
 								my ($open_tag, $close_tag) = @{$style_tags[$length]};
 
-								substr($$open, 0, $length) = $open_tag;
+								$$open = $open_tag;
 								$_ = $close_tag;
 
 								# closed our style level, so we're done
@@ -109,30 +127,28 @@ sub _parse_inline {
 					}
 					# closing style token is level 3, which closes everything it can
 					else {
-						# substitutions happen from the outside of the closing token. keep track of the position
-						my $close_offset = length $token;
+						my $close_offset = 0;
 
-						# start from the outside of the open token list
-						for my $open_item (@open) {
-							my ($open, $open_length) = @$open_item;
+						while (@open) {
+							my $open = pop @open;
+							my $open_length = length $$open;
 							my ($open_tag, $close_tag) = @{$style_tags[$open_length]};
 
-							substr($$open, 0, $open_length) = $open_tag;
-
-							$close_offset -= $open_length;
+							substr($$open, -$open_length, $open_length) = $open_tag;
 							substr($token, $close_offset, $open_length) = $close_tag;
-							$_ = $token;
-						}
 
-						# close everything
+							$close_offset += length $close_tag;
+						}
+						$_ = $token;
+
+						# level 3 style tokens always close everything
 						$in = 0;
-						@open = ();
 					}
 				}
 				# opening token
 				else {
 					$_ = $token;
-					push @open, [ \$_, $length ];
+					push @open, \substr($_, -$length, $length);
 					$in |= $length;
 				}
 			}
