@@ -28,7 +28,7 @@ my @style_tags = (
 sub markup {
 	my $text = shift;
 
-	if (!utf8::is_utf8 $text) {
+	if (!utf8::is_utf8($text)) {
 		$text = Encode::decode_utf8($text);
 	}
 
