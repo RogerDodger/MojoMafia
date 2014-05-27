@@ -270,4 +270,10 @@ is(
 	"UTF-8 bytes handled properly",
 );
 
+is(
+	render_markup('&mdash; &foo; & moo'),
+	'<p>— &amp;foo; &amp; moo</p>',
+	'HTML entities handled properly',
+);
+
 done_testing;

@@ -1,6 +1,7 @@
 package Mafia::Markup;
 use Mojo::Base 'Exporter';
 use Mojo::URL;
+use HTML::Entities;
 use List::Util ();
 
 our @EXPORT_OK = qw/render_markup/;
@@ -40,6 +41,10 @@ BEGIN { *render_markup = \&markup }
 sub _html_escape {
 	local $_ = shift;
 
+	# Allows use of HTML entities in input
+	HTML::Entities::decode_entities($_);
+
+	s/&/&amp;/g;
 	s/</&lt;/g;
 	s/>/&gt;/g;
 	s/"/&quot;/g;
