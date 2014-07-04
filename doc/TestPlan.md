@@ -30,11 +30,11 @@ For example, Mafia::Markup is used to parse user posts with a specific markup
 into safe HTML. Its tests only need to ensure that expected input produces
 expected output. The two major things to consider are edge cases (e.g., random
 combinations of metacharacters result in what?) and potential XSS
-vulnerabilities. The latter is very important for obvious reasons. *Any*
-codepath that messes with input that *doesn't* get `html_escape()`d first
-needs very close scutiny. (For example, the current link-creating code is
-dubious because most of the work is being offloaded to Mojo::URL, which
-happily allows javascript: URLs.)
+vulnerabilities. The latter is very important for obvious reasons. Any
+codepath that messes with input that doesn't get `html_escape()`d needs very
+close scutiny. (For example, the current link-creating code is dubious because
+most of the escaping is being offloaded to Mojo::URL, which happily allows
+javascript: URLs.)
 
 Maifa::Timestamp is used to create, store, and parse timestamps, and to
 display them in a human-readable fashion (e.g., "12 minutes ago" instead of
