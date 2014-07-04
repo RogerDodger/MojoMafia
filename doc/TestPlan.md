@@ -43,6 +43,13 @@ needs to be tested. In particular, the output of the human-readable deltas
 should be given intense scrutiny. Again, just testing input with expected
 output. Nice and simple.
 
+In addition to ensuring the controllers and modules all work, the templates
+should also be tested. Templates should have all codepaths evaluated (e.g.,
+`if`s all both passed and failed in all combinations). The output of these
+templates should be checked they contain specific important information. For
+example, `game/view.html.ep` should contain information about a game that can
+be extracted and checked against some expected value.
+
 ---
 
 [0]: Listing all these conflicts here would be fairly extensive and dependent
