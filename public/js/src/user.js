@@ -5,49 +5,16 @@
  * under the same terms as Perl version 5.14.2.
  */
 
+// ===========================================================================
+// New user form
+// ===========================================================================
+
 $(document).ready(function() {
-	navigator.id.watch({
-		loggedInUser: Mafia.user.email,
-		onlogin: function(assertion) {
-			$.ajax({
-				type: 'POST',
-				url: Mafia.paths["user-login"],
-				data: { "assertion" : assertion },
-				success: function(res, status, xhr) {
-					if ('redirect' in res) {
-						window.location = res.redirect;
-					} else {
-						window.location.reload();
-					}
-				},
-				error: function(xhr, status, err) {
-					alert("Login failure: " + err);
-					navigator.id.logout();
-				}
-			});
-		},
-		onlogout: function() {
-			$.ajax({
-				type: 'POST',
-				url: Mafia.paths["user-logout"],
-				success: function(res, status, xhr) {
-					window.location.reload();
-				},
-				error: function(xhr, status, err) {
-					alert("Logout failure: " + err);
-				}
-			});
+	var $uname = $('#uname');
+	$('#dname').focus(function() {
+		if (!this.value) {
+			this.value = $uname.val();
+			this.select();
 		}
 	});
-
-	$('#login')
-		.click(function(e) {
-			e.preventDefault();
-			navigator.id.request({ "siteName" : "MojoMafia" });
-		});
-	$('#logout')
-		.click(function(e) {
-			e.preventDefault();
-			navigator.id.logout();
-		});
 });

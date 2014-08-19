@@ -1,6 +1,8 @@
 use utf8;
 package Mafia::Names;
 use Mojo::Base 'Mojolicious::Plugin';
+
+use File::stat;
 use Mojo::Loader;
 
 my %dicts;
@@ -34,6 +36,10 @@ sub random_name {
 sub register {
 	my ($self, $app) = @_;
 
+	my $in = $app->home->rel_file('templates/names.js.ep');
+	my $out = $app->home->rel_file('public/js/src/names.js');
+	return if stat($in)->mtime < stat($out)->mtime;
+
 	# For some really weird reason, doing $app->build_controller->render
 	# causes the renderer to throw complaints about "user" being undefined in
 	# the templates, presumably because the helpers are going away for some
@@ -47,9 +53,8 @@ sub register {
 		dicts    => Mojo::JSON->new->encode([ @dicts{qw/elvish elements nordic/} ]),
 	);
 
-	my $file = $app->home->rel_file('public/js/src/names.js');
-	$app->log->debug("Overwrite $file");
-	open my $fh, '>', $file;
+	$app->log->debug("Overwrite $out");
+	open my $fh, '>', $out;
 	print $fh $output;
 	close $fh;
 }
@@ -115,6 +120,6 @@ __END__
 
 =head1 NAME
 
-Mafia::NameGem - Generate fake but real-sounding names
+Mafia::Names - Generate fake but real-sounding names
 
 =cut

@@ -110,7 +110,7 @@ sub create_post {
 	my ($self, $body) = @_;
 
 	my $post = $self->thread->create_related(posts => {
-		user_hidden => defined $self->end,
+		user_hidden => !$self->end,
 		body_plain  => $body,
 		gamedate    => $self->date,
 		gametime    => $self->time,
@@ -159,6 +159,14 @@ sub log {
 	}
 
 	return $post;
+}
+
+sub showform {
+	my ($self, $user) = @_;
+
+	   $user
+	&&!$user->search_related(players => { game_id => $self->id })->count
+	&& $self->players->count < $self->setup->size;
 }
 
 sub time {

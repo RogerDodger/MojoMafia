@@ -4,11 +4,11 @@ use Mojo::Base -strict;
 use YAML;
 
 sub load {
-	my $filename = shift || 'site/config.yml';
+	my $filename = shift || 'site/conf.yml';
 
 	# Configuration variables set by default but changeable in deployment
 	my %defaults = (
-
+		bcost => '10',
 	);
 
 	my $site = {};
@@ -21,6 +21,7 @@ sub load {
 
 	# Configuration variables not changeable in deployment
 	my %constants = (
+		cfn => $filename,
 		dsn => 'dbi:SQLite:site/mafia.db',
 	);
 
@@ -30,3 +31,12 @@ sub load {
 }
 
 1;
+
+__DATA__
+
+@@ conf-template.yml
+
+---
+bcost: 8
+secrets:
+    - %s

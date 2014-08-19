@@ -1,10 +1,13 @@
 use utf8;
 package Mafia::Schema::Result::User;
 
+use base 'Mafia::Schema::Result';
 use strict;
 use warnings;
 
-use base 'Mafia::Schema::Result';
+use Bytes::Random::Secure qw/random_bytes/;
+use Crypt::Eksblowfish::Bcrypt qw/bcrypt en_base64/;
+use Scalar::Util qw/looks_like_number/;
 
 __PACKAGE__->table("users");
 
@@ -12,6 +15,10 @@ __PACKAGE__->add_columns(
 	"id",
 	{ data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
 	"name",
+	{ data_type => "varchar", is_nullable => 0 },
+	"nname",
+	{ data_type => "varchar", is_nullable => 0 },
+	"dname",
 	{ data_type => "varchar", is_nullable => 0 },
 	"is_admin",
 	{ data_type => "boolean", default_value => 0, is_nullable => 1 },
@@ -50,6 +57,13 @@ __PACKAGE__->has_many(
 );
 
 __PACKAGE__->has_many(
+	"passwords",
+	"Mafia::Schema::Result::Password",
+	{ "foreign.user_id" => "self.id" },
+	{ cascade_copy => 0, cascade_delete => 0 },
+);
+
+__PACKAGE__->has_many(
 	"players",
 	"Mafia::Schema::Result::Player",
 	{ "foreign.user_id" => "self.id" },
@@ -76,5 +90,29 @@ __PACKAGE__->has_many(
 	{ 'foreign.user_id', => 'self.id' },
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
+
+sub password_check {
+	my ($self, $plain) = @_;
+
+	my $cipher = $self->passwords->order_by({ -desc => 'created' })->first->cipher;
+
+	return bcrypt($plain, $cipher) eq $cipher;
+}
+
+sub password_set {
+	my ($self, $plain, $cost) = @_;
+
+	if (looks_like_number($cost) && 0 < $cost && $cost < 100) {
+		$cost = sprintf "%02d", int $cost;
+	} else {
+		$cost = '10';
+	}
+
+	my $salt = en_base64 random_bytes 16;
+	my $settings =  join '$', '$2', $cost, $salt;
+	my $cipher = bcrypt($plain, $settings);
+
+	$self->create_related(passwords => { cipher => $cipher });
+}
 
 1;

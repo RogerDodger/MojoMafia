@@ -5,7 +5,7 @@ Last updated 16 Apr 2013
 
 ## High priority ##
 
-- Persona sign-in and user creation
+- User creation and sign-in
 - Editable user settings
 - Preset setups
 - Functional parser for user posts

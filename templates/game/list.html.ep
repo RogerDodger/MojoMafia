@@ -7,9 +7,13 @@
 	% while (my $game = $games->next) {
 		<%=
 			include 'game/single',
-				game => $game,
-				showform => user()->players->search({ game_id => $game->id })->count
-				         && $game->players->count < $game->setup->size;
+				game => $game
 		%>
 	% }
 </section>
+
+% if (user()) {
+<div class="create-game">
+	<a class="btn" href="<%= url_for 'game-create' %>">Create game</a>
+</div>
+% }

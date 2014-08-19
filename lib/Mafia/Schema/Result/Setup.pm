@@ -63,6 +63,24 @@ __PACKAGE__->belongs_to(
 	},
 );
 
+sub add_pools {
+	my ($self, $pools) = @_;
+
+	my $i = 0;
+	for my $pool (@$pools) {
+		for my $player (@$pool) {
+			for my $role (@$player) {
+				$self->create_related('setup_roles', {
+					player_no => 1 + $i % 9,
+					role_id   => $role,
+					pool      => 1 + int($i / 9),
+				});
+			}
+			$i++;
+		}
+	}
+}
+
 sub player_nos {
 	my $self = shift;
 

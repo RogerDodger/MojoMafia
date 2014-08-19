@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use base 'Mafia::Schema::Result';
+use Mafia::Role;
 
 __PACKAGE__->table("players");
 
@@ -81,8 +82,6 @@ __PACKAGE__->has_many(
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
 
-__PACKAGE__->many_to_many(roles => "player_roles", "role");
-
 sub audiences {
 	my $self = shift;
 	my @audiences;
@@ -116,7 +115,7 @@ sub can_talk {
 
 sub has_role {
 	my $self = shift;
-	return $self->roles->search({ name => shift })->count;
+	return $self->player_roles->search({ role_id => shift })->count;
 }
 
 sub name {
@@ -126,7 +125,13 @@ sub name {
 
 sub role {
 	my $self = shift;
-	return join ' ', map ucfirst, $self->roles->get_column('name')->all;
+	return join ' ', map $_->name, $self->roles;
+}
+
+sub roles {
+	return sort { $a->order <=> $b->order }
+	         map { Mafia::Role->find($_) }
+	           shift->player_roles->get_column('role_id')->all;
 }
 
 1;

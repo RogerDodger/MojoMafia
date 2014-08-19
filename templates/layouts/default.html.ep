@@ -62,20 +62,21 @@
 								Settings
 							</a>
 						</li>
-					% }
-
-					% if (user || current_route eq 'register') {
 						<li>
-							<a href="#" id="logout">
+							<a href="<%= url_for 'user-logout' %>" id="logout">
 								<i class="icon-signout"></i>
 								Logout
 							</a>
 						</li>
 					% } else {
-						<li>
-							<a href="#" id="login">
-								<i class="icon-signin"></i>
-								Login
+						<li class="login">
+							<form method="post" action="<%= url_for 'user-login' %>">
+								<input type="text" name="uname" placeholder="Username">
+								<input type="password" name="pword" placeholder="Password">
+								<input type="submit" value="Login">
+							</form>
+							<a href="<%= url_for 'user-create' %>">
+								Register
 							</a>
 						</li>
 					% }

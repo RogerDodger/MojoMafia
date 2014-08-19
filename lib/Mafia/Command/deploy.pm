@@ -1,95 +1,78 @@
 package Mafia::Command::deploy;
+use Bytes::Random::Secure qw/random_bytes_base64/;
 use Mojo::Base 'Mafia::Command';
+use Mojo::Loader;
+use Mafia::Config;
 use Mafia::Schema;
-use Data::Dump;
+use Mafia::Setup qw/decode_setup/;
+use Mafia::Role qw/:all/;
+
+my $loader = Mojo::Loader->new;
 
 sub run {
 	my $self = shift;
 
 	# DBD::SQLite specific -- change to support more deployment options
-	my $fn = (split /:/, $self->config->{dsn})[-1];
-	if (-e $fn) {
-		print "SQLite database '$fn' already exists and will be overwritten. "
-		    . "Do you want to continue? [y/n] ";
-		chomp(my $ans = <STDIN>);
-		if ($ans =~ /^(?:y|yes)$/i) {
-			unlink $fn;
-		}
-		else {
-			say "Aborting deploy.";
-			exit(1);
-		}
+	my $db = (split /:/, $self->config->{dsn})[-1];
+
+	if (_prompt_write($db, 'SQLite database')) {
+		my $schema = Mafia::Schema->connect(
+			$self->config->{dsn},'','',
+			{ sqlite_unicode => 1 }
+		);
+
+		say "Deploying database...";
+		$schema->deploy;
+
+		# Not sure if necessary
+		say '+ Creating user `Nobody`';
+		my $nobody = $schema->resultset('User')->create({
+			name => 'Nobody',
+			nname => 'nobody',
+			dname => 'Nobody',
+		});
+
+		say '+ Creating F11 setup...';
+		my $setup = $schema->resultset('Setup')->create({
+			user_id   => $nobody->id,
+			name      => 'F11',
+			descr     => 'Standard newbie setup',
+			allow_nk  => 1,
+			allow_nv  => 1,
+			day_start => 1,
+			final     => 1,
+			private   => 0,
+		});
+
+		$setup->add_pools(
+			decode_setup $loader->data('Mafia::Setup', 'f11.setup')
+		);
 	}
 
-	say "Deploying database...";
-	my $schema = Mafia::Schema->connect(
-		$self->config->{dsn},'','',
-		{ sqlite_unicode => 1, ignore_version => 1 }
-	);
-	$schema->deploy;
+	my $conf = $self->config->{cfn};
+	if (_prompt_write($conf, 'YAML config')) {
+		my $template = $loader->data('Mafia::Config', 'conf-template.yml');
 
-	say '+ Creating roles';
-	$schema->resultset('Role')->populate([
-		map { { name => $_ } } qw/townie cop doctor mafioso godfather roleblocker/
-	]);
-
-	say '+ Creating user `Nobody`';
-	my $nobody = $schema->resultset('User')->create({
-		name => 'Nobody',
-	});
-
-	say '+ Creating F11 setup...';
-	my $setup = $schema->resultset('Setup')->create({
-		user_id   => $nobody->id,
-		name      => 'F11',
-		descr     => 'Standard newbie setup',
-		allow_nk  => 1,
-		allow_nv  => 1,
-		day_start => 1,
-		final     => 1,
-		private   => 0,
-	});
-
-	my %roles = map { $_->name, $_->id } $schema->resultset('Role')->all;
-
-	my @pools = (
-		[
-			([ qw/townie/ ]) x 5,
-			([ qw/townie cop/ ]) x 1,
-			([ qw/townie doctor/ ]) x 1,
-			([ qw/mafioso roleblocker/ ]) x 1,
-			([ qw/mafioso/ ]) x 1,
-		],
-		[
-			([ qw/townie/ ]) x 6,
-			([ qw/townie cop/ ]) x 1,
-			([ qw/mafioso/ ]) x 2,
-		],
-		[
-			([ qw/townie/ ]) x 6,
-			([ qw/townie doctor/ ]) x 1,
-			([ qw/mafioso/ ]) x 2,
-		],
-		[
-			([ qw/townie/ ]) x 7,
-			([ qw/mafioso/ ]) x 1,
-			([ qw/mafioso roleblocker/ ]) x 1,
-		],
-	);
-
-	my $i = 0;
-	for my $pool (@pools) {
-		for my $player (@$pool) {
-			for my $role (@$player) {
-				$setup->create_related('setup_roles', {
-					player_no => 1 + $i % 9,
-					role_id   => $roles{$role},
-					pool      => 1 + int($i / 9),
-				});
-			}
-			$i++;
-		}
+		say "Creating config file...";
+		open my $fh, '>', $conf;
+		printf $fh $template, random_bytes_base64(16);
+		close $fh;
 	}
+
+}
+
+sub _prompt_write {
+	my ($fn, $desc) = @_;
+	return 1 unless -e $fn;
+
+	print "$desc '$fn' already exists. Do you want to overwrite it? [y/n] ";
+
+	chomp(my $ans = <STDIN>);
+	if ($ans =~ /^(?:y|yes)$/i) {
+		unlink $fn;
+		return 1;
+	}
+	return 0;
 }
 
 'Construction complete.';

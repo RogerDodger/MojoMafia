@@ -123,6 +123,19 @@ nav.top {
 	ul.user {
 		float: right;
 	}
+
+	.login {
+		font-size: 0.8em;
+
+		form {
+			display: inline;
+		}
+
+		input[type="text"],
+		input[type="password"] {
+			width: 10em;
+		}
+	}
 }
 
 // ===========================================================================
@@ -232,29 +245,12 @@ nav.top {
 // New user form
 // ===========================================================================
 
-.register {
-	width: ($aside-width * 2);
-	margin: 1em auto;
-	padding: 2em;
-	border: 1px solid #e5e5e5;
-	border-radius: 4px;
-	background: #f7f7f7;
-
-	p {
-		font-size: 0.9em;
-		color: #444;
-		font-weight: bold;
-	}
-}
-
 // ===========================================================================
 // Game listing
 // ===========================================================================
 
 .game-listing {
-	& + .game-listing {
-		margin-top: 1em;
-	}
+	margin: 1em 0;
 
 	form {
 		display: inline;
@@ -281,6 +277,20 @@ nav.top {
 	}
 
 	border: em(1) solid $header-gradient-b;
+}
+
+.create-game {
+	a {
+		background-color: lighten($color-c, 20);
+		border: em(1) solid $color-c;
+		display: inline-block;
+	}
+
+	a,
+	a:hover,
+	a:visited {
+		color: darken($color-c, 47);
+	}
 }
 
 // ===========================================================================
@@ -462,7 +472,6 @@ footer {
 			}
 
 			ul {
-
 				list-style-type: none;
 				padding: 0;
 

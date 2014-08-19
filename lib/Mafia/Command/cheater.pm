@@ -1,5 +1,9 @@
 package Mafia::Command::cheater;
+
+use Crypt::Eksblowfish::Bcrypt qw/bcrypt/;
 use Mojo::Base 'Mafia::Command';
+use Mafia::Names;
+use Mafia::Role qw/:all/;
 use Mafia::Timestamp;
 use List::Util 'shuffle';
 use Text::Lorem::More 'lorem';
@@ -17,19 +21,18 @@ sub run {
 	my $self = shift;
 	my $schema = $self->db;
 
-	my $mafia = $schema->resultset('Role')->search({ name => "mafioso" })->single;
-
 	say '+ Creating dummy users';
+	my $cipher = bcrypt('password', '$2$10$fPFp/lzQBClHVBz/U2QQau');
 	my @users = map {
+		my $name = Mafia::Names->random_name;
+
 		my $user = $schema->resultset('User')->create({
-			name => ucfirst _rs(3,10),
+			name => $name,
+			dname => $name,
+			nname => lc $name,
 		});
 
-		$user->create_related('emails', {
-			address  => sprintf("%s@%s.%s", _rs(5,16), _rs(3,16), _rs(2,3)),
-			main     => 1,
-			verified => 1,
-		});
+		$user->create_related(passwords => { cipher => $cipher });
 
 		$user;
 	} 0 .. 10;
@@ -54,7 +57,7 @@ sub run {
 
 			$game->create_related('players', {
 				no      => $no,
-				alias   => ucfirst _rs(3,10),
+				alias   => $user->dname,
 				user_id => $user->id,
 			});
 		}
@@ -70,35 +73,30 @@ sub run {
 
 			if ($game->is_day) {
 				@players = $game->players->living->all;
-				$n_of_posts = 10 + int rand 60;
+				$n_of_posts = 10 + int rand 15;
 			} else {
-				@players = $game->players->living->with_role("mafioso")->all;
+				@players = $game->players->living->with_role(GOON)->all;
 				$n_of_posts = 4 + int rand 10;
 			}
 
 			for (1 .. $n_of_posts) {
 				my $player = $players[rand @players];
 
-				my $post = $thread->create_related(posts => {
-					user_id     => $player->user_id,
-					user_alias  => $player->alias,
-					user_hidden => 1,
-					gamedate    => $game->date,
-					gametime    => $game->time,
-					body_plain  => lorem->paragraphs(1 + int rand 6),
-				});
-
-				$post->apply_markup;
+				my $post = $game->create_post(
+					lorem->paragraphs(1 + int rand 6),
+				);
 
 				$post->update({
-					created => Mafia::Timestamp->from_epoch($time),
-					updated => Mafia::Timestamp->from_epoch($time),
+					user_id     => $player->user_id,
+					user_alias  => $player->alias,
+					created     => Mafia::Timestamp->from_epoch($time),
+					updated     => Mafia::Timestamp->from_epoch($time),
 				});
 
 				if (!$game->is_day) {
 					$post->update({ private => 1 });
 					$post->create_related(audiences => {
-						role_id => $mafia->id,
+						role_id => GOON,
 					});
 				}
 

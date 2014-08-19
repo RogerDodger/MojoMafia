@@ -220,7 +220,7 @@ textarea {
 
 .button, .btn {
   background-color: white;
-  border: 1px solid #cccccc;
+  border: 0.0625em solid #cccccc;
   border-radius: 0.25em;
   box-shadow: none;
   cursor: pointer;
@@ -274,6 +274,33 @@ textarea {
   .pager-centred .pager li {
     float: none;
     display: inline-block; }
+
+.kv-form {
+  width: 48em;
+  margin: 0 auto; }
+  .kv-form td {
+    padding: 0.6em 1em; }
+  .kv-form .subhead + tr td {
+    padding-top: 1.2em; }
+  .kv-form .subhead {
+    border-bottom: 0.125em solid #eeeeee;
+    font-family: "Museo Slab", serif;
+    text-align: left; }
+    .kv-form .subhead th {
+      padding-top: 0.5em; }
+  .kv-form .label {
+    white-space: nowrap;
+    text-align: right; }
+  .kv-form .field input {
+    width: 18em; }
+  .kv-form .descr {
+    font-size: 0.85em; }
+    .kv-form .descr p {
+      margin: 0; }
+
+.muted {
+  font-size: 0.9em;
+  color: #666666; }
 
 h1 {
   font-family: "Museo Slab", serif; }
@@ -352,6 +379,12 @@ nav.top {
     font-weight: bold; }
   nav.top ul.user {
     float: right; }
+  nav.top .login {
+    font-size: 0.8em; }
+    nav.top .login form {
+      display: inline; }
+    nav.top .login input[type="text"], nav.top .login input[type="password"] {
+      width: 10em; }
 
 .main {
   margin: 1em 0; }
@@ -411,22 +444,9 @@ nav.top {
 	margin-left: 0;
 }
 */
-.register {
-  width: 40em;
-  margin: 1em auto;
-  padding: 2em;
-  border: 1px solid #e5e5e5;
-  border-radius: 4px;
-  background: #f7f7f7; }
-  .register p {
-    font-size: 0.9em;
-    color: #444444;
-    font-weight: bold; }
-
 .game-listing {
+  margin: 1em 0;
   border: 0.0625em solid #8bd2c4; }
-  .game-listing + .game-listing {
-    margin-top: 1em; }
   .game-listing form {
     display: inline; }
   .game-listing input[type="text"] {
@@ -444,6 +464,13 @@ nav.top {
     font-size: 0.9em; }
   .game-listing .player-count {
     float: right; }
+
+.create-game a {
+  background-color: #f7e5aa;
+  border: 0.0625em solid #efc94c;
+  display: inline-block; }
+.create-game a, .create-game a:hover, .create-game a:visited {
+  color: #453606; }
 
 .post {
   padding: 0.2em 1em;

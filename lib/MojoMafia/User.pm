@@ -9,83 +9,51 @@ sub auth {
 	undef;
 }
 
-sub login {
+sub create {
 	my $c = shift;
-	my $form = {};
-	state $authority = 'https://verifier.login.persona.org/verify';
-
-	$form->{assertion} = $c->param('assertion');
-	if (!defined $form->{assertion}) {
-		$c->res->code(400);
-		return $c->render(json => {error => 'no assertion sent'});
-	}
-
-	# Hardcoding this for now
-	$form->{audience} = $c->app->mode eq 'development'
-		? 'http://dev.rogerdodger.me'
-		: 'http://mojomafia.net';
-
-	my $json = $c->ua->post($authority, form => $form)->res->json;
-
-	if (!defined $json) {
-		$c->res->code(500);
-		return $c->render(json => {error => 'unknown'});
-	} elsif ($json->{status} eq 'okay') {
-		$c->session->{email} = $json->{email};
-		if (!$c->user) {
-			$json->{redirect} = '/register';
-		}
-		return $c->render(json => $json);
-	} else {
-		$c->res->code(401);
-		$c->app->log->error('Login error: ' . $json->{reason});
-		return $c->render(json => {error => $json->{reason}});
-	}
-}
-
-sub logout {
-	my $c = shift;
-	delete $c->session->{email};
-	$c->render(json => {status => 'okay'});
-}
-
-sub register {
-	my $c = shift;
-
-	if (!$c->session->{email} || $c->user) {
-		return $c->redirect_to('/');
-	}
-
-	if (defined $c->req->headers->referrer) {
-		$c->session->{register_redirect} = $c->req->headers->referrer;
-	}
+	return $c->redirect_to('/') if $c->user;
 
 	$c->render(template => 'user/register');
 }
 
-sub do_register {
+sub login {
 	my $c = shift;
-	if ($c->user) {
-		return $c->redirect_to($c->url_for('root/index'));
-	}
 
-	my $name = $c->param('username');
-	my $email = $c->session->{email};
-	if (defined $email && defined $name && $name ne '') {
-		$c->db('Email')->create({
-			address  => $c->session->{email},
-			main     => 1,
-			verified => 1,
-			user => {
-				name => $name,
-			},
-		});
-
-		$c->redirect_to($c->session->{register_redirect} || '/');
-		delete $c->session->{register_redirect};
+	my $user = $c->db('User')->find({ name => $c->param('uname') });
+	if (defined $user) {
+		if ($user->password_check($c->param('pword'))) {
+			$c->session->{user_id} = $user->id;
+		} else {
+			$c->flash->{error_msg} = 'Login failed: invalid password';
+		}
 	} else {
-		$c->render(template => 'user/register');
+		$c->flash->{error_msg} = 'Login failed: user not found';
 	}
+
+	$c->redirect_to($c->req->headers->referrer || '/');
+}
+
+sub logout {
+	my $c = shift;
+	delete $c->session->{user_id};
+	$c->redirect_to($c->req->headers->referrer || '/');
+}
+
+sub post {
+	my $c = shift;
+	return $c->redirect_to('/') if $c->user;
+
+	# Validate input
+	my $v = $c->validation;
+
+	# Create user
+	my $user = $c->db('User')->create({
+		name => $v->param('uname'),
+		dname => $v->param('uname'),
+		nname => lc $v->param('uname'),
+	});
+
+	$user->password_set($v->param('pword'), $c->app->config('bcost'));
 }
 
 1;

@@ -26,7 +26,7 @@
 .btn {
 	@extend .reset;
 	background-color: #fff;
-	border: 1px solid darken(#fff, 20%);
+	border: em(1) solid darken(#fff, 20%);
 	border-radius: 0.25em;
 	box-shadow: none;
 	cursor: pointer;
@@ -112,4 +112,50 @@
 		float: none;
 		display: inline-block;
 	}
+}
+
+.kv-form {
+	width: ($site-width * 0.8);
+	margin: 0 auto;
+
+	td {
+		padding: 0.6em 1em;
+	}
+
+	.subhead + tr td {
+		padding-top: 1.2em;
+	}
+
+	.subhead {
+		th {
+			padding-top: 0.5em;
+		}
+		border-bottom: em(2) solid #eee;
+		font-family: $header-font-primary;
+		text-align: left;
+	}
+
+	.label {
+		white-space: nowrap;
+		text-align: right;
+	}
+
+	.field {
+		input {
+			width: ($site-width * 0.3);
+		}
+	}
+
+	.descr {
+		font-size: 0.85em;
+
+		p {
+			margin: 0;
+		}
+	}
+}
+
+.muted {
+	font-size: 0.9em;
+	color: #666;
 }

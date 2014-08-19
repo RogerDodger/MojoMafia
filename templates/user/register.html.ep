@@ -1,20 +1,66 @@
 % layout 'default';
-% stash->{no_sidebar} = 1;
+% title 'Register';
 
-<div class="register">
-	<form method="post">
-		<h1>Hey there!</h1>
-		<p>
-			<label for="username">
-				Looks like you're new here. Please choose a username:
-			</label>
+<form method="post" action="<%= url_for 'user-post' %>">
+	<table class="kv-form">
+		<tr class="subhead">
+			<th colspan="3">New user</th>
+		</tr>
 
-		<p>
-			<input type="text" id="username" name="username"
-					size="30" maxlength="24"
-					placeholder="Username" required="required">
+		<tr>
+			<td class="label">
+				<label for="uname">Username</label>
+			</td>
+			<td class="field">
+				<input id="uname" name="name" type="text" required>
+			</td>
+			<td class="descr">
+				<p>The name you use for logging in</p>
+				<p class="muted">Letters, numbers, and dashes only</p>
+			</td>
+		</tr>
 
-		<p>
-			<input class="btn primary" type="submit" value="Submit">
-	</form>
-</div>
+		<tr>
+			<td class="label">
+				<label for="dname">Display name</label>
+			</td>
+			<td class="field">
+				<input id="dname" name="dname" type="text">
+			</td>
+			<td class="descr">
+				<p>The name people will know you by</p>
+				<p class="muted">All characters permitted</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="label">
+				<label for="pword">Password</label>
+			</td>
+			<td class="field">
+				<input id="pword" name="pword" type="password" required>
+			</td>
+			<td class="descr" rowspan="2">
+				<p class="muted">Minimum of 5 characters</p>
+				<p class="muted">Cannot be based on a dictionary word</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="label">
+				<label for="pword">Repeat password</label>
+			</td>
+			<td class="field">
+				<input id="pword" name="pword" type="password" required>
+			</td>
+		</tr>
+
+		<tr>
+			<td></td>
+
+			<td>
+				<input type="submit" name="submit" class="btn" value="Register">
+			</td>
+		<tr>
+	</table>
+</form>

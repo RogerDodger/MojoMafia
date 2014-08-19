@@ -1,6 +1,6 @@
 package Mafia::Schema::ResultSet::Player;
 
-use base 'DBIx::Class::ResultSet';
+use base 'Mafia::Schema::ResultSet';
 
 sub living {
 	return shift->search({ is_alive => 1 });
@@ -18,8 +18,8 @@ sub with_role {
 	my ($self, $role) = @_;
 
 	return $self->search(
-		{ "role.name" => $role },
-		{ join => { "player_roles" => "role" } },
+		{ "role_id" => $role->id },
+		{ join => "player_roles" },
 	);
 }
 

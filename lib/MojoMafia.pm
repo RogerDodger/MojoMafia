@@ -11,6 +11,14 @@ use YAML ();
 sub startup {
 	my $self = shift;
 
+	$self->moniker('mafia');
+
+	$self->meta(YAML::LoadFile('meta.yml'));
+	$self->config(Mafia::Config::load());
+	if (defined $self->config('secrets')) {
+		$self->secrets($self->config('secrets'));
+	}
+
 	if ($self->app->mode eq 'development') {
 		$self->app->log(Mafia::Log->new);
 
@@ -23,14 +31,6 @@ sub startup {
 			path  => 'site/mafia.log',
 			level => 'info',
 		));
-	}
-
-	$self->moniker('mafia');
-
-	$self->meta(YAML::LoadFile('meta.yml'));
-	$self->config(Mafia::Config::load());
-	if (defined $self->config('secret')) {
-		$self->secret($self->config('secret'));
 	}
 
 	# Allow use of commands in the Mafia::Command namespace
@@ -60,10 +60,10 @@ sub startup {
 		state $key = '_user_object';
 		return $c->stash($key) if defined $c->stash($key);
 
-		if (defined $c->session->{email}) {
-			my $email = $c->db('Email')->find($c->session->{email});
-			if (defined $email) {
-				return $c->stash->{$key} = $email->user;
+		if (defined $c->session->{user_id}) {
+			my $user = $c->db('User')->find($c->session->{user_id});
+			if (defined $user) {
+				return $c->stash->{$key} = $user;
 			}
 		}
 		return Class::Null->new;

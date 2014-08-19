@@ -8,7 +8,7 @@ use base 'Mafia::Schema::Result';
 
 __PACKAGE__->table("setup_role");
 
-__PACKAGE__->load_components('InflateColumn::Serializer');
+__PACKAGE__->load_components(qw/InflateColumn::Serializer Mafia::InflateRole/);
 
 __PACKAGE__->add_columns(
 	"setup_id",
@@ -16,7 +16,7 @@ __PACKAGE__->add_columns(
 	"player_no",
 	{ data_type => "integer", is_nullable => 0 },
 	"role_id",
-	{ data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+	{ data_type => "integer", is_foreign_key => 0, is_nullable => 0 },
 	"pool",
 	{ data_type => "integer", is_nullable => 0 },
 	"initial_state",
@@ -29,13 +29,6 @@ __PACKAGE__->belongs_to(
 	"setup",
 	"Mafia::Schema::Result::Setup",
 	{ id => "setup_id" },
-	{ is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
-);
-
-__PACKAGE__->belongs_to(
-	"role",
-	"Mafia::Schema::Result::Role",
-	{ id => "role_id" },
 	{ is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
 );
 

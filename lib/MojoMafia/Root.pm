@@ -7,7 +7,6 @@ sub index {
 	my $c = shift;
 
 	$c->stash->{games} = $c->db('Game')->active;
-
 	$c->render('game/list');
 }
 

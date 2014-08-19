@@ -26,6 +26,10 @@ function replaceSelection(e, newSelection) {
 	}
 }
 
+// ===========================================================================
+// Post editor buttons
+// ===========================================================================
+
 $(document).ready(function() {
 	var $textarea = $('#NewPost').find('textarea');
 
@@ -84,7 +88,7 @@ $(document).ready(function() {
 });
 
 // ===========================================================================
-// Handle post previews
+// Post previews
 // ===========================================================================
 
 $(document).ready(function() {

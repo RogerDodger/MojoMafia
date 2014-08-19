@@ -2,6 +2,12 @@ package MojoMafia::Game;
 use Mojo::Base 'Mojolicious::Controller';
 use Scalar::Util qw/looks_like_number/;
 
+sub create {
+	my $c = shift;
+
+	$c->render;
+}
+
 sub fetch {
 	my $c = shift;
 	my $id = $c->param('id');
@@ -35,7 +41,7 @@ sub view {
 			-or => [
 				{ private => 0 },
 				{ "audiences.role_id" => { -in => \@roles } },
-				{ "audiences.player_no" => $c->player->no || -1 },
+				{ "audiences.player_id" => $c->player->id || -1 },
 			]
 		},
 		{
