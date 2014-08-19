@@ -89,6 +89,28 @@ sub player_nos {
 	            ->get_column('player_no');
 }
 
+sub pools {
+	my $self = shift;
+
+	my (@pools, $pool, $player, $prev);
+	for ($self->setup_roles->order_by([qw/pool player_no role_id/])->all) {
+		if (!defined $prev || $prev->pool != $_->pool) {
+			$pool = [];
+			push @pools, $pool;
+		}
+
+		if (!defined $prev || $prev->player_no != $_->player_no) {
+			$player = [];
+			push @{$pool}, $player;
+		}
+
+		push @{$player}, $_->role_id;
+		$prev = $_;
+	}
+
+	return \@pools;
+}
+
 sub size {
 	my $self = shift;
 
