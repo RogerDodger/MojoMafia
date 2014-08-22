@@ -46,7 +46,7 @@ sub view {
 		},
 		{
 			page => $page,
-			rows => 10,
+			rows => 40,
 			prefetch => [ qw/user/ ],
 			join => [ qw/audiences/ ],
 		}

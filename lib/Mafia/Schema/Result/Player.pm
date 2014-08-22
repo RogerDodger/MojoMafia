@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use base 'Mafia::Schema::Result';
-use Mafia::Role;
+use Mafia::Role qw/:all/;
 
 __PACKAGE__->table("players");
 
@@ -94,7 +94,7 @@ sub audiences {
 	elsif ($self->is_alive) {
 		@audiences = (
 			('town')  x!! $self->game->is_day,
-			('mafia') x!! $self->has_role('mafioso'),
+			('mafia') x!! $self->has_role(GOON),
 		);
 	}
 	else {
@@ -115,7 +115,7 @@ sub can_talk {
 
 sub has_role {
 	my $self = shift;
-	return $self->player_roles->search({ role_id => shift })->count;
+	return $self->player_roles->search({ role_id => shift->id })->count;
 }
 
 sub name {

@@ -19,8 +19,7 @@ sub post_game {
 			html => sub {
 				$c->redirect_to(
 					$c->url_for('game-view', id => $c->stash->{game}->id)
-						->query({ maybe player => scalar $c->param('player') })
-						->query({ maybe page => scalar $c->param('page') })
+					  ->query({ maybe page => scalar $c->param('page') })
 				);
 			},
 			json => { json => { error => $error_msg }},
@@ -41,7 +40,7 @@ sub post_game {
 	});
 
 	$c->respond_to(
-		html => sub { $c->redirect_to('game-view', id => $game->id) },
+		html => sub { $c->redirect_to('post-thread', id => $post->id) },
 		json => { json => { id =>  $post->id }},
 	);
 }

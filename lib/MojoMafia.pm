@@ -75,24 +75,13 @@ sub startup {
 		state $key = '_player_object';
 		return $c->stash($key) if defined $c->stash($key);
 
-		if (defined $c->stash->{game}) {
-			if ($c->app->mode eq 'development' && defined $c->param('player')) {
-				my $query = $c->stash->{game}->search_related('players', {
-					alias => $c->param('player'),
-				});
-
-				if ($query->count == 1) {
-					return $c->stash->{$key} = $query->single;
-				}
-			}
-			elsif ($c->user) {
-				my $player = $c->db('Player')->find({
-					user_id => $c->user->id,
-					game_id => $c->stash->{game}->id,
-				});
-				if (defined $player) {
-					return $c->stash->{$key} = $player;
-				}
+		if (defined $c->stash->{game} && $c->user) {
+			my $player = $c->db('Player')->find({
+				user_id => $c->user->id,
+				game_id => $c->stash->{game}->id,
+			});
+			if (defined $player) {
+				return $c->stash->{$key} = $player;
 			}
 		}
 		return Class::Null->new;
