@@ -21,7 +21,7 @@ sub run {
 	my $self = shift;
 	my $schema = $self->db;
 
-	say '+ Creating dummy users';
+	say 'Creating dummy users...';
 	my $cipher = bcrypt('password', '$2$10$fPFp/lzQBClHVBz/U2QQau');
 	my @users = map {
 		my $name = Mafia::Names->random_name;
@@ -37,8 +37,8 @@ sub run {
 		$user;
 	} 0 .. 10;
 
-	for (0, 1) {
-		say "+ Creating dummy game";
+	GAME: for (0, 1) {
+		say "Creating dummy game...";
 		my $f11  = $schema->resultset('Setup')->search({ name => 'F11' })->first;
 		my $game = $f11->create_related('games', {});
 
@@ -60,6 +60,8 @@ sub run {
 				alias   => $user->dname,
 				user_id => $user->id,
 			});
+
+			last GAME if $_ == 1 && $game->players->count == 4;
 		}
 
 		$game->begin;
@@ -67,7 +69,7 @@ sub run {
 		my $day = 60 * 60 * 24;
 		my $time = time - 20 * $day;
 
-		say "+ Creating dummy posts";
+		say "+ dummy posts";
 		for (0 .. 3) {
 			my (@players, $n_of_posts);
 
