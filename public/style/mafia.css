@@ -293,6 +293,10 @@ textarea {
     text-align: right; }
   .kv-form .field input {
     width: 18em; }
+  .kv-form .field_err {
+    color: red;
+    font-size: 0.9em;
+    margin: 0; }
   .kv-form .descr {
     font-size: 0.85em; }
     .kv-form .descr p {

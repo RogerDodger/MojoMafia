@@ -39,6 +39,9 @@ sub startup {
 	# Load routes from lib/mafia.routes
 	$self->plugin('PlainRoutes', { autoname => 1 });
 
+	# Add extra validation checks
+	$self->plugin('Mafia::Validation');
+
 	# Access database
 	$self->helper(db => sub {
 		my ($c, $table) = @_;

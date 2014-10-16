@@ -1,5 +1,6 @@
 % layout 'default';
 % title 'Register';
+% my $v = validation;
 
 <form method="post" action="<%= url_for 'user-post' %>">
 	<table class="kv-form">
@@ -12,7 +13,11 @@
 				<label for="uname">Username</label>
 			</td>
 			<td class="field">
-				<input id="uname" name="name" type="text" required>
+				<input id="uname" name="name" type="text" required
+					value="<%= param('uname') %>">
+				% if ($v->has_error('uname')) {
+					<p class="field_err">Username is already taken</p>
+				% }
 			</td>
 			<td class="descr">
 				<p>The name you use for logging in</p>
@@ -25,7 +30,7 @@
 				<label for="dname">Display name</label>
 			</td>
 			<td class="field">
-				<input id="dname" name="dname" type="text">
+				<input id="dname" name="dname" type="text" required>
 			</td>
 			<td class="descr">
 				<p>The name people will know you by</p>
@@ -38,7 +43,8 @@
 				<label for="pword">Password</label>
 			</td>
 			<td class="field">
-				<input id="pword" name="pword" type="password" required>
+				<input id="pword" name="pword" type="password"
+					pattern=".{5,}" title="Minimum of 5 characters" required>
 			</td>
 			<td class="descr" rowspan="2">
 				<p class="muted">Minimum of 5 characters</p>
@@ -48,10 +54,10 @@
 
 		<tr>
 			<td class="label">
-				<label for="pword">Repeat password</label>
+				<label for="rpword">Repeat password</label>
 			</td>
 			<td class="field">
-				<input id="pword" name="pword" type="password" required>
+				<input id="rpword" name="rpword" type="password" required>
 			</td>
 		</tr>
 

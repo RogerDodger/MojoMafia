@@ -24,10 +24,10 @@ sub login {
 		if ($user->password_check($c->param('pword'))) {
 			$c->session->{user_id} = $user->id;
 		} else {
-			$c->flash->{error_msg} = 'Login failed: invalid password';
+			$c->flash(error_msg => 'Login failed: invalid password');
 		}
 	} else {
-		$c->flash->{error_msg} = 'Login failed: user not found';
+		$c->flash(error_msg => 'Login failed: user not found');
 	}
 
 	$c->redirect_to($c->req->headers->referrer || '/');
@@ -45,6 +45,12 @@ sub post {
 
 	# Validate input
 	my $v = $c->validation;
+
+	$v->required('uname')->perlword;
+	$v->required('rpword')->equal_to($c->param('pword'));
+	$v->required('pword')->secure;
+
+	return $c->render(template => 'user/register') if $v->has_error;
 
 	# Create user
 	my $user = $c->db('User')->create({
