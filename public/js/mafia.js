@@ -4,8 +4,7 @@
  * This library is free software; you can redistribute and/or modify it
  * under the same terms as Perl version 5.14.2.
  */
-$(document).ready(function(){var $uname=$('#uname');$('#dname').focus(function(){if(!this.value){this.value=$uname.val();this.select();}});});1
-function replaceSelection(e,newSelection){if('selectionStart'in e){e.focus();e.value=e.value.substr(0,e.selectionStart)
+$(document).ready(function(){var $uname=$('#uname');$('#dname').focus(function(){if(!this.value){this.value=$uname.val();this.select();}});});function replaceSelection(e,newSelection){if('selectionStart'in e){e.focus();e.value=e.value.substr(0,e.selectionStart)
 +newSelection.text
 +e.value.substr(e.selectionEnd,e.value.length);e.selectionStart=newSelection.start;e.selectionEnd=newSelection.end;}
 else if(document.selection){e.focus();document.selection.createRange().text=newSelection.text;}

@@ -47,7 +47,7 @@ sub register {
 	# new app context for the render here dodges the strange behaviour.
 	my $app_ = Mojolicious->new(home => Mojo::Home->new('.'));
 
-	my $output = $app_->build_controller->render('names',
+	my $output = $app_->build_controller->render_to_string('names',
 		partial  => 1,
 		format   => 'js',
 		dicts    => Mojo::JSON->new->encode([ @dicts{qw/elvish elements nordic/} ]),
