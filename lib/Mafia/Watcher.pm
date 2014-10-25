@@ -20,7 +20,7 @@ sub register {
 		my $out = $app->home->rel_file('public/style/mafia.css');
 		my $dir = $app->home->rel_dir('public/style/src');
 
-		(my $compile = sub {
+		my $compile = sub {
 			my ($css, $err) = sass_compile_file($in, {
 				output_style => SASS_STYLE_NESTED,
 			});
@@ -37,7 +37,7 @@ sub register {
 				print $fh $css;
 				close $fh;
 			}
-		})->();
+		};
 
 		Mojo::IOLoop->recurring(0.1 => watcher(style => $app, $dir, $compile));
 	}
@@ -46,7 +46,7 @@ sub register {
 		my $out = $app->home->rel_file('public/js/mafia.js');
 		my $dir = $app->home->rel_dir('public/js/src');
 
-		(my $compile = sub {
+		my $compile = sub {
 			my $code = '';
 			find sub {
 				open my $fh, '<', $_;
@@ -64,7 +64,7 @@ sub register {
 			print $fh $copyright;
 			print $fh minify(input => $code);
 			close $fh;
-		})->();
+		};
 
 		Mojo::IOLoop->recurring(0.1 => watcher(js => $app, $dir, $compile));
 	}

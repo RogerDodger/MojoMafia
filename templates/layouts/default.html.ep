@@ -89,7 +89,7 @@
 				<section class="content">
 					%= content
 				</section>
-				% if (content_for 'sidebar') {
+				% if (length content_for 'sidebar') {
 					<section class="sidebar">
 						%= content_for 'sidebar'
 					</section>

@@ -27,19 +27,6 @@
 
 		<tr>
 			<td class="label">
-				<label for="dname">Display name</label>
-			</td>
-			<td class="field">
-				<input id="dname" name="dname" type="text" required>
-			</td>
-			<td class="descr">
-				<p>The name people will know you by</p>
-				<p class="muted">All characters permitted</p>
-			</td>
-		</tr>
-
-		<tr>
-			<td class="label">
 				<label for="pword">Password</label>
 			</td>
 			<td class="field">

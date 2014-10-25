@@ -227,7 +227,7 @@ textarea {
   font-family: "Museo Slab", serif;
   padding: 0.6em 0.8em; }
   .button:hover, .btn:hover {
-    box-shadow: 0 0 0.3em #aaaaaa; }
+    box-shadow: 0 0 0.15em #aaaaaa; }
   .button:active, .btn:active {
     box-shadow: 0 0.17em 0.3em rgba(0, 0, 0, 0.15) inset; }
   .button.disabled:hover, .button.disabled:active, .btn.disabled:hover, .btn.disabled:active {
@@ -443,11 +443,6 @@ nav.top {
         min-width: 3em;
         color: #888888; }
 
-/* Feature detection seems buggy
-.no-flexbox .sidebar {
-	margin-left: 0;
-}
-*/
 .game-listing {
   margin: 1em 0;
   border: 0.0625em solid #8bd2c4; }

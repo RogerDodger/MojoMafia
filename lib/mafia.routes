@@ -22,7 +22,9 @@ ANY /setup/:id -> Setup.fetch {
 }
 GET /setups/:page -> Setup.list
 
-POST /user       -> User.post
+POST /user/register -> User.post
+POST /user          -> User.post
+
 POST /user/login -> User.login
 GET /user/logout -> User.logout
 

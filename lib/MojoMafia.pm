@@ -15,22 +15,33 @@ sub startup {
 
 	$self->meta(YAML::LoadFile('meta.yml'));
 	$self->config(Mafia::Config::load());
+
 	if (defined $self->config('secrets')) {
 		$self->secrets($self->config('secrets'));
 	}
+	else {
+		$self->secrets([
+			q{This is an insecure secret, but a deployment would have to} .
+			q{manually delete its auto-generated secret from the config} .
+			q{for this to ever be used anyway}
+		]);
+	}
+
+	$self->app->log->format(sub {
+		my ($time, $level, @lines) = @_;
+
+		my $timestamp = POSIX::strftime('%b %d %H:%M:%S', localtime $time);
+		return "$timestamp [$level] " . join("\n", @lines) . "\n";
+	});
 
 	if ($self->app->mode eq 'development') {
-		$self->app->log(Mafia::Log->new);
-
 		$self->plugin('Mafia::Names');
 		$self->plugin('Mafia::Watcher');
 	}
 
 	if ($self->app->mode eq 'production') {
-		$self->app->log(Mafia::Log->new(
-			path  => 'site/mafia.log',
-			level => 'info',
-		));
+		$self->app->log->path('site/mafia.log');
+		$self->app->log->level('info');
 	}
 
 	# Allow use of commands in the Mafia::Command namespace
@@ -113,8 +124,6 @@ sub startup {
 	# });
 }
 
-sub meta {
-	return shift->_dict(meta => @_);
-}
+sub meta { Mojo::Util::_stash(meta => @_) }
 
 1;
