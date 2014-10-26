@@ -11,6 +11,8 @@ GET /rules -> Root.rules
 ANY / -> User.auth {
 	GET /game/create -> Game.create
 	GET /setup/create -> Setup.create
+
+	POST /post/preview -> Post.preview
 }
 
 ANY /game/:id -> Game.fetch {
@@ -37,7 +39,9 @@ ANY /user/:id -> User.fetch {
 }
 GET /users/:page -> User.list
 
-POST /post/preview -> Post.preview
+ANY /post/:id -> Post.fetch {
+	GET / -> Post.thread
+}
 
 # POST requests behind auth
 ANY / -> User.auth {

@@ -11,8 +11,36 @@ sub have_class {
 		{ class => { like => "$class"     } }, # Only
 		{ class => { like => "$class %"   } }, # First
 		{ class => { like => "% $class %" } }, # N-th
-		{ class => { like => "% $class"   } }, # Last 
+		{ class => { like => "% $class"   } }, # Last
 	]);
 }
+
+sub no {
+	my ($self, $post) = @_;
+
+	return $self->search({ created => { '<=' => $post->created } })->count;
+}
+
+sub visible {
+	my ($self, $player) = @_;
+
+	return $self->search({ private => 0 }) unless $player;
+
+	my @roles = $player->player_roles->get_column("role_id")->all;
+
+	$self->search(
+		{
+			-or => [
+				{ private => 0 },
+				{ "audiences.role_id" => { -in => \@roles } },
+				{ "audiences.player_id" => $player->id },
+			]
+		},
+		{
+			join => [ qw/audiences/ ],
+		},
+	);
+}
+
 
 1;

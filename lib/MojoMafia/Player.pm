@@ -4,15 +4,19 @@ use Mojo::Base 'Mojolicious::Controller';
 sub delete {
 	my $c = shift;
 
-	if (!$c->game->full) {
+	if (!$c->game->full && $c->player) {
+		$c->game->log("%s left the game", $c->player->alias);
 		$c->player->delete;
 	}
 
-	return $c->redirect_to($c->referrer || '/');
+	return $c->redirect_to('/');
 }
 
 sub post {
 	my $c = shift;
+
+	# There are race conditions all over this. One day I'll have to come back
+	# and address them.
 
 	if (!$c->user->plays($c->game)) {
 		if ($c->game->full) {
@@ -23,10 +27,16 @@ sub post {
 			$v->required('alias')->size(1, 64);
 
 			if (!$v->has_error) {
-				$c->user->create_related(players => {
+				my $player = $c->user->create_related(players => {
 					game_id => $c->game->id,
 					alias => $v->param('alias'),
 				});
+
+				$c->game->log("%s joined the game", $player->alias);
+
+				if ($c->game->full) {
+					$c->game->begin;
+				}
 			}
 		}
 	}

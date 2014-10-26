@@ -9,6 +9,7 @@ sub load {
 	# Configuration variables set by default but changeable in deployment
 	my %defaults = (
 		bcost => '10',
+		rows => 40,
 	);
 
 	my $site = {};

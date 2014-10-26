@@ -2,6 +2,21 @@ package MojoMafia::Post;
 use Mojo::Base "Mojolicious::Controller";
 use Mafia::Markup qw/render_markup/;
 use Mafia::Util qw/maybe/;
+use Scalar::Util qw/looks_like_number/;
+
+sub fetch {
+	my $c = shift;
+	my $id = $c->param('id');
+	return $c->render_not_found unless looks_like_number $id;
+
+	my $post = $c->db('Post')->find($id);
+
+	if (defined $post) {
+		$c->stash->{post} = $post;
+	}
+
+	defined $post;
+}
 
 sub post_game {
 	my $c = shift;
@@ -57,6 +72,35 @@ sub preview {
 	}
 	else {
 		$c->render(text => $response);
+	}
+}
+
+sub thread {
+	my $c = shift;
+	my $post = $c->stash->{post};
+
+	# Set game so that $c->player works
+	$c->game($post->thread->game);
+
+	my $posts = $post->thread->posts->visible($c->player);
+
+	return $c->render_not_found unless $posts->find($post->id);
+
+	my $page = 1 + int ($posts->no($post) / $c->app->config->{rows});
+
+	if ($c->game) {
+		$c->redirect_to(
+			$c->url_for('game-view', id => $c->game->id)
+					->query(page => $page)
+					->fragment($post->id)
+		);
+	}
+	else {
+		$c->redirect_to(
+			$c->url_for('thread-view', id => $post->thread_id)
+					->query(page => $page)
+					->fragment($post->id)
+		);
 	}
 }
 

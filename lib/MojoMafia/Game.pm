@@ -31,24 +31,15 @@ sub fetch {
 sub view {
 	my $c = shift;
 
-	my @roles = $c->player->player_roles->get_column("role_id")->all;
-
 	my $param = $c->param('page');
 	my $page = looks_like_number($param) ? int $param : 1;
 
-	$c->stash->{posts} = $c->stash->{game}->thread->posts->search(
-		{
-			-or => [
-				{ private => 0 },
-				{ "audiences.role_id" => { -in => \@roles } },
-				{ "audiences.player_id" => $c->player->id || -1 },
-			]
-		},
+	$c->stash->{posts} = $c->game->thread->posts->visible($c->player)->search(
+		{},
 		{
 			page => $page,
-			rows => 40,
+			rows => $c->app->config->{rows},
 			prefetch => [ qw/user/ ],
-			join => [ qw/audiences/ ],
 		}
 	);
 
