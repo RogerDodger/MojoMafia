@@ -12,8 +12,6 @@
 	% }
 </section>
 
-% if (user()) {
 <div class="create-game">
 	<a class="btn" href="<%= url_for 'game-create' %>">Create game</a>
 </div>
-% }

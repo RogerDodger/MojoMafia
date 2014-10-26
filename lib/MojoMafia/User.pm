@@ -3,10 +3,15 @@ use Mojo::Base 'Mojolicious::Controller';
 
 sub auth {
 	my $c = shift;
-	return 1 if $c->user;
 
-	$c->render(text => 'You are not logged in');
-	undef;
+	if ($c->user) {
+		return 1;
+	}
+	else {
+		$c->flash(error_msg => 'You must be logged in to do that');
+		$c->redirect_to($c->referrer || '/');
+		return undef;
+	}
 }
 
 sub create {

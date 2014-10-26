@@ -7,7 +7,12 @@ GET /about -> Root.about
 GET /roles -> Root.roles
 GET /rules -> Root.rules
 
-GET /game/create -> Game.create
+# GET requests behind auth (i.e., forms)
+ANY / -> User.auth {
+	GET /game/create -> Game.create
+	GET /setup/create -> Setup.create
+}
+
 ANY /game/:id -> Game.fetch {
 	GET /        -> Game.view
 	GET /edit    -> Game.edit
@@ -15,7 +20,6 @@ ANY /game/:id -> Game.fetch {
 }
 GET /games/:page -> Game.list
 
-GET /setup/create -> Setup.create
 ANY /setup/:id -> Setup.fetch {
 	GET /     -> Setup.view
 	GET /edit -> Setup.edit
@@ -23,8 +27,6 @@ ANY /setup/:id -> Setup.fetch {
 GET /setups/:page -> Setup.list
 
 POST /user/register -> User.post
-POST /user          -> User.post
-
 POST /user/login -> User.login
 GET /user/logout -> User.logout
 
@@ -37,6 +39,7 @@ GET /users/:page -> User.list
 
 POST /post/preview -> Post.preview
 
+# POST requests behind auth
 ANY / -> User.auth {
 	ANY /game/:id -> Game.fetch {
 		POST  /post   -> Post.post_game
@@ -46,14 +49,14 @@ ANY / -> User.auth {
 	POST /game -> Game.post
 
 	ANY /post/:id -> Post.fetch {
-		POST   /report -> Report.post
-		PATCH  /       -> Post.patch
-		DELETE /       -> Post.delete
+		POST /report -> Report.post
+		POST /update -> Post.patch
+		POST /delete -> Post.delete
 	}
 	POST /post -> Post.post
 
 	ANY /setup/:id -> Setup.fetch {
-		PATCH  / -> Setup.patch
-		DELETE / -> Setup.delete
+		POST /update -> Setup.patch
+		POST /delete -> Setup.delete
 	}
 }
