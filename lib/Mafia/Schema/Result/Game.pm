@@ -135,6 +135,11 @@ sub datetime {
 	return join(' ', $self->timeofday, $self->date);
 }
 
+sub full {
+	my $self = shift;
+	$self->players->count >= $self->setup->size;
+}
+
 sub is_active {
 	return !!shift->date;
 }
@@ -164,9 +169,7 @@ sub log {
 sub showform {
 	my ($self, $user) = @_;
 
-	   $user
-	&&!$user->search_related(players => { game_id => $self->id })->count
-	&& $self->players->count < $self->setup->size;
+	$user && !$user->plays($self) && !$self->full;
 }
 
 sub time {

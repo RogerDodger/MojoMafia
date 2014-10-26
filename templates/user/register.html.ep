@@ -13,14 +13,12 @@
 				<label for="uname">Username</label>
 			</td>
 			<td class="field">
-				<input id="uname" name="name" type="text" required
-					value="<%= param('uname') %>">
+				%= text_field 'uname';
 				% if ($v->has_error('uname')) {
 					<p class="field_err">Username is already taken</p>
 				% }
 			</td>
 			<td class="descr">
-				<p>The name you use for logging in</p>
 				<p class="muted">Letters, numbers, and dashes only</p>
 			</td>
 		</tr>
@@ -32,6 +30,9 @@
 			<td class="field">
 				<input id="pword" name="pword" type="password"
 					pattern=".{5,}" title="Minimum of 5 characters" required>
+				% if ($v->has_error('pword')) {
+					<p class="field_err">Password is not secure</p>
+				% }
 			</td>
 			<td class="descr" rowspan="2">
 				<p class="muted">Minimum of 5 characters</p>
@@ -41,10 +42,14 @@
 
 		<tr>
 			<td class="label">
-				<label for="rpword">Repeat password</label>
+				<label for="rword">Repeat password</label>
 			</td>
 			<td class="field">
-				<input id="rpword" name="rpword" type="password" required>
+				<input id="rword" name="rword" type="password"
+					title="Passwords must match" required>
+				% if ($v->has_error('rword')) {
+					<p class="field_err">Passwords do not match</p>
+				% }
 			</td>
 		</tr>
 

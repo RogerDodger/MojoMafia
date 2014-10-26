@@ -101,6 +101,13 @@ sub startup {
 		return Class::Null->new;
 	});
 
+	# Shorthand stash helper
+	$self->helper(game => sub {
+		my ($c, $game) = @_;
+		$c->stash->{game} = $game if $game;
+		$c->stash->{game};
+	});
+
 	# For certain static files, users will request a file with the app version
 	# appended to force cache revalidation. However, we don't want to actually
 	# rename the files constantly, so we rewrite the requests instead.

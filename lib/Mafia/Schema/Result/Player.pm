@@ -13,7 +13,7 @@ __PACKAGE__->add_columns(
 	"id",
 	{ data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
 	"no",
-	{ data_type => "integer", is_nullable => 0 },
+	{ data_type => "integer", is_nullable => 1 },
 	"alias",
 	{ data_type => "varchar", is_nullable => 0 },
 	"user_id",

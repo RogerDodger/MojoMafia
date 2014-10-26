@@ -17,6 +17,10 @@ sub _perlword {
 sub _secure {
 	my ($v, $name, $password) = @_;
 
+	return 1 if length $password < 5;
+
+	# TODO: Check dictionary here
+
 	return 0;
 }
 

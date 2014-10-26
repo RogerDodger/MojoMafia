@@ -41,25 +41,33 @@ sub logout {
 
 sub post {
 	my $c = shift;
-	return $c->redirect_to('/') if $c->user;
 
-	# Validate input
-	my $v = $c->validation;
+	if (!$c->user) {
+		# Validate input
+		my $v = $c->validation;
 
-	$v->required('uname')->perlword;
-	$v->required('rpword')->equal_to($c->param('pword'));
-	$v->required('pword')->secure;
+		$v->required('uname')->perlword;
+		$v->required('pword')->secure;
+		$v->required('rword')->equal_to('pword');
 
-	return $c->render(template => 'user/register') if $v->has_error;
+		if ($v->has_error) {
+			return $c->render(template => 'user/register');
+		}
 
-	# Create user
-	my $user = $c->db('User')->create({
-		name => $v->param('uname'),
-		dname => $v->param('uname'),
-		nname => lc $v->param('uname'),
-	});
+		# Create user
+		my $user = $c->db('User')->create({
+			name => $v->param('uname'),
+			dname => $v->param('uname'),
+			nname => lc $v->param('uname'),
+		});
+		$user->password_set($v->param('pword'), $c->app->config('bcost'));
 
-	$user->password_set($v->param('pword'), $c->app->config('bcost'));
+		$c->app->log->info("User created: " . $user->name);
+
+		$c->session->{user_id} = $user->id;
+	}
+
+	$c->redirect_to('/');
 }
 
 1;

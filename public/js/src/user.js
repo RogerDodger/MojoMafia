@@ -10,11 +10,7 @@
 // ===========================================================================
 
 $(document).ready(function() {
-	var $uname = $('#uname');
-	$('#dname').focus(function() {
-		if (!this.value) {
-			this.value = $uname.val();
-			this.select();
-		}
+	$('#pword').change(function() {
+		byId('rword').pattern = '^' + this.value.regex() + '$';
 	});
 });

@@ -115,4 +115,10 @@ sub password_set {
 	$self->create_related(passwords => { cipher => $cipher });
 }
 
+sub plays {
+	my ($self, $game) = @_;
+
+	$self->search_related(players => { game_id => $game->id })->count;
+}
+
 1;
