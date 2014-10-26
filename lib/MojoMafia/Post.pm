@@ -86,6 +86,7 @@ sub thread {
 
 	return $c->render_not_found unless $posts->find($post->id);
 
+	$c->app->log->info($posts->no($post) . "/" . $posts->count);
 	my $page = 1 + int ($posts->no($post) / $c->app->config->{rows});
 
 	if ($c->game) {

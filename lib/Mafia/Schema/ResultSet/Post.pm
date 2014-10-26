@@ -18,7 +18,7 @@ sub have_class {
 sub no {
 	my ($self, $post) = @_;
 
-	return $self->search({ created => { '<=' => $post->created } })->count;
+	return $self->search({ id => { '<' => $post->id } })->count;
 }
 
 sub visible {
