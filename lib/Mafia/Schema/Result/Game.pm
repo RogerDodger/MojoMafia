@@ -80,6 +80,8 @@ __PACKAGE__->has_many(
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
 
+sub active { !!shift->date; }
+
 sub begin {
 	my $self = shift;
 	my $setup = $self->setup;
@@ -140,9 +142,7 @@ sub full {
 	$self->players->count >= $self->setup->size;
 }
 
-sub is_active {
-	return !!shift->date;
-}
+BEGIN { *is_active = \&active }
 
 sub log {
 	my ($self, $fmt, @list) = @_;

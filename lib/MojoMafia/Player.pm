@@ -1,10 +1,20 @@
 package MojoMafia::Player;
 use Mojo::Base 'Mojolicious::Controller';
 
+sub delete {
+	my $c = shift;
+
+	if (!$c->game->full) {
+		$c->player->delete;
+	}
+
+	return $c->redirect_to($c->referrer || '/');
+}
+
 sub post {
 	my $c = shift;
 
-	if ($c->game && !$c->user->plays($c->game)) {
+	if (!$c->user->plays($c->game)) {
 		if ($c->game->full) {
 			$c->flash(error_msg => 'Game is full');
 		}

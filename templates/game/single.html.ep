@@ -12,12 +12,18 @@
 	<div class="players clearfix">
 		<%= join ', ', map { $_->alias } $game->players->sorted %>
 		<div class="player-count">
-		% if ($game->showform(user)) {
-			<form action="<%= url_for 'player-post', id => $game->id %>" method="post">
-				<input type="text" name="alias" placeholder="Alias" length="16">
-				<input type="button" class="namegen" value="Generate name">
-				<input type="submit" value="Join game">
-			</form>
+		% if (!$game->full) {
+			% if (user()->plays($game)) {
+				<form action="<%= url_for 'player-delete', id => $game->id, %>" method="post">
+					<input type="submit" value="Leave game">
+				</form>
+			% } else {
+				<form action="<%= url_for 'player-post', id => $game->id %>" method="post">
+					<input type="text" name="alias" placeholder="Alias" length="16">
+					<input type="button" class="namegen" value="Generate name">
+					<input type="submit" value="Join game">
+				</form>
+			% }
 		% }
 			<i class="icon-user"></i>
 			<%= $game->players->count %>/<%= $game->setup->size %>

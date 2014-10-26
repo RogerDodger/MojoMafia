@@ -39,9 +39,9 @@ POST /post/preview -> Post.preview
 
 ANY / -> User.auth {
 	ANY /game/:id -> Game.fetch {
-		POST   /post   -> Post.post_game
-		POST   /player -> Player.post
-		DELETE /       -> Game.delete
+		POST  /post   -> Post.post_game
+		POST  /join   -> Player.post
+		POST  /leave  -> Player.delete
 	}
 	POST /game -> Game.post
 

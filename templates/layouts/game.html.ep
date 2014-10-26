@@ -26,10 +26,12 @@
 					<%= player()->alias %>
 				</span>
 				<br>
+				% if (player()->role) {
 				You are a
 				<span class="role">
 					<%= player()->role %>
 				</span>
+				% }
 			</p>
 		</aside>
 	% }

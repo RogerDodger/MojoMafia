@@ -101,11 +101,15 @@ sub startup {
 		return Class::Null->new;
 	});
 
-	# Shorthand stash helper
+	# Shorthand helpers
 	$self->helper(game => sub {
 		my ($c, $game) = @_;
 		$c->stash->{game} = $game if $game;
 		$c->stash->{game};
+	});
+
+	$self->helper(referrer => sub {
+		shift->req->headers->referrer;
 	});
 
 	# For certain static files, users will request a file with the app version
