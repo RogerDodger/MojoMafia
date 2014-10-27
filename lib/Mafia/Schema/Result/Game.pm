@@ -90,6 +90,10 @@ sub begin {
 		Carp::croak "Game does not have correct number of players.";
 	}
 
+	# Assign players a player no
+	my $players = $self->players;
+	$players->next->update({ no => $_ }) for shuffle $self->setup->player_nos;
+
 	my $pool = $setup->random_pool;
 
 	while (my $role = $pool->next) {

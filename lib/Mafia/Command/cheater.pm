@@ -50,16 +50,13 @@ sub run {
 
 		$game->log('Game created.');
 
-		my $player_nos = $game->setup->player_nos;
 		for my $user (shuffle @users) {
-			# Users list is longer than number of players
-			my $no = $player_nos->next or last;
-
 			$game->create_related('players', {
-				no      => $no,
-				alias   => $user->dname,
 				user_id => $user->id,
+				alias   => $user->dname,
 			});
+
+			last if $game->full;
 
 			last GAME if $_ == 1 && $game->players->count == 4;
 		}
