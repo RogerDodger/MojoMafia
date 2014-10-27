@@ -458,6 +458,8 @@ nav.top {
     font-family: "Museo Slab", serif;
     font-size: 1.1em;
     padding: 0.54545em; }
+    .game-listing .title .datetime {
+      float: right; }
   .game-listing .players {
     padding: 0.6em;
     font-size: 0.9em; }

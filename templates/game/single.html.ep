@@ -1,5 +1,5 @@
 <article class="game-listing">
-	<div class="title">
+	<div class="title clearfix">
 		<a href="<%= url_for 'game-view', id => $game->id %>">
 			Game #<%= $game->id %>
 		</a>
@@ -7,6 +7,10 @@
 		<a href="<%= url_for 'setup-view', id => $game->setup->id %>">
 			<%= $game->setup->name %>
 		</a>
+
+		<div class="datetime">
+			<%= ucfirst $game->datetime %></span>
+		</div>
 	</div>
 
 	<div class="players clearfix">
