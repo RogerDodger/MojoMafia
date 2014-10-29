@@ -14,15 +14,13 @@ __PACKAGE__->table("users");
 __PACKAGE__->add_columns(
 	"id",
 	{ data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+	"login",
+	{ data_type => "varchar", is_nullable => 0 },
 	"name",
 	{ data_type => "varchar", is_nullable => 0 },
-	"nname",
-	{ data_type => "varchar", is_nullable => 0 },
-	"dname",
-	{ data_type => "varchar", is_nullable => 0 },
-	"is_admin",
+	"admin",
 	{ data_type => "boolean", default_value => 0, is_nullable => 1 },
-	"is_mod",
+	"mod",
 	{ data_type => "boolean", default_value => 0, is_nullable => 1 },
 	"active",
 	{ data_type => "boolean", default_value => 1, is_nullable => 1 },
@@ -90,6 +88,12 @@ __PACKAGE__->has_many(
 	{ 'foreign.user_id', => 'self.id' },
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
+
+sub name_set {
+	my ($self, $name) = @_;
+
+	# BLARHG
+}
 
 sub password_check {
 	my ($self, $plain) = @_;

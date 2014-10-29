@@ -8,15 +8,6 @@ use Mafia::Timestamp;
 use List::Util 'shuffle';
 use Text::Lorem::More 'lorem';
 
-sub _rs {
-	# Return a random string of length between $min and $max
-	my $min = shift;
-	my $max = shift // $min;
-	state $chars = ['a'..'z'];
-	my $length = int rand($max - $min + 1) + $min;
-	return join '', map { $chars->[rand 26] } 1 .. $length;
-}
-
 sub run {
 	my $self = shift;
 	my $schema = $self->db;
@@ -41,12 +32,6 @@ sub run {
 		say "Creating dummy game...";
 		my $f11  = $schema->resultset('Setup')->search({ name => 'F11' })->first;
 		my $game = $f11->create_related('games', {});
-
-		my $thread = $schema->resultset('Thread')->create({
-			title => 'Game '. $game->id,
-		});
-
-		$game->update({ thread_id => $thread->id });
 
 		$game->log('Game created.');
 
@@ -103,7 +88,7 @@ sub run {
 			}
 
 			# Lynch or night kill
-			$game->players->living->first->update({ is_alive => 0 });
+			$game->players->living->first->update({ alive => 0 });
 
 			$game->cycle;
 		}

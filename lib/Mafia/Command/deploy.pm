@@ -24,17 +24,16 @@ sub run {
 		say "Deploying database...";
 		$schema->deploy;
 
-		# Not sure if necessary
-		say '+ Creating user `Nobody`';
-		my $nobody = $schema->resultset('User')->create({
-			name => 'Nobody',
-			nname => 'nobody',
-			dname => 'Nobody',
-		});
+		# # Not sure if necessary
+		# say '+ Creating user `Nobody`';
+		# my $nobody = $schema->resultset('User')->create({
+		# 	name => 'Nobody',
+		# 	nname => 'nobody',
+		# 	dname => 'Nobody',
+		# });
 
 		say '+ Creating F11 setup...';
 		my $setup = $schema->resultset('Setup')->create({
-			user_id   => $nobody->id,
 			name      => 'F11',
 			descr     => 'Standard newbie setup',
 			allow_nk  => 1,

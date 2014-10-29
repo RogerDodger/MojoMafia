@@ -2,19 +2,6 @@ package Mafia::Schema::ResultSet::Post;
 
 use base 'DBIx::Class::ResultSet';
 
-sub have_class {
-	my ($self, $class) = @_;
-
-	$class =~ s/[ %]//g;
-
-	return $self->search([
-		{ class => { like => "$class"     } }, # Only
-		{ class => { like => "$class %"   } }, # First
-		{ class => { like => "% $class %" } }, # N-th
-		{ class => { like => "% $class"   } }, # Last
-	]);
-}
-
 sub no {
 	my ($self, $post) = @_;
 
@@ -32,8 +19,9 @@ sub visible {
 		{
 			-or => [
 				{ private => 0 },
-				{ "audiences.role_id" => { -in => \@roles } },
-				{ "audiences.player_id" => $player->id },
+				{ player_id => $player->id },
+				{ audience_role_id => { -in => \@roles } },
+				{ audience_player_id => $player->id },
 			]
 		},
 		{

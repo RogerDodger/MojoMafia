@@ -16,8 +16,8 @@ __PACKAGE__->add_columns(
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"setup_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-	"thread_id",
-	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+	"title",
+	{ data_type => "varchar", is_nullable => 1 },
 	"is_day",
 	{ data_type => "boolean", is_nullable => 1 },
 	"date",
@@ -42,30 +42,6 @@ __PACKAGE__->belongs_to(
 	},
 );
 
-__PACKAGE__->belongs_to(
-	"setup",
-	"Mafia::Schema::Result::Setup",
-	{ id => "setup_id" },
-	{
-		is_deferrable => 1,
-		join_type     => "LEFT",
-		on_delete     => "CASCADE",
-		on_update     => "CASCADE",
-	},
-);
-
-__PACKAGE__->belongs_to(
-	"thread",
-	"Mafia::Schema::Result::Thread",
-	{ id => "thread_id" },
-	{
-		is_deferrable => 1,
-		join_type     => "LEFT",
-		on_delete     => "CASCADE",
-		on_update     => "CASCADE",
-	},
-);
-
 __PACKAGE__->has_many(
 	"players",
 	"Mafia::Schema::Result::Player",
@@ -78,6 +54,25 @@ __PACKAGE__->has_many(
 	"Mafia::Schema::Result::PlayerRole",
 	{ "foreign.game_id" => "self.id" },
 	{ cascade_copy => 0, cascade_delete => 0 },
+);
+
+__PACKAGE__->has_many(
+	"posts",
+	"Mafia::Schema::Result::Post",
+	{ "foreign.thread_id" => "self.id" },
+	{ cascade_copy => 0, cascade_delete => 0 },
+);
+
+__PACKAGE__->belongs_to(
+	"setup",
+	"Mafia::Schema::Result::Setup",
+	{ id => "setup_id" },
+	{
+		is_deferrable => 1,
+		join_type     => "LEFT",
+		on_delete     => "CASCADE",
+		on_update     => "CASCADE",
+	},
 );
 
 sub active { !!shift->date; }

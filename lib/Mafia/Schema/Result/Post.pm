@@ -14,7 +14,11 @@ __PACKAGE__->add_columns(
 	{ data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
 	"thread_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+	"game_id",
+	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"user_id",
+	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+	"player_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"user_alias",
 	{ data_type => "text", is_nullable => 1 },
@@ -26,6 +30,10 @@ __PACKAGE__->add_columns(
 	{ data_type => "text", is_nullable => 1 },
 	"private",
 	{ data_type => "boolean", is_nullable => 1, default_value => 0 },
+	"audience_role_id",
+	{ data_type => "integer", is_nullable => 1 },
+	"audience_player_id",
+	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"trigger",
 	{ data_type => "text", is_nullable => 1 },
 	"gamedate",
@@ -53,6 +61,18 @@ __PACKAGE__->belongs_to(
 );
 
 __PACKAGE__->belongs_to(
+	"game",
+	"Mafia::Schema::Result::Game",
+	{ id => "game_id" },
+	{
+		is_deferrable => 1,
+		join_type     => "LEFT",
+		on_delete     => "CASCADE",
+		on_update     => "CASCADE",
+	},
+);
+
+__PACKAGE__->belongs_to(
 	"user",
 	"Mafia::Schema::Result::User",
 	{ id => "user_id" },
@@ -64,11 +84,16 @@ __PACKAGE__->belongs_to(
 	},
 );
 
-__PACKAGE__->has_many(
-	"audiences",
-	"Mafia::Schema::Result::Audience",
-	{ "foreign.post_id" => "self.id" },
-	{ cascade_copy => 0, cascade_delete => 0 },
+__PACKAGE__->belongs_to(
+	"player",
+	"Mafia::Schema::Result::Player",
+	{ id => "player_id" },
+	{
+		is_deferrable => 1,
+		join_type     => "LEFT",
+		on_delete     => "CASCADE",
+		on_update     => "CASCADE",
+	},
 );
 
 sub apply_markup {
