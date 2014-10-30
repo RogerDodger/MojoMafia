@@ -42,7 +42,7 @@
 			<ul>
 				% for my $player (stash('game')->players->sorted->all) {
 					<li>
-						% if ($player->is_alive) {
+						% if ($player->alive) {
 							<%= $player->name %>
 						% } else {
 							<del><%= $player->name %></del>

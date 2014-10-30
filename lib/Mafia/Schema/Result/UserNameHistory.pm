@@ -17,6 +17,8 @@ __PACKAGE__->add_columns(
 	{ data_type => 'timestamp', is_nullable => 0 },
 );
 
+# This table exists purely as a log, so a PK isn't necessary
+
 __PACKAGE__->belongs_to(
 	'user',
 	'Mafia::Schema::Result::User',

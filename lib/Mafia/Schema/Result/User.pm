@@ -92,7 +92,9 @@ __PACKAGE__->has_many(
 sub name_set {
 	my ($self, $name) = @_;
 
-	# BLARHG
+	$self->update({ name => $name });
+
+	$self->create_related(name_history => { name => $name });
 }
 
 sub password_check {

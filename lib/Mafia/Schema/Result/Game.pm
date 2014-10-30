@@ -18,10 +18,12 @@ __PACKAGE__->add_columns(
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"title",
 	{ data_type => "varchar", is_nullable => 1 },
-	"is_day",
+	"day",
 	{ data_type => "boolean", is_nullable => 1 },
 	"date",
 	{ data_type => "integer", is_nullable => 1 },
+	"active"
+	{ data_type => "boolean", is_nullable => 1 },
 	"end",
 	{ data_type => "timestamp", is_nullable => 1 },
 	"created",
@@ -110,7 +112,7 @@ sub begin {
 sub create_post {
 	my ($self, $body) = @_;
 
-	my $post = $self->thread->create_related(posts => {
+	my $post = $self->create_related(posts => {
 		user_hidden => !$self->end,
 		body_plain  => $body,
 		gamedate    => $self->date,
@@ -126,8 +128,8 @@ sub cycle {
 	# Process votes ...
 
 	$self->update({
-		date   => $self->date + ($self->is_day != $self->setup->day_start),
-		is_day => !$self->is_day,
+		date => $self->date + ($self->day != $self->setup->day_start),
+		day  => !$self->day,
 	});
 }
 
@@ -141,15 +143,13 @@ sub full {
 	$self->players->count >= $self->setup->size;
 }
 
-BEGIN { *is_active = \&active }
-
 sub log {
 	my ($self, $fmt, @list) = @_;
 
 	my $opt = ref $list[-1] eq 'HASH' ? pop @list : {};
 	my $msg = sprintf $fmt, @list;
 
-	my $post = $self->thread->create_related('posts', {
+	my $post = $self->create_related('posts', {
 		body_plain  => $msg,
 		gametime    => $self->time,
 		gamedate    => $self->date,
@@ -173,8 +173,8 @@ sub showform {
 
 sub time {
 	my $self = shift;
-	return         $self->is_day ? 'day' :
-	       defined $self->is_day ? 'night' :
+	return         $self->day ? 'day' :
+	       defined $self->day ? 'night' :
 	       defined $self->end    ? 'post-game' : 'pre-game';
 }
 

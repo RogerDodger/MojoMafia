@@ -18,8 +18,8 @@ sub fetch {
 	if (defined $game) {
 		$c->stash->{game} = $game;
 
-		if ($game->is_active) {
-			if ($game->is_day) {
+		if ($game->active) {
+			if ($game->day) {
 				$c->stash->{votes} = $game->players->living;
 			}
 		}

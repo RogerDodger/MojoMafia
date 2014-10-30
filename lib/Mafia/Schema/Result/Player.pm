@@ -86,14 +86,14 @@ sub audiences {
 	my $self = shift;
 	my @audiences;
 
-	if (!$self->game->is_active) {
+	if (!$self->game->active) {
 		@audiences = (
 			('town'),
 		);
 	}
-	elsif ($self->is_alive) {
+	elsif ($self->alive) {
 		@audiences = (
-			('town')  x!! $self->game->is_day,
+			('town')  x!! $self->game->day,
 			('mafia') x!! $self->has_role(GOON),
 		);
 	}

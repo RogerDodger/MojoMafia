@@ -17,20 +17,19 @@ sub run {
 	my @users = map {
 		my $name = Mafia::Names->random_name;
 
-		my $user = $schema->resultset('User')->create({
-			name => $name,
-			dname => $name,
-			nname => lc $name,
-		});
+		my $user = $schema->resultset('User')->create({ login => lc $name });
 
+		$user->name_set($name);
+
+		# Not using password_set() here to avoid doing the cipher for each user
 		$user->create_related(passwords => { cipher => $cipher });
 
 		$user;
 	} 0 .. 10;
 
+	my $f11  = $schema->resultset('Setup')->search({ name => 'F11' })->first;
 	GAME: for (0, 1) {
 		say "Creating dummy game...";
-		my $f11  = $schema->resultset('Setup')->search({ name => 'F11' })->first;
 		my $game = $f11->create_related('games', {});
 
 		$game->log('Game created.');
@@ -55,7 +54,7 @@ sub run {
 		for (0 .. 3) {
 			my (@players, $n_of_posts);
 
-			if ($game->is_day) {
+			if ($game->day) {
 				@players = $game->players->living->all;
 				$n_of_posts = 10 + int rand 15;
 			} else {
@@ -77,7 +76,7 @@ sub run {
 					updated     => Mafia::Timestamp->from_epoch($time),
 				});
 
-				if (!$game->is_day) {
+				if (!$game->day) {
 					$post->update({ private => 1 });
 					$post->create_related(audiences => {
 						role_id => GOON,

@@ -49,6 +49,18 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 __PACKAGE__->belongs_to(
+	"audience_player",
+	"Mafia::Schema::Result::Player",
+	{ id => "audience_player_id" },
+	{
+		is_deferrable => 1,
+		join_type     => "LEFT",
+		on_delete     => "CASCADE",
+		on_update     => "CASCADE",
+	},
+);
+
+__PACKAGE__->belongs_to(
 	"thread",
 	"Mafia::Schema::Result::Thread",
 	{ id => "thread_id" },
@@ -105,6 +117,18 @@ sub apply_markup {
 	# TODO: track cites
 
 	$self;
+}
+
+sub audience {
+	my $self = shift;
+
+	if (defined $self->audience_role_id) {
+		return Mafia::Role::find($self->audience_role_id);
+	}
+	elsif (defined $self->audience_player_id) {
+		return $self->audience_player;
+	}
+	undef;
 }
 
 sub class {
