@@ -46,4 +46,4 @@ sub view {
 	$c->render('game/view');
 }
 
-"Geemu no jikan da.";
+'I want to play a game.';

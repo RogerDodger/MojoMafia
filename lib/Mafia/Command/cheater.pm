@@ -37,7 +37,7 @@ sub run {
 		for my $user (shuffle @users) {
 			$game->create_related('players', {
 				user_id => $user->id,
-				alias   => $user->dname,
+				alias   => $user->name,
 			});
 
 			last if $game->full;

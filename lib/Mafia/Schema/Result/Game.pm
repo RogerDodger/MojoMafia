@@ -22,7 +22,7 @@ __PACKAGE__->add_columns(
 	{ data_type => "boolean", is_nullable => 1 },
 	"date",
 	{ data_type => "integer", is_nullable => 1 },
-	"active"
+	"active",
 	{ data_type => "boolean", is_nullable => 1 },
 	"end",
 	{ data_type => "timestamp", is_nullable => 1 },
