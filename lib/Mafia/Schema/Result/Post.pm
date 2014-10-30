@@ -6,6 +6,7 @@ use warnings;
 
 use base 'Mafia::Schema::Result';
 use Mafia::Markup qw/render_markup/;
+use Mafia::Role;
 
 __PACKAGE__->table("posts");
 
@@ -123,7 +124,7 @@ sub audience {
 	my $self = shift;
 
 	if (defined $self->audience_role_id) {
-		return Mafia::Role::find($self->audience_role_id);
+		return $self->audience_role;
 	}
 	elsif (defined $self->audience_player_id) {
 		return $self->audience_player;
@@ -131,12 +132,30 @@ sub audience {
 	undef;
 }
 
+sub audience_role {
+	Mafia::Role->find(shift->audience_role_id);
+}
+
 sub class {
 	my $self = shift;
 
-	return join q{ }, $self->gametime ? ("game", $self->gametime) : (),
-	                  $self->user_id  ? "user" : "system",
-	                  grep defined, $self->trigger;
+	return join q{ }, (
+		$self->gametime ? ("game", $self->gametime) : (),
+		$self->user_id  ? "user" : "system",
+		$self->trigger // (),
+	);
+}
+
+sub posts {
+	my $self = shift;
+
+	if (defined $self->game_id) {
+		return $self->game->posts;
+	} elsif (defined $self->thread_id) {
+		return $self->thread->posts;
+	}
+
+	undef;
 }
 
 1;

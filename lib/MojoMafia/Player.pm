@@ -15,9 +15,7 @@ sub delete {
 sub post {
 	my $c = shift;
 
-	# There are race conditions all over this. One day I'll have to come back
-	# and address them.
-
+	# There are race conditions all over this. Forgive me, future self.
 	if (!$c->user->plays($c->game)) {
 		if ($c->game->full) {
 			$c->flash(error_msg => 'Game is full');

@@ -32,13 +32,27 @@ sub run {
 		say "Creating dummy game...";
 		my $game = $f11->create_related('games', {});
 
-		$game->log('Game created.');
+		my $day = 60 * 60 * 24;
+		my $time = time - 20 * $day;
+
+		my $log = sub {
+			my $game = shift;
+			$time += 2;
+			$game->log(@_)->update({
+				created => $time,
+				updated => $time,
+			});
+		}
+
+		$game->$log('Game created.');
 
 		for my $user (shuffle @users) {
-			$game->create_related('players', {
+			my $player = $game->create_related('players', {
 				user_id => $user->id,
 				alias   => $user->name,
 			});
+
+			$game->$log("%s joined the game", $player->alias);
 
 			last if $game->full;
 
@@ -47,8 +61,6 @@ sub run {
 
 		$game->begin;
 
-		my $day = 60 * 60 * 24;
-		my $time = time - 20 * $day;
 
 		say "+ dummy posts";
 		for (0 .. 3) {
@@ -77,13 +89,13 @@ sub run {
 				});
 
 				if (!$game->day) {
-					$post->update({ private => 1 });
-					$post->create_related(audiences => {
-						role_id => GOON,
+					$post->update({
+						private => 1,
+						audience_role_id => GOON()->id,
 					});
 				}
 
-				$time += 60 + int rand(3600);
+				$time += 60 + int rand 3600;
 			}
 
 			# Lynch or night kill

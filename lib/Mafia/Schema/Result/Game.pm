@@ -89,7 +89,7 @@ sub begin {
 
 	# Assign players a player no
 	my $players = $self->players;
-	$players->next->update({ no => $_ }) for shuffle $self->setup->player_nos;
+	$players->next->update({ no => $_ }) for shuffle $self->setup->player_nos->all;
 
 	my $pool = $setup->random_pool;
 
@@ -102,8 +102,9 @@ sub begin {
 	}
 
 	$self->update({
+		active => 1,
 		date   => 1,
-		is_day => $setup->day_start,
+		day    => $setup->day_start,
 	});
 
 	$self->log('%s has begun.', ucfirst $self->datetime);
@@ -135,7 +136,7 @@ sub cycle {
 
 sub datetime {
 	my $self = shift;
-	return join(' ', $self->timeofday, $self->date);
+	return $self->timeofday . ' ' . $self->date;
 }
 
 sub full {
@@ -173,9 +174,12 @@ sub showform {
 
 sub time {
 	my $self = shift;
-	return         $self->day ? 'day' :
-	       defined $self->day ? 'night' :
-	       defined $self->end    ? 'post-game' : 'pre-game';
+
+	$self->active
+		? $self->day
+			? 'day' : 'night'
+		: $self->end
+			? 'post-game' : 'pre-game';
 }
 
 BEGIN { *timeofday = \&time }

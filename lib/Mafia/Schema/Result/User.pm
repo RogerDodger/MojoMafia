@@ -17,7 +17,7 @@ __PACKAGE__->add_columns(
 	"login",
 	{ data_type => "varchar", is_nullable => 0 },
 	"name",
-	{ data_type => "varchar", is_nullable => 0 },
+	{ data_type => "varchar", default_value => 'Nobody', is_nullable => 0 },
 	"admin",
 	{ data_type => "boolean", default_value => 0, is_nullable => 1 },
 	"mod",
@@ -39,6 +39,8 @@ __PACKAGE__->add_columns(
 );
 
 __PACKAGE__->set_primary_key("id");
+
+__PACKAGE__->add_unique_constraint(login => [qw/login/]);
 
 __PACKAGE__->has_many(
 	"emails",

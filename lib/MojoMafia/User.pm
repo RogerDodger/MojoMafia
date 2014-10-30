@@ -24,7 +24,8 @@ sub create {
 sub login {
 	my $c = shift;
 
-	my $user = $c->db('User')->find({ name => $c->param('uname') });
+	my $user = $c->db('User')->find({ login => lc $c->param('uname') });
+
 	if (defined $user) {
 		if ($user->password_check($c->param('pword'))) {
 			$c->session->{user_id} = $user->id;

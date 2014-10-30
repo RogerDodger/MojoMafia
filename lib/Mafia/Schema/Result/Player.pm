@@ -22,7 +22,7 @@ __PACKAGE__->add_columns(
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 	"vote_id",
 	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-	"is_alive",
+	"alive",
 	{ data_type => "boolean", default_value => 1, is_nullable => 0 },
 	"created",
 	{ data_type => "timestamp", is_nullable => 1 },

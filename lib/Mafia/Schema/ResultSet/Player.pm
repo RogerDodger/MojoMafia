@@ -3,11 +3,11 @@ package Mafia::Schema::ResultSet::Player;
 use base 'Mafia::Schema::ResultSet';
 
 sub living {
-	return shift->search({ is_alive => 1 });
+	return shift->search({ alive => 1 });
 }
 
 sub dead {
-	return shift->search({ is_alive => 0 });
+	return shift->search({ alive => 0 });
 }
 
 sub sorted {

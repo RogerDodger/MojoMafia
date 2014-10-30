@@ -24,9 +24,6 @@ sub visible {
 				{ audience_player_id => $player->id },
 			]
 		},
-		{
-			join => [ qw/audiences/ ],
-		},
 	);
 }
 

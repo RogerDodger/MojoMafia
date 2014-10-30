@@ -34,7 +34,7 @@ sub view {
 	my $param = $c->param('page');
 	my $page = looks_like_number($param) ? int $param : 1;
 
-	$c->stash->{posts} = $c->game->thread->posts->visible($c->player)->search(
+	$c->stash->{posts} = $c->game->posts->visible($c->player)->search(
 		{},
 		{
 			page => $page,

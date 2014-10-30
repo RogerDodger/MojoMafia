@@ -79,11 +79,12 @@ sub thread {
 	my $c = shift;
 	my $post = $c->stash->{post};
 
-	# Set game so that $c->player works
-	$c->game($post->thread->game);
+	# Set game so that $c->player works, if necessary
+	$c->game($post->game) if defined $post->game_id;
 
-	my $posts = $post->thread->posts->visible($c->player);
+	my $posts = $post->posts->visible($c->player);
 
+	# 404 if user shouldn't see found post
 	return $c->render_not_found unless $posts->find($post->id);
 
 	my $page = 1 + int ($posts->no($post) / $c->app->config->{rows});
