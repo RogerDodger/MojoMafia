@@ -61,7 +61,7 @@ __PACKAGE__->has_many(
 __PACKAGE__->has_many(
 	"posts",
 	"Mafia::Schema::Result::Post",
-	{ "foreign.thread_id" => "self.id" },
+	{ "foreign.game_id" => "self.id" },
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
 

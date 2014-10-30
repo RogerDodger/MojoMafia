@@ -488,7 +488,7 @@ nav.top {
       color: inherit; }
   .post .meta a {
     font-weight: bold; }
-  .post .meta .poster, .post .meta .gamedate, .post .meta .posttime {
+  .post .meta .audience, .post .meta .gamedate, .post .meta .poster, .post .meta .posttime {
     float: left;
     margin-right: 0.8em; }
   .post .meta .name + .alias:before {

@@ -36,6 +36,11 @@ BEGIN {
 		_DOC()  => 'Doctor',
 	);
 
+	my %group = (
+		_INNO() => 'Town',
+		_GOON() => 'Mafia',
+	);
+
 	my @order = (
 		_INNO,
 		_GOON,
@@ -50,6 +55,7 @@ BEGIN {
 		$cache{$id} = {
 			id    => $id,
 			name  => $names{$id},
+			group => $group{$id},
 			order => ++$j,
 		};
 		bless $cache{$id}, __PACKAGE__;
@@ -72,6 +78,10 @@ sub find {
 	}
 
 	return undef;
+}
+
+sub group {
+	return shift->{group};
 }
 
 sub id {

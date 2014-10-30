@@ -27,24 +27,15 @@ sub run {
 		$user;
 	} 0 .. 10;
 
-	my $f11  = $schema->resultset('Setup')->search({ name => 'F11' })->first;
+	my $f11 = $schema->resultset('Setup')->search({ name => 'F11' })->first;
 	GAME: for (0, 1) {
 		say "Creating dummy game...";
 		my $game = $f11->create_related('games', {});
 
-		my $day = 60 * 60 * 24;
-		my $time = time - 20 * $day;
+		# my $day = 60 * 60 * 24;
+		# my $time = time - 20 * $day;
 
-		my $log = sub {
-			my $game = shift;
-			$time += 2;
-			$game->log(@_)->update({
-				created => $time,
-				updated => $time,
-			});
-		}
-
-		$game->$log('Game created.');
+		$game->log('Game created.');
 
 		for my $user (shuffle @users) {
 			my $player = $game->create_related('players', {
@@ -52,7 +43,7 @@ sub run {
 				alias   => $user->name,
 			});
 
-			$game->$log("%s joined the game", $player->alias);
+			$game->log("%s joined the game", $player->alias);
 
 			last if $game->full;
 
@@ -60,7 +51,6 @@ sub run {
 		}
 
 		$game->begin;
-
 
 		say "+ dummy posts";
 		for (0 .. 3) {
@@ -84,18 +74,17 @@ sub run {
 				$post->update({
 					user_id     => $player->user_id,
 					user_alias  => $player->alias,
-					created     => Mafia::Timestamp->from_epoch($time),
-					updated     => Mafia::Timestamp->from_epoch($time),
 				});
 
 				if (!$game->day) {
 					$post->update({
 						private => 1,
-						audience_role_id => GOON()->id,
+						audience_type => 'r',
+						audience_id   => GOON()->id,
 					});
 				}
 
-				$time += 60 + int rand 3600;
+				# $time += 60 + int rand 3600;
 			}
 
 			# Lynch or night kill

@@ -27,6 +27,19 @@
 			% }
 		</div>
 
+		% if (defined $post->audience_type) {
+			<div class="audience">
+				to
+				% if ($post->audience_type eq 'r') {
+					<%= $post->audience_role->group %>
+				% } elsif ($post->audience_type eq 'p') {
+					<%= $post->audience_player->alias %>
+				% } elsif ($post->audience_type eq 'd') {
+					the void
+				% }
+			</div>
+		% }
+
 		<div class="posttime"><%== $post->created->delta_html %></div>
 
 		<div class="permalink">

@@ -48,7 +48,7 @@
 					<label for="audience">Audience</label>
 					<select name="audience" id="audience">
 						% for my $audience (@$audiences) {
-							<option value="<%= $audience %>"><%= ucfirst $audience %></option>
+							<option value="<%= $audience->[0] %>"><%= $audience->[1] %></option>
 						% }
 					</select>
 				</div>

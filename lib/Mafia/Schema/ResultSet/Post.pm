@@ -15,16 +15,23 @@ sub visible {
 
 	my @roles = $player->player_roles->get_column("role_id")->all;
 
-	$self->search(
-		{
-			-or => [
-				{ private => 0 },
-				{ player_id => $player->id },
-				{ audience_role_id => { -in => \@roles } },
-				{ audience_player_id => $player->id },
-			]
-		},
-	);
+	$self->search({
+		-or => [
+			{ private => 0 },
+			{ player_id => $player->id },
+			-and => [
+				{ audience_type => 'p' },
+				{ audience_id => $player->id },
+			],
+			-and => [
+				{ audience_type => 'r' },
+				{ audience_id => { -in => \@roles }},
+			],
+			(
+				{ audience_type => 'd' },
+			) x !$player->alive,
+		],
+	});
 }
 
 

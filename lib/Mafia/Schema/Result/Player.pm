@@ -86,22 +86,36 @@ sub audiences {
 	my $self = shift;
 	my @audiences;
 
+	my $p = sub {
+		my $audience = shift;
+
+		if (!ref $audience) {
+			return ["1;d", "Dead"];
+		} elsif ($audience->isa('Mafia::Role')) {
+			return [join (";", $audience->id, 'r'), $audience->group];
+		} elsif ($audience->isa('Mafia::Schema::Result::Player')) {
+			return [join (";", $audience->id, 'p'), $audience->alias];
+		} else {
+			Carp::croak "Bad audience: $audience";
+		}
+	};
+
 	if (!$self->game->active) {
 		@audiences = (
-			('town'),
+			($p->(INNO)),
 		);
 	}
 	elsif ($self->alive) {
 		@audiences = (
-			('town')  x!! $self->game->day,
-			('mafia') x!! $self->has_role(GOON),
-		);
+			($p->(INNO)) x!! $self->game->day,
+			($p->(GOON)) x!! $self->has_role(GOON),
+		);$p->('ded')
 	}
 	else {
 		@audiences = (
 			# Unlike "Town" for living players, there's not really any reason
 			# to disallow dead people from talking at night.
-			('dead'),
+			($p->('ded')),
 		);
 	}
 

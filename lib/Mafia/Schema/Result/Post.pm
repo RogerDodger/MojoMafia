@@ -31,10 +31,10 @@ __PACKAGE__->add_columns(
 	{ data_type => "text", is_nullable => 1 },
 	"private",
 	{ data_type => "boolean", is_nullable => 1, default_value => 0 },
-	"audience_role_id",
+	"audience_type",
+	{ data_type => "char", is_nullable => 1 },
+	"audience_id",
 	{ data_type => "integer", is_nullable => 1 },
-	"audience_player_id",
-	{ data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 	"trigger",
 	{ data_type => "text", is_nullable => 1 },
 	"gamedate",
@@ -48,18 +48,6 @@ __PACKAGE__->add_columns(
 );
 
 __PACKAGE__->set_primary_key("id");
-
-__PACKAGE__->belongs_to(
-	"audience_player",
-	"Mafia::Schema::Result::Player",
-	{ id => "audience_player_id" },
-	{
-		is_deferrable => 1,
-		join_type     => "LEFT",
-		on_delete     => "CASCADE",
-		on_update     => "CASCADE",
-	},
-);
 
 __PACKAGE__->belongs_to(
 	"thread",
@@ -109,6 +97,18 @@ __PACKAGE__->belongs_to(
 	},
 );
 
+__PACKAGE__->belongs_to(
+	"audience_player",
+	"Mafia::Schema::Result::Player",
+	{ id => "audience_id" },
+	{
+		is_deferrable => 1,
+		join_type     => "LEFT",
+		on_delete     => "NO ACTION",
+		on_update     => "NO ACTION",
+	},
+);
+
 sub apply_markup {
 	my $self = shift;
 	my ($render, @cited) = render_markup $self->body_plain;
@@ -120,20 +120,11 @@ sub apply_markup {
 	$self;
 }
 
-sub audience {
+sub audience_role {
 	my $self = shift;
 
-	if (defined $self->audience_role_id) {
-		return $self->audience_role;
-	}
-	elsif (defined $self->audience_player_id) {
-		return $self->audience_player;
-	}
-	undef;
-}
-
-sub audience_role {
-	Mafia::Role->find(shift->audience_role_id);
+	return unless $self->audience_type eq 'r';
+	return Mafia::Role->find($self->audience_id);
 }
 
 sub class {
