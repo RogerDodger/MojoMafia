@@ -33,10 +33,23 @@ sub markup {
 		$text = Encode::decode_utf8($text);
 	}
 
+	$text = _clean($text);
 	$text = _parse_block($text);
 }
 
 BEGIN { *render_markup = \&markup }
+
+sub _clean {
+	local $_ = shift;
+
+	s/^\s+|\s+$//g;
+
+	s/\r\n/\n/g;
+	s/\n\r/\n/g;
+	s/\r/\n/g;
+
+	$_;
+}
 
 sub _html_escape {
 	local $_ = shift;

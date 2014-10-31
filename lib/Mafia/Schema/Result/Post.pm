@@ -111,7 +111,7 @@ __PACKAGE__->belongs_to(
 
 sub apply_markup {
 	my $self = shift;
-	my ($render, @cited) = render_markup $self->body_plain;
+	my ($render, @cites) = render_markup $self->body_plain;
 
 	$self->update({ body_render => $render });
 
