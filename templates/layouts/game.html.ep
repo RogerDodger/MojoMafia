@@ -4,10 +4,15 @@
 		<aside class="game">
 			<h1>Game #<%= stash('game')->id %></h1>
 			<p>
-				Using setup
-				<a href="<%= url_for 'setup-view', id => stash('game')->setup_id %>">
-					<%= stash('game')->setup->name %>
-				</a>
+				% if (stash('game')->setup->private) {
+					Using closed setup
+				% } else {
+					Using setup
+					<a href="<%= url_for 'setup-view', id => stash('game')->setup_id %>">
+						<%= stash('game')->setup->name %>
+					</a>
+				% }
+
 				<br>
 				It is currently
 				<span class="datetime">
