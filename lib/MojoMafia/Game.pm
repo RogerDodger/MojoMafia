@@ -64,6 +64,8 @@ sub vote {
 
 			# Check that someone isn't just recasting the same vote
 			unless (defined $unvote && defined $vote && $unvote->id == $vote->id) {
+				my $lp;
+
 				my %vis = (trigger => 'vote');
 				if ($c->game->day) {
 					$vis{private} = 0;
@@ -75,16 +77,21 @@ sub vote {
 				}
 
 				if (defined $unvote) {
-					$c->game->log(\%vis,
+					$lp = $c->game->log(\%vis,
 						'%s unvoted %s', $c->player->alias, $unvote->alias
 					);
+					if (!defined $vote) {
+						$c->player->update({ vote_id => undef });
+					}
 				}
 				if (defined $vote) {
 					$c->player->update({ vote_id => $vote->id });
-					$c->game->log(\%vis,
+					$lp = $c->game->log(\%vis,
 						'%s voted %s', $c->player->alias, $vote->alias
 					);
 				}
+
+				return $c->redirect_to('post-thread', id => $lp->id);
 			}
 		}
 	}

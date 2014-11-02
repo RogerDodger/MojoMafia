@@ -1,8 +1,6 @@
 package MojoMafia::Root;
 use Mojo::Base 'Mojolicious::Controller';
 
-use File::stat;
-
 sub index {
 	my $c = shift;
 
