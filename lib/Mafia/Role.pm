@@ -4,7 +4,6 @@ use v5.14;
 use base qw/Exporter/;
 use warnings;
 use Carp;
-use Data::Dump;
 
 my %cache;
 
