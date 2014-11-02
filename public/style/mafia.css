@@ -466,11 +466,11 @@ nav.top {
   .game-listing .player-count {
     float: right; }
 
-.create-game a {
+.create-game .btn {
   background-color: #f7e5aa;
   border: 0.0625em solid #efc94c;
   display: inline-block; }
-.create-game a, .create-game a:hover, .create-game a:visited {
+.create-game .btn, .create-game .btn:hover, .create-game .btn:visited {
   color: #453606; }
 
 .post {

@@ -4,6 +4,9 @@
 <h1>Games</h1>
 
 <section class="games">
+	% if (!$games->count) {
+		<p>No games right now.</p>
+	% }
 	% while (my $game = $games->next) {
 		<%=
 			include 'game/single',
@@ -13,5 +16,8 @@
 </section>
 
 <div class="create-game">
-	<a class="btn" href="<%= url_for 'game-create' %>">Create game</a>
+	%# <a class="btn" href="<%= url_for 'game-create' %>">Create game</a>
+	<form method="post" action="<%= url_for 'game-post' %>">
+		<input type="submit" value="Create game" class="btn">
+	</form>
 </div>

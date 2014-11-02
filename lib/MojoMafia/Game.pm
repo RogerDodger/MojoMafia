@@ -33,6 +33,15 @@ sub fetch {
 	defined $game;
 }
 
+sub post {
+	my $c = shift;
+
+	my $game = $c->db('Setup')->find(1)->create_related('games', {});
+	$game->log('Game created.');
+
+	$c->redirect_to('/');
+}
+
 sub view {
 	my $c = shift;
 

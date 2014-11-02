@@ -30,7 +30,7 @@ sub post {
 					alias => $v->param('alias'),
 				});
 
-				$c->game->log("%s joined the game", $player->alias);
+				$c->game->log("%s joined the game.", $player->alias);
 
 				if ($c->game->full) {
 					$c->game->begin;

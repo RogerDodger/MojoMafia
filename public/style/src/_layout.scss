@@ -277,15 +277,15 @@ nav.top {
 }
 
 .create-game {
-	a {
+	.btn {
 		background-color: lighten($color-c, 20);
 		border: em(1) solid $color-c;
 		display: inline-block;
 	}
 
-	a,
-	a:hover,
-	a:visited {
+	.btn,
+	.btn:hover,
+	.btn:visited {
 		color: darken($color-c, 47);
 	}
 }

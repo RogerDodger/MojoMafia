@@ -1,6 +1,19 @@
 package MojoMafia::User;
 use Mojo::Base 'Mojolicious::Controller';
 
+sub admin {
+	my $c = shift;
+
+	if ($c->user->admin) {
+		return 1;
+	}
+	else {
+		$c->flash(error_msg => 'You must be an admin to do that');
+		$c->redirect_to($c->referrer || '/');
+		return undef;
+	}
+}
+
 sub auth {
 	my $c = shift;
 
@@ -62,9 +75,8 @@ sub post {
 
 		# Create user
 		my $user = $c->db('User')->create({
-			name => $v->param('uname'),
-			dname => $v->param('uname'),
-			nname => lc $v->param('uname'),
+			login => lc $v->param('uname'),
+			name =>  $v->param('uname'),
 		});
 		$user->password_set($v->param('pword'), $c->app->config('bcost'));
 

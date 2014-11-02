@@ -51,7 +51,6 @@ ANY / -> User.auth {
 		POST /post  -> Post.post_game
 		POST /vote  -> Game.vote
 	}
-	POST /game -> Game.post
 
 	ANY /post/:id -> Post.fetch {
 		POST /report -> Report.post
@@ -64,4 +63,9 @@ ANY / -> User.auth {
 		POST /update -> Setup.patch
 		POST /delete -> Setup.delete
 	}
+}
+
+# Requests behind admin privs
+ANY / -> User.admin {
+	POST /game/post -> Game.post
 }
