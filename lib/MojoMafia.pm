@@ -133,6 +133,11 @@ sub startup {
 
 	# 	${ $output } = Mafia::HTML::tidy(${ $output });
 	# });
+
+	# Periodically check games for threshold conditions (viz. when to cycle)
+	Mojo::IOLoop->recurring(5 => sub {
+		$_->touch for $self->db('Game')->active->all;
+	});
 }
 
 sub meta { Mojo::Util::_stash(meta => @_) }

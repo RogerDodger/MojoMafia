@@ -109,7 +109,7 @@ sub audiences {
 		@audiences = (
 			($p->(INNO)) x!! $self->game->day,
 			($p->(GOON)) x!! $self->has_role(GOON),
-		);$p->('ded')
+		);
 	}
 	else {
 		@audiences = (
@@ -151,7 +151,7 @@ sub roles {
 sub votes {
 	my $self = shift;
 
-	return $self->game->day || $self->has_role(GOON);
+	return $self->alive && ($self->game->day || $self->has_role(GOON));
 }
 
 1;

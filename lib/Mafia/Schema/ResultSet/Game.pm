@@ -3,9 +3,7 @@ package Mafia::Schema::ResultSet::Game;
 use base 'DBIx::Class::ResultSet';
 
 sub active {
-	my $self = shift;
-
-	return $self;
+	shift->search({ active => 1 });
 }
 
 1;

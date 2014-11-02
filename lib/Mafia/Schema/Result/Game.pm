@@ -6,6 +6,7 @@ use warnings;
 
 use base 'Mafia::Schema::Result';
 use List::Util 'shuffle';
+use Mafia::Role qw/:all/;
 
 __PACKAGE__->table("games");
 
@@ -77,8 +78,6 @@ __PACKAGE__->belongs_to(
 	},
 );
 
-sub active { !!shift->date; }
-
 sub begin {
 	my $self = shift;
 	my $setup = $self->setup;
@@ -116,6 +115,24 @@ sub candidates {
 	return $self->players->living;
 }
 
+sub check {
+	my $self = shift;
+	my $goons = $self->players->living->with_role(GOON)->count;
+	my $players = $self->players->living->count;
+
+	if ($goons == 0) {
+		# Town wins
+	}
+	elsif ($goons >= $players / 2) {
+		# Mafia wins
+	}
+	else {
+		return;
+	}
+
+	$self->update({ active => 0 });
+}
+
 sub create_post {
 	my ($self, $body) = @_;
 
@@ -132,12 +149,12 @@ sub create_post {
 sub cycle {
 	my $self = shift;
 
-	# Process votes ...
-
 	$self->update({
 		date => $self->date + ($self->day != $self->setup->day_start),
-		day  => !$self->day,
+		day  => 0 + !$self->day,
 	});
+
+	$self->log('%s has begun.', ucfirst $self->datetime);
 }
 
 sub datetime {
@@ -173,6 +190,17 @@ sub log {
 	return $post;
 }
 
+sub lynch {
+	my ($self, $player) = @_;
+
+	$player->update({ alive => 0 });
+
+	$self->log({ trigger => 'lynch' },
+		'%s (%s) has been %s.',
+		$player->alias, $player->role, $self->day ? 'lynched' : 'killed'
+	);
+}
+
 sub showform {
 	my ($self, $user) = @_;
 
@@ -187,6 +215,36 @@ sub time {
 			? 'day' : 'night'
 		: $self->end
 			? 'post-game' : 'pre-game';
+}
+
+sub touch {
+	my $self = shift;
+	return unless $self->id == 2;
+	# YES THIS IS INEFFICIENT BUT IT'S CRUNCH TIME DAMMIT
+	my %tally;
+	my $n = 0;
+	for my $p ($self->players->living) {
+		if ($p->votes) {
+			$n++;
+			if (defined $p->vote_id) {
+				$tally{$p->vote_id}++;
+			}
+		}
+	}
+
+	my $cut = int(($n+1) / 2);
+
+	for my $pid (keys %tally) {
+		if ($tally{$pid} >= $cut) {
+			$self->lynch($self->players->find($pid));
+			$self->players->update({ vote_id => undef });
+			$self->check;
+
+			if ($self->active) {
+				$self->cycle;
+			}
+		}
+	}
 }
 
 BEGIN { *timeofday = \&time }
