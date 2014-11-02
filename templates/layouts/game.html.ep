@@ -41,11 +41,11 @@
 		</aside>
 	% }
 
-	% if (defined stash('game')) {
+	% if (game) {
 		<aside class="players">
 			<h1>Players</h1>
 			<ul>
-				% for my $player (stash('game')->players->sorted->all) {
+				% for my $player (game()->players->sorted->all) {
 					<li>
 						% if ($player->alive) {
 							<%= $player->name %>
@@ -72,20 +72,19 @@
 					</tr>
 				% }
 			</table>
-		</aside>
-	% }
-
-	% if (defined stash('games') && stash('games')->count) {
-		<aside class="games">
-			<h1>Active games</h1>
-			<ul>
-				% for my $game (stash('games')->all) {
-					<li>
-						<span class="id">#<%= $game->id %></span>
-						<span class="setup"><%= $game->setup->name %></span>
-					</li>
-				% }
-			</ul>
+			% if (player()->votes) {
+				<div class="controls">
+					<form action="<%= url_for 'game-vote' %>" method="post">
+						<select name="vote" class="voteSelect">
+							<option value="0" selected="selected"></option>
+							% for my $player (stash('game')->candidates->all) {
+								<option value="<%= $player->id %>"><%= $player->alias %></option>
+							% }
+						</select>
+						<input type="submit" value="Vote">
+					</form>
+				</div>
+			% }
 		</aside>
 	% }
 % end

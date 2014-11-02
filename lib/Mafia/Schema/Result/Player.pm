@@ -148,4 +148,10 @@ sub roles {
 	           shift->player_roles->get_column('role_id')->all;
 }
 
+sub votes {
+	my $self = shift;
+
+	return $self->game->day || $self->has_role(GOON);
+}
+
 1;

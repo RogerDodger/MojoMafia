@@ -46,9 +46,10 @@ ANY /post/:id -> Post.fetch {
 # POST requests behind auth
 ANY / -> User.auth {
 	ANY /game/:id -> Game.fetch {
-		POST  /post   -> Post.post_game
-		POST  /join   -> Player.post
-		POST  /leave  -> Player.delete
+		POST /join  -> Player.post
+		POST /leave -> Player.delete
+		POST /post  -> Post.post_game
+		POST /vote  -> Game.vote
 	}
 	POST /game -> Game.post
 

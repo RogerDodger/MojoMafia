@@ -429,19 +429,19 @@ nav.top {
     padding: 0.625em 1.25em;
     list-style-type: none;
     color: #444444; }
-  .sidebar .votes table {
+  .sidebar .votes table, .sidebar .votes .controls {
     font-size: 0.85em;
     margin: 0.625em 1.25em; }
-    .sidebar .votes table td {
-      padding: 0.1em 0.3em;
-      font-weight: bold; }
-      .sidebar .votes table td.player {
-        text-align: right;
-        color: #444444; }
-      .sidebar .votes table td.vote {
-        text-align: left;
-        min-width: 3em;
-        color: #888888; }
+  .sidebar .votes table td {
+    padding: 0.1em 0.3em;
+    font-weight: bold; }
+    .sidebar .votes table td.player {
+      text-align: right;
+      color: #444444; }
+    .sidebar .votes table td.vote {
+      text-align: left;
+      min-width: 3em;
+      color: #888888; }
 
 .game-listing {
   margin: 1em 0;

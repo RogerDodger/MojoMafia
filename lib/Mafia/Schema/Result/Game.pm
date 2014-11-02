@@ -110,6 +110,12 @@ sub begin {
 	$self->log('%s has begun.', ucfirst $self->datetime);
 }
 
+sub candidates {
+	my $self = shift;
+
+	return $self->players->living;
+}
+
 sub create_post {
 	my ($self, $body) = @_;
 
@@ -145,18 +151,19 @@ sub full {
 }
 
 sub log {
-	my ($self, $fmt, @list) = @_;
+	my $self = shift;
 
-	my $opt = ref $list[-1] eq 'HASH' ? pop @list : {};
-	my $msg = sprintf $fmt, @list;
+	my $opt = ref $_[0] eq 'HASH' ? shift : {};
+	my $msg = sprintf shift, @_;
+	my $v = delete $opt->{v};
 
-	my $post = $self->create_related('posts', {
+	my $post = $self->create_related('posts', { %{$opt},
 		body_plain  => $msg,
 		gametime    => $self->time,
 		gamedate    => $self->date,
 	});
 
-	if ($opt->{literal}) {
+	if ($v) {
 		$post->update({ body_render => $msg });
 	}
 	else {
