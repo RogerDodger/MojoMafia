@@ -82,6 +82,12 @@ __PACKAGE__->has_many(
 	{ cascade_copy => 0, cascade_delete => 0 },
 );
 
+sub active {
+	my $self = shift;
+
+	$self->alive && $self->game->active;
+}
+
 sub audiences {
 	my $self = shift;
 	my @audiences;
@@ -151,7 +157,7 @@ sub roles {
 sub votes {
 	my $self = shift;
 
-	return $self->alive && ($self->game->day || $self->has_role(GOON));
+	return $self->active && ($self->game->day || $self->has_role(GOON));
 }
 
 1;

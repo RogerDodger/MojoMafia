@@ -135,7 +135,7 @@ sub startup {
 	# });
 
 	# Periodically check games for threshold conditions (viz. when to cycle)
-	Mojo::IOLoop->recurring(5 => sub {
+	Mojo::IOLoop->recurring(2 => sub {
 		$_->touch for $self->db('Game')->active->all;
 	});
 }

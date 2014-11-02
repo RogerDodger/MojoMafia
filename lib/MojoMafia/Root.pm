@@ -6,7 +6,8 @@ use File::stat;
 sub index {
 	my $c = shift;
 
-	$c->stash->{games} = $c->db('Game')->active;
+	$c->stash->{games} = $c->db('Game');
+
 	$c->render('game/list');
 }
 

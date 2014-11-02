@@ -121,29 +121,37 @@ sub check {
 	my $players = $self->players->living->count;
 
 	if ($goons == 0) {
-		# Town wins
+		$self->log('The Mafia has been eliminated. Town victory!');
 	}
 	elsif ($goons >= $players / 2) {
-		# Mafia wins
+		$self->log('The Town has been overrun. Mafia victory!');
 	}
 	else {
 		return;
 	}
 
-	$self->update({ active => 0 });
+	$self->update({
+		active => 0,
+		end => Mafia::Timestamp->now,
+	});
+
+	$self->posts->update({
+		private => 0,
+		user_hidden => 0,
+	});
 }
 
 sub create_post {
 	my ($self, $body) = @_;
 
-	my $post = $self->create_related(posts => {
+	my %row = (
 		user_hidden => !$self->end,
 		body_plain  => $body,
-		gamedate    => $self->date,
 		gametime    => $self->time,
-	});
+	);
+	$row{gamedate} = $self->date if $self->active;
 
-	$post->apply_markup;
+	$self->create_related(posts => \%row)->apply_markup;
 }
 
 sub cycle {
@@ -159,7 +167,8 @@ sub cycle {
 
 sub datetime {
 	my $self = shift;
-	return $self->timeofday . ' ' . $self->date;
+
+	return $self->timeofday . ($self->active ? ' ' . $self->date : '');
 }
 
 sub full {
@@ -232,7 +241,7 @@ sub touch {
 		}
 	}
 
-	my $cut = int(($n+1) / 2);
+	my $cut = int($n / 2) + 1;
 
 	for my $pid (keys %tally) {
 		if ($tally{$pid} >= $cut) {
@@ -243,6 +252,7 @@ sub touch {
 			if ($self->active) {
 				$self->cycle;
 			}
+			last;
 		}
 	}
 }

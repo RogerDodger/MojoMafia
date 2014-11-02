@@ -50,13 +50,21 @@ sub post_game {
 	my ($a_id, $a_type) = split ";", $v->param('audience');
 
 	my %vis;
-	if ($a_type eq 'r' && $a_id == INNO()->id) {
+	if ($c->game->end) {
+		$vis{user_hidden} = 0;
 		$vis{private} = 0;
 	}
 	else {
-		$vis{audience_type} = $a_type;
-		$vis{audience_id} = $a_id;
-		$vis{private} = 1;
+		$vis{user_hidden} = 1;
+
+		if ($a_type eq 'r' && $a_id == INNO()->id) {
+			$vis{private} = 0;
+		}
+		else {
+			$vis{audience_type} = $a_type;
+			$vis{audience_id} = $a_id;
+			$vis{private} = 1;
+		}
 	}
 
 	my $post = $c->game->create_post($body);
@@ -64,7 +72,6 @@ sub post_game {
 	$post->update({
 		user_id     => $c->user->id,
 		user_alias  => $c->player->alias,
-		user_hidden => 1,
 		%vis,
 	});
 

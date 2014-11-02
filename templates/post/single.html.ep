@@ -1,16 +1,13 @@
 <article class="post <%= $post->class %>" id="<%= $post->id %>">
 	<div class="meta clearfix">
-		% if (defined $post->gamedate) {
+		% if (defined $post->gametime) {
 			<div class="gamedate">
-				% if (defined $post->gametime) {
-					% if ($post->gametime eq 'day') {
-						<i class="icon-sun"></i>
-					% } elsif ($post->gametime eq 'night') {
-						<i class="icon-moon"></i>
-					% }
-					<%= ucfirst $post->gametime %>
+				% if ($post->gametime eq 'day') {
+					<i class="icon-sun"></i>
+				% } elsif ($post->gametime eq 'night') {
+					<i class="icon-moon"></i>
 				% }
-				<%= $post->gamedate %>
+				<%= ucfirst $post->gametime %> <%= $post->gamedate || '' %>
 			</div>
 		% }
 
