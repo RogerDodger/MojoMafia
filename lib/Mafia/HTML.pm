@@ -2,7 +2,6 @@ package Mafia::HTML;
 use Mojo::Base qw/Exporter/;
 use Mojo::Util qw/xml_escape/;
 use Mojo::DOM;
-use Data::Dump;
 
 our @EXPORT_OK = qw/tidy_html/;
 
