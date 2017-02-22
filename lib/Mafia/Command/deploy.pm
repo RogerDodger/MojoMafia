@@ -1,13 +1,11 @@
 package Mafia::Command::deploy;
 use Bytes::Random::Secure qw/random_bytes_base64/;
 use Mojo::Base 'Mafia::Command';
-use Mojo::Loader;
+use Mojo::Loader qw/data_section/;
 use Mafia::Config;
 use Mafia::Schema;
 use Mafia::Setup qw/decode_setup/;
 use Mafia::Role qw/:all/;
-
-my $loader = Mojo::Loader->new;
 
 sub run {
 	my $self = shift;
@@ -46,13 +44,13 @@ sub run {
 		});
 
 		$setup->add_pools(
-			decode_setup $loader->data('Mafia::Setup', 'f11.setup')
+			decode_setup data_section('Mafia::Setup', 'f11.setup')
 		);
 	}
 
 	my $conf = $self->config->{cfn};
 	if (_prompt_write($conf, 'YAML config')) {
-		my $template = $loader->data('Mafia::Config', 'conf-template.yml');
+		my $template = data_section('Mafia::Config', 'conf-template.yml');
 
 		say "Creating config file...";
 		open my $fh, '>', $conf;

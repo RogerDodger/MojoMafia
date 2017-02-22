@@ -1,16 +1,16 @@
 use utf8;
 package Mafia::Names;
-use Mojo::Base 'Mojolicious::Plugin';
+use Mafia::Base 'Mojolicious::Plugin';
 
 use File::stat;
-use Mojo::Loader;
+use Mojo::Loader qw/data_section/;
+use Mojo::JSON qw/encode_json/;
 
 my %dicts;
-my $loader = Mojo::Loader->new;
-for (keys %{ $loader->data(__PACKAGE__) }) {
+for (keys data_section(__PACKAGE__)->%*) {
 	next unless /^(.+)\.dict$/;
 	my $name = $1;
-	my $data = $loader->data(__PACKAGE__, $_);
+	my $data = data_section(__PACKAGE__, $_);
 
 	my @dict;
 	for my $group (split /\n\n/, $data) {
@@ -50,7 +50,7 @@ sub register {
 	my $output = $app_->build_controller->render_to_string('names',
 		partial  => 1,
 		format   => 'js',
-		dicts    => Mojo::JSON->new->encode([ @dicts{qw/elvish elements nordic/} ]),
+		dicts    => encode_json([ @dicts{qw/elvish elements nordic/} ]),
 	);
 
 	$app->log->debug("Overwrite $out");

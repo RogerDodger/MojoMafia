@@ -13,4 +13,4 @@
 		},
 	};
 =%>
-var Mafia = <%== Mojo::JSON->new->encode($mafia) %>;<%
+var Mafia = <%== Mojo::JSON::encode_json($mafia) %>;<%

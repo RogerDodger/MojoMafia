@@ -1,5 +1,5 @@
 package MojoMafia;
-use Mojo::Base 'Mojolicious';
+use Mafia::Base 'Mojolicious';
 
 use Class::Null;
 use Mafia::Config;
@@ -45,7 +45,7 @@ sub startup {
 	}
 
 	# Allow use of commands in the Mafia::Command namespace
-	unshift $self->commands->namespaces, 'Mafia::Command';
+	unshift $self->commands->namespaces->@*, 'Mafia::Command';
 
 	# Load routes from lib/mafia.routes
 	$self->plugin('PlainRoutes', { autoname => 1 });

@@ -18,7 +18,7 @@ sub register {
 	SASS: {
 		my $in  = $app->home->rel_file('public/style/mafia.scss');
 		my $out = $app->home->rel_file('public/style/mafia.css');
-		my $dir = $app->home->rel_dir('public/style/src');
+		my $dir = $app->home->rel_file('public/style/src');
 
 		my $compile = sub {
 			my ($css, $err) = sass_compile_file($in, {
@@ -44,7 +44,7 @@ sub register {
 
 	JS: {
 		my $out = $app->home->rel_file('public/js/mafia.js');
-		my $dir = $app->home->rel_dir('public/js/src');
+		my $dir = $app->home->rel_file('public/js/src');
 
 		my $compile = sub {
 			my $code = '';
