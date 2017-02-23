@@ -9,6 +9,8 @@ use Bytes::Random::Secure qw/random_bytes/;
 use Crypt::Eksblowfish::Bcrypt qw/bcrypt en_base64/;
 use Scalar::Util qw/looks_like_number/;
 
+my $rng = Bytes::Random::Secure->new(NonBlocking => 1);
+
 __PACKAGE__->table("users");
 
 __PACKAGE__->add_columns(
@@ -116,7 +118,7 @@ sub password_set {
 		$cost = '10';
 	}
 
-	my $salt = en_base64 random_bytes 16;
+	my $salt = en_base64 $rng->bytes(16, '');
 	my $settings =  join '$', '$2', $cost, $salt;
 	my $cipher = bcrypt($plain, $settings);
 
