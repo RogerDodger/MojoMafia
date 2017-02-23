@@ -20,7 +20,7 @@ Synopsis
 Requirements
 ------------
 
-* Perl v5.14.2 or higher
+* Perl v5.20 or higher
 
 Installation
 ------------
